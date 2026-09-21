@@ -28,7 +28,8 @@ interface BusinessActionBarProps {
   whatsapp: string;
 
   businessName?: string;
-
+  businessId?: string;
+  slug?: string;
   onCatalogPress?: () => void;
 }
 
@@ -41,7 +42,8 @@ export default function BusinessActionBar({
   businessName,
 
   onCatalogPress,
-
+  businessId,
+  slug,
 }: BusinessActionBarProps) {
 
   /* CALL */
