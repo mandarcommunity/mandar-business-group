@@ -134,9 +134,7 @@ export default function SavedBusinessesScreen() {
 
   const handleShare = async (business: any) => {
     try {
-      await Share.share({
-        message: `Check out ${business.businessName} on Mandar Business Ecosystem!\n\nIndustry: ${business.industry}\nLocation: ${business.location}\n\nDownload the app to connect with them.`,
-      });
+      await Share.share({ message: `Check out ${business.business_name} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/biz/${business.slug || business.id}` });
     } catch (error) {
       console.log("Error sharing business", error);
     }

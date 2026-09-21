@@ -558,9 +558,7 @@ export default function LeadsScreen() {
 
                   onShare={async () => {
                     try {
-                      await Share.share({
-                        message: `Check out this requirement on Mandar: ${lead.title} by ${lead.personName} from ${lead.city}`,
-                      });
+                      await Share.share({ message: `Check out this requirement lead on Mandar Community Ecosystem.\n\nhttps://mandarcommunity.in/req/${lead.slug || lead.id}` });
                     } catch (error) {
                       console.log("Error sharing lead:", error);
                     }

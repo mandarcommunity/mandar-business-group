@@ -370,9 +370,7 @@ export default function BusinessCatalogScreen() {
                 onPress={async () => {
                   setShared(true);
                   try {
-                    await Share.share({
-                      message: `Check out ${business.businessName}'s catalog on Mandar!\n\n${business.description}`,
-                    });
+                    await Share.share({ message: `Check out this product on Mandar Community!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
                   } catch (error) {
                     console.log(error);
                   }
@@ -445,9 +443,7 @@ export default function BusinessCatalogScreen() {
                       }}
                       onSharePress={async () => {
                         try {
-                          await Share.share({
-                            message: `Check out ${product.name} on Mandar!\n\n${product.description}`,
-                          });
+                          await Share.share({ message: `Check out this product on Mandar Community!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
                         } catch (error: any) {
                           Alert.alert(error.message);
                         }

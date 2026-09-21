@@ -45,6 +45,30 @@ const navigationTheme = {
   },
 };
 
+
+const linking = {
+  prefixes: ['https://mandarcommunity.in', 'mandar://'],
+  config: {
+    screens: {
+      MainTabs: {
+        screens: {
+          Explore: {
+            screens: {
+              BusinessProfile: 'biz/:slug',
+              AdvertisementDetails: 'ad/:slug'
+            }
+          },
+          Leads: {
+            screens: {
+              LeadsHome: 'req/:slug'
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export default function RootNavigator() {
 
   const {
@@ -89,6 +113,7 @@ export default function RootNavigator() {
 
     <NavigationContainer
       theme={navigationTheme}
+      linking={linking}
     >
 
       {isLoggedIn ? (

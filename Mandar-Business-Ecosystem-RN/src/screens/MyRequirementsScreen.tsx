@@ -381,9 +381,7 @@ style={styles.container}
 
                 onShare={async () => {
                   try {
-                    await Share.share({
-                      message: `Check out my business requirement: ${requirement.title} on Poshak!`,
-                    });
+                    await Share.share({ message: `I have a requirement for ${item.title} on Mandar Community Ecosystem.\n\nhttps://mandarcommunity.in/req/${item.slug || item.id}` });
                   } catch (error) {
                     console.error("Share error:", error);
                   }

@@ -253,9 +253,7 @@ style={styles.container}
 
                 onShare={async () => {
                   try {
-                    await Share.share({
-                      message: `Check out this product: ${product.name} - ${product.description}`,
-                    });
+                    await Share.share({ message: `Check out my product ${item.name} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
                   } catch (error: any) {
                     Alert.alert(error.message);
                   }
