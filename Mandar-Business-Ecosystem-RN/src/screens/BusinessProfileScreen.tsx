@@ -162,6 +162,7 @@ const [
         fullAddress: [data.address, data.city, data.state].filter(Boolean).join(", "),
         email: data.email || data.user?.email || "",
         website: data.website || "",
+          slug: data.slug,
         catalogCount: productCount.toString(),
         responseRate: "100%",
         yearsActive: calculateYearsActive(data.created_at),
