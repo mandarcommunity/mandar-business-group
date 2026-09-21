@@ -141,6 +141,7 @@ export default function LeadsScreen() {
         city: req.city,
         state: req.state,
         location: `${req.city}, ${req.state}`,
+          slug: req.slug,
         postedTime: new Date(req.created_at).toLocaleDateString(),
         urgent: req.tags?.includes("urgent") || false,
         bulk: req.tags?.includes("bulk") || false,

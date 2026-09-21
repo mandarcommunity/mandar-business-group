@@ -86,6 +86,7 @@ export default function AdvertisementDetailsScreen() {
             likesCount: ad.likes?.[0]?.count || 0,
             commentsCount: ad.comments?.[0]?.count || 0,
             tags: ["Active"],
+            slug: ad.slug,
           });
         } else {
           setAdvertisement(null);
