@@ -80,7 +80,7 @@ export default async function Home() {
             {businesses?.map((biz) => (
               <Link href={`/biz/${biz.slug || biz.id}`} key={biz.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
                 <div className="h-32 bg-gray-200 relative">
-                  {biz.profile_image ? (
+                  {biz.profile_image && biz.profile_image.startsWith("http") ? (
                     <img src={biz.profile_image} alt={biz.business_name} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-primary to-secondary" />
@@ -105,3 +105,4 @@ export default async function Home() {
     </div>
   );
 }
+

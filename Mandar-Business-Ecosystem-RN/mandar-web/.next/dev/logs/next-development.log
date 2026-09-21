@@ -1,0 +1,6 @@
+{"timestamp":"00:00:01.660","source":"Server","level":"LOG","message":"- Experiments (use with caution):"}
+{"timestamp":"00:00:01.660","source":"Server","level":"LOG","message":"  ? turbopack (invalid experimental key)"}
+{"timestamp":"00:00:01.661","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:01.663","source":"Server","level":"LOG","message":"✓ Generated AGENTS.md and CLAUDE.md for AI agents. Set `agentRules: false` in next.config to disable."}
+{"timestamp":"00:08:11.955","source":"Server","level":"ERROR","message":"⨯ Error: The default export is not a React Component in \"/biz/[slug]/page\""}
+{"timestamp":"00:08:11.963","source":"Server","level":"ERROR","message":"⨯ Error: The default export is not a React Component in \"/biz/[slug]/page\""}

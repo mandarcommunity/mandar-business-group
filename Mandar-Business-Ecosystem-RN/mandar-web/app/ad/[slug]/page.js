@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: ad.title,
       description: ad.description,
-      images: ad.image_url ? [ad.image_url] : [],
+      images: ad.image_url && ad.image_url.startsWith("http") ? [ad.image_url] : [],
     },
   };
 }
@@ -52,7 +52,7 @@ export default async function AdPage({ params }) {
         )}
         
         <div className="bg-white text-gray-900 rounded-3xl overflow-hidden shadow-2xl">
-          {ad.image_url ? (
+          {ad.image_url && ad.image_url.startsWith("http") ? (
             <div className="w-full aspect-video bg-gray-100">
               <img src={ad.image_url} alt={ad.title} className="w-full h-full object-contain" />
             </div>

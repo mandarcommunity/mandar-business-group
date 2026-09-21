@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${product.name} | Mandar Community`,
       description: product.description,
-      images: product.images && product.images.length > 0 ? [product.images[0]] : [],
+      images: product.images && product.images.length > 0 && product.images[0].startsWith("http") ? [product.images[0]] : [],
     },
   };
 }
@@ -34,7 +34,7 @@ export default async function ProductPage({ params }) {
   if (!product) notFound();
 
   const business = product.business;
-  const mainImage = product.images && product.images.length > 0 ? product.images[0] : null;
+  const mainImage = product.images && product.images.length > 0 && product.images[0].startsWith("http") ? product.images[0] : null;
 
   return (
     <div className="bg-gray-50 min-h-screen py-8 px-6">
@@ -70,7 +70,7 @@ export default async function ProductPage({ params }) {
               <p className="text-sm text-gray-500 mb-3">Sold by</p>
               <Link href={`/biz/${business.slug || business.id}`} className="flex items-center gap-4 group">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  {business.profile_image ? (
+                  {business.profile_image && business.profile_image.startsWith("http") ? (
                     <img src={business.profile_image} alt={business.business_name} className="w-full h-full object-cover" />
                   ) : (
                     <span className="text-xl font-bold text-gray-400">{business.business_name.charAt(0)}</span>
