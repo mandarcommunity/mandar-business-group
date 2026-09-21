@@ -1,5 +1,5 @@
 var R=require("../../../chunks/ssr/[turbopack]_runtime.js")("server/app/req/[slug]/page.js")
-R.c("server/chunks/ssr/mandar-web_0ndrj-a._.js")
+R.c("server/chunks/ssr/mandar-web_0kqdac4._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__18re_f-._.js")
 R.c("server/chunks/ssr/1bo9_0t_phpw._.js")
 R.c("server/chunks/ssr/mandar-web_lib_supabase_1rymy7l.js")
