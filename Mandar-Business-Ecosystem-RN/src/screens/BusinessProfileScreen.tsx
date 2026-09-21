@@ -397,9 +397,9 @@ const [
                   business.whatsapp
                 }
 
-                businessName={
-                  business.businessName
-                }
+                businessName={business.businessName}
+                businessId={business.id}
+                slug={business.slug}
 
                 onCatalogPress={() => {
 
