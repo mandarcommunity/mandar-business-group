@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // Prevent Next from climbing out of the web directory
+    turbopack: {
+      root: '.'
+    }
   },
   typescript: {
     ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   }
 };
 module.exports = nextConfig;
