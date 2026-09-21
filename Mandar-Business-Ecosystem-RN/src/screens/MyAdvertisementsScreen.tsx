@@ -311,7 +311,7 @@ style={styles.container}
 
                 onShare={async () => {
                   try {
-                    await Share.share({ message: `Check out my advertisement on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/ad/${item.slug || item.id}` });
+                    await Share.share({ message: `Check out my advertisement on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/ad/${ad.slug || ad.id}` });
                   } catch (error) {
                     console.log(error);
                   }

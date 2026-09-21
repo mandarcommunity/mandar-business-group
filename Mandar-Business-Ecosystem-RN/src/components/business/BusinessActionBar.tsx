@@ -95,7 +95,7 @@ export default function BusinessActionBar({
 
         await Share.share({
 
-          message: `Check out ${businessName || "this business"} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/biz/${businessId}` /* Note: using businessId here as slug might not be available in props yet, we should use slug if we have it, else fallback to id */,
+          message: `Check out ${businessName || "this business"} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/biz/${slug || businessId}` /* Note: using businessId here as slug might not be available in props yet, we should use slug if we have it, else fallback to id */,
 
         });
 

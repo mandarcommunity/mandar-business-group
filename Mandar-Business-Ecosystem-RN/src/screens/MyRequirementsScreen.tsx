@@ -381,7 +381,7 @@ style={styles.container}
 
                 onShare={async () => {
                   try {
-                    await Share.share({ message: `I have a requirement for ${item.title} on Mandar Community Ecosystem.\n\nhttps://mandarcommunity.in/req/${item.slug || item.id}` });
+                    await Share.share({ message: `I have a requirement for ${requirement.title} on Mandar Community Ecosystem.\n\nhttps://mandarcommunity.in/req/${requirement.slug || requirement.id}` });
                   } catch (error) {
                     console.error("Share error:", error);
                   }

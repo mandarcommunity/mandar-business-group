@@ -78,6 +78,7 @@ export default function BusinessDirectoryScreen() {
         description: b.description || "",
         phone: b.mobile || b.user?.mobile,
         whatsapp: b.mobile || b.user?.mobile,
+        slug: b.slug,
       }));
       setBusinesses(mappedBusinesses);
       
@@ -141,7 +142,7 @@ export default function BusinessDirectoryScreen() {
 
   const handleShare = async (business: any) => {
     try {
-      await Share.share({ message: `Check out ${business.business_name} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/biz/${business.slug || business.id}` });
+      await Share.share({ message: `Check out ${business.businessName}, Contact details: Phone: ${business.phone || "N/A"}, WhatsApp: ${business.whatsapp || "N/A"} on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/biz/${business.slug || business.id}` });
     } catch (error) {
       console.log("Error sharing business", error);
     }
