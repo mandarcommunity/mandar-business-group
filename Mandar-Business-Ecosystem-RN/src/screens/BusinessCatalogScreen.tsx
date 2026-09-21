@@ -370,7 +370,7 @@ export default function BusinessCatalogScreen() {
                 onPress={async () => {
                   setShared(true);
                   try {
-                    await Share.share({ message: `Check out this product on Mandar Community!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
+                    await Share.share({ message: `Check out the product "${item.name}" on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
                   } catch (error) {
                     console.log(error);
                   }
@@ -443,7 +443,7 @@ export default function BusinessCatalogScreen() {
                       }}
                       onSharePress={async () => {
                         try {
-                          await Share.share({ message: `Check out this product on Mandar Community!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
+                          await Share.share({ message: `Check out the product "${item.name}" on Mandar Community Ecosystem!\n\nhttps://mandarcommunity.in/p/${item.slug || item.id}` });
                         } catch (error: any) {
                           Alert.alert(error.message);
                         }
