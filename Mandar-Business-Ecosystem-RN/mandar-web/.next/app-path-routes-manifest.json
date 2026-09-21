@@ -1,0 +1,9 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/ad/[slug]/page": "/ad/[slug]",
+  "/biz/[slug]/page": "/biz/[slug]",
+  "/p/[slug]/page": "/p/[slug]",
+  "/page": "/",
+  "/req/[slug]/page": "/req/[slug]"
+}
