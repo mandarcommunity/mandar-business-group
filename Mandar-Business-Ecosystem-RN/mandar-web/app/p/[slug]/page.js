@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { data: product } = await supabase.from('products').select('name, description, images').eq(slug.includes('-') ? 'slug' : 'id', slug).single();
   if (!product) return { title: 'Product Not Found' };
   return {
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const isId = !slug.includes('-');
 
   const { data: product } = await supabase

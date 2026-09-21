@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { data: req } = await supabase.from('requirements').select('title, description').eq(slug.includes('-') ? 'slug' : 'id', slug).single();
   if (!req) return { title: 'Requirement Not Found' };
   return {
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function RequirementPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const isId = !slug.includes('-');
 
   const { data: req } = await supabase

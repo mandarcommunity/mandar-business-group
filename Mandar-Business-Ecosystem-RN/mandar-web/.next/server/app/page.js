@@ -1,5 +1,5 @@
 var R=require("../chunks/ssr/[turbopack]_runtime.js")("server/app/page.js")
-R.c("server/chunks/ssr/mandar-web_0_wvgaf._.js")
+R.c("server/chunks/ssr/mandar-web_17dl1ba._.js")
 R.c("server/chunks/ssr/mandar-web_1np_3f0._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__18re_f-._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__1hm1s5l._.js")

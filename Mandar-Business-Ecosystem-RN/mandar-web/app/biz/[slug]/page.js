@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   
   const { data: business } = await supabase
     .from('businesses')
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BusinessProfilePage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   
   const isId = !slug.includes('-');
 
