@@ -1,12 +1,18 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search, MapPin, Building2, BadgeCheck, Filter, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BackButton from '../../components/BackButton';
 
 export default function DirectoryClient({ initialBusinesses, industries }) {
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q');
   const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    if (q) setSearchQuery(q);
+  }, [q]);
   
   useEffect(() => {
     if (q) setSearchQuery(q);

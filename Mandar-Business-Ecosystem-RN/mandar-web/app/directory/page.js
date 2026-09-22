@@ -18,5 +18,5 @@ export default async function DirectoryPage() {
   if (bizError) console.error("Error fetching businesses:", bizError);
   if (indError) console.error("Error fetching industries:", indError);
 
-  return <DirectoryClient initialBusinesses={businesses || []} industries={industries || []} />;
+  return <Suspense fallback={<div>Loading directory...</div>}><DirectoryClient initialBusinesses={businesses || []} industries={industries || []} /></Suspense>;
 }
