@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { supabase } from '../../../lib/supabase';
 import { MapPin, Phone, Briefcase, Factory, Mail, Globe, CheckCircle2, Package, ArrowRight, Zap, Calendar, TrendingUp } from 'lucide-react';
 import { notFound } from 'next/navigation';
