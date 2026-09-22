@@ -139,14 +139,14 @@ export default function LandingPageClient({ businesses }) {
                 <div className="flex justify-between items-center mb-1">
                   <div>
                     <div className="text-xl font-extrabold tracking-tight flex items-center gap-1">
-                      Mandar <span className="text-yellow-400">Hub</span>
+                      Mandar <span className="text-yellow-400">Business Group</span>
                     </div>
                     <div className="text-[8px] text-blue-100 opacity-90 font-medium tracking-wide">
                       Buyers • Sellers • Grow Together
                     </div>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <span className="text-sm">☰</span>
+                    <span className="text-sm">👨🏻</span>
                   </div>
                 </div>
               </div>
@@ -229,16 +229,16 @@ export default function LandingPageClient({ businesses }) {
                     
                     {/* Product Card 1 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        🍅
+                      <div className="h-20 bg-orange-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        🍘
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
-                      <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Khakhra (Roasted)</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Snacks & Namkeen</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹120 <span className="text-[9px] font-normal text-slate-500">/pkt</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
                         💬 Send Enquiry
@@ -247,16 +247,16 @@ export default function LandingPageClient({ businesses }) {
 
                     {/* Product Card 2 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-amber-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        🌾
+                      <div className="h-20 bg-yellow-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        🧈
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Premium Wheat</h4>
-                      <div className="text-[8px] text-slate-500 mb-1">Grains & Cereals</div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Pure Cow Ghee</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Dairy & Oils</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹28 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹750 <span className="text-[9px] font-normal text-slate-500">/ltr</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]" style={{ animationDelay: '1.5s' }}>
                         💬 Send Enquiry
@@ -265,16 +265,16 @@ export default function LandingPageClient({ businesses }) {
 
                     {/* Product Card 3 (for smooth loop) */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        🍅
+                      <div className="h-20 bg-stone-100 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        ☕
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
-                      <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Premium Coffee</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Beverages</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹450 <span className="text-[9px] font-normal text-slate-500">/kg</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
                         💬 Send Enquiry
