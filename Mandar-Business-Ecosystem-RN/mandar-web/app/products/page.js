@@ -7,8 +7,7 @@ export default async function ProductsPage() {
   const { data: products, error: prodError } = await supabase
     .from('products')
     .select(`
-      id, name, description, price, image_url, slug, business_id,
-      business:businesses(business_name, city, state, verified, slug, profile_image, industries, contact_person, mobile_number)
+      *, business:businesses(business_name, city, state, verified, slug, profile_image, industries)
     `)
     .order('created_at', { ascending: false });
     

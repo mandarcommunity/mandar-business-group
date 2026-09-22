@@ -2,13 +2,15 @@ const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
 
-// Extract directly from .env.local ignoring whitespace
-const envContent = fs.readFileSync(path.join(__dirname, '.env.local'), 'utf-8');
+const envContent = fs.readFileSync(path.join(__dirname, '.env.local'), 'utf-8').replace(/\r/g, '');
 const env = {};
 envContent.split('\n').forEach(line => {
   if (line.includes('=')) {
     const parts = line.split('=');
-    env[parts[0].trim()] = parts.slice(1).join('=').trim();
+    let val = parts.slice(1).join('=').trim();
+    if(val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+    if(val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
+    env[parts[0].trim()] = val;
   }
 });
 
@@ -25,11 +27,6 @@ async function run() {
     .limit(5);
   
   console.log("Error 1:", error);
-  console.log("Data 1 length:", data ? data.length : null);
-  if (error) {
-     const { data: d2, error: e2 } = await supabase.from('products').select('*').limit(5);
-     console.log("Error 2:", e2);
-     console.log("Data 2 length:", d2 ? d2.length : null);
-  }
+  console.log("Data 1:", data ? data.length : null);
 }
 run();

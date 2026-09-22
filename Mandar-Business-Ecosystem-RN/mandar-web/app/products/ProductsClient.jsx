@@ -14,6 +14,8 @@ export default function ProductsClient({ initialProducts, industries }) {
   const [selectedIndustry, setSelectedIndustry] = useState('All');
   const [selectedCity, setSelectedCity] = useState('All');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [industrySearch, setIndustrySearch] = useState("");
+  const [citySearch, setCitySearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
@@ -109,14 +111,26 @@ export default function ProductsClient({ initialProducts, industries }) {
             {/* Industry Filter */}
             <div className="mb-6">
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Industry</label>
+              <div className="relative mb-2">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1.5" />
+                <input 
+                  type="text" 
+                  placeholder="Find industry..." 
+                  value={industrySearch}
+                  onChange={(e) => setIndustrySearch(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+              </div>
               <div className="space-y-1 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                {industrySearch.length === 0 && (
                 <button 
                   onClick={() => setSelectedIndustry('All')}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${selectedIndustry === 'All' ? 'bg-blue-600 text-white font-medium shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
                 >
                   All Industries
                 </button>
-                {industries.map(ind => (
+                )}
+                {industries.filter(ind => ind.name.toLowerCase().includes(industrySearch.toLowerCase())).map(ind => (
                   <button 
                     key={ind.id}
                     onClick={() => setSelectedIndustry(ind.name)}
@@ -131,15 +145,35 @@ export default function ProductsClient({ initialProducts, industries }) {
             {/* City Filter */}
             <div>
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">City / Location</label>
-              <select 
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 outline-none transition-all"
-              >
-                {uniqueCities.map(city => (
-                  <option key={city} value={city}>{city === 'All' ? 'Any Location' : city}</option>
+              <div className="relative mb-2">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1.5" />
+                <input 
+                  type="text" 
+                  placeholder="Find city..." 
+                  value={citySearch}
+                  onChange={(e) => setCitySearch(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+              </div>
+              <div className="space-y-1 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                {citySearch.length === 0 && (
+                <button 
+                  onClick={() => setSelectedCity('All')}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${selectedCity === 'All' ? 'bg-blue-600 text-white font-medium shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
+                >
+                  Any Location
+                </button>
+                )}
+                {uniqueCities.filter(c => c !== 'All' && c.toLowerCase().includes(citySearch.toLowerCase())).map(city => (
+                  <button 
+                    key={city}
+                    onClick={() => setSelectedCity(city)}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all truncate ${selectedCity === city ? 'bg-blue-600 text-white font-medium shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
+                  >
+                    {city}
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
           </div>
@@ -167,8 +201,8 @@ export default function ProductsClient({ initialProducts, industries }) {
                       
                       {/* Product Image */}
                       <div className="h-48 bg-slate-100 relative overflow-hidden border-b border-slate-100">
-                        {product.image_url ? (
-                          <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        {product.image_url || (product.images && product.images.length > 0) ? (
+                          <img src={product.image_url || product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-slate-300">
                             <Package className="w-12 h-12" />
@@ -234,6 +268,8 @@ export default function ProductsClient({ initialProducts, industries }) {
                   setSelectedIndustry('All');
                   setSelectedCity('All');
                   setVerifiedOnly(false);
+                  setIndustrySearch("");
+                  setCitySearch("");
                 }}
                 className="bg-blue-600 text-white font-bold px-8 py-3 rounded-full hover:bg-blue-700 transition-colors shadow-sm active:scale-95"
               >
