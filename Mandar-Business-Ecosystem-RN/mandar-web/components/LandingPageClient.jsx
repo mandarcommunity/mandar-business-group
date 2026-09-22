@@ -370,9 +370,9 @@ export default function LandingPageClient({ businesses, industries }) {
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Top Rated Businesses</h2>
               <p className="text-slate-500 text-lg">Connect with highly trusted community enterprises.</p>
             </div>
-            <a href="https://play.google.com/store/apps/details?id=com.mandar.community" className="text-blue-600 font-bold hover:text-blue-700 flex items-center gap-2 group bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-200 hover:shadow-md transition-all">
+            <Link href="/directory" className="text-blue-600 font-bold hover:text-blue-700 flex items-center gap-2 group bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-200 hover:shadow-md transition-all">
               View Directory <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+              </Link>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
