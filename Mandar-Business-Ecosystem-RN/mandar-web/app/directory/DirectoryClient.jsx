@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, Building2, BadgeCheck, Filter, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BackButton from '../../components/BackButton';
 
 export default function DirectoryClient({ initialBusinesses, industries }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -10,9 +11,9 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
 
   const filteredBusinesses = initialBusinesses.filter(biz => {
     const matchesSearch = (biz.business_name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          (biz.about || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          (biz.description || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
                           (biz.city || '').toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesIndustry = selectedIndustry === 'All' || biz.industry === selectedIndustry;
+    const matchesIndustry = selectedIndustry === 'All' || (biz.industries ? biz.industries[0] : "General") === selectedIndustry;
     return matchesSearch && matchesIndustry;
   });
 
@@ -21,6 +22,9 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
       {/* Header */}
       <div className="bg-white border-b border-slate-200 pt-24 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+        <div className="absolute top-6 left-6 z-20">
+          <BackButton />
+        </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Business Directory</h1>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto">
@@ -72,7 +76,7 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence>
               {filteredBusinesses.map((biz) => {
-                const indObj = industries.find(i => i.name === biz.industry);
+                const indObj = industries.find(i => i.name === (biz.industries ? biz.industries[0] : "General"));
                 return (
                   <motion.div 
                     layout
@@ -102,13 +106,13 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
                         <div className="flex-1 min-w-0">
                           <h3 className="font-bold text-slate-900 truncate group-hover:text-blue-600 transition-colors" title={biz.business_name}>{biz.business_name}</h3>
                           <p className="text-xs text-slate-500 flex items-center gap-1 mt-1 truncate">
-                            {indObj?.emoji || '🏭'} {biz.industry || "General"}
+                            {indObj?.emoji || '??'} {(biz.industries ? biz.industries[0] : "General") || "General"}
                           </p>
                         </div>
                       </div>
                       
                       <p className="text-sm text-slate-600 line-clamp-2 mb-4 flex-grow">
-                        {biz.about || "No description provided."}
+                        {biz.description || "No description provided."}
                       </p>
                       
                       <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
