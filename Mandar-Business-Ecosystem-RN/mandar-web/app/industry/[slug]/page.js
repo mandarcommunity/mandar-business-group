@@ -17,7 +17,7 @@ export default async function IndustryPage({ params }) {
   // Query Supabase for businesses that contain this industry in their industries array
   const { data: businesses } = await supabase
     .from('businesses')
-    .select('id, business_name, slug, profile_image, city, state, verified, industries, description, primary_phone, email, website')
+    .select('id, business_name, slug, profile_image, city, state, verified, industries, description, mobile, email, website')
     
     .order('created_at', { ascending: false });
 
@@ -101,7 +101,7 @@ export default async function IndustryPage({ params }) {
                   {/* Action Bar (View Profile) */}
                   <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                     <div className="flex -space-x-1">
-                      {biz.primary_phone && <div className="w-7 h-7 rounded-full bg-green-50 flex items-center justify-center border border-white"><Phone className="w-3 h-3 text-green-600" /></div>}
+                      {biz.mobile && <div className="w-7 h-7 rounded-full bg-green-50 flex items-center justify-center border border-white"><Phone className="w-3 h-3 text-green-600" /></div>}
                       {biz.email && <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center border border-white"><Mail className="w-3 h-3 text-blue-600" /></div>}
                       {biz.website && <div className="w-7 h-7 rounded-full bg-purple-50 flex items-center justify-center border border-white"><Globe className="w-3 h-3 text-purple-600" /></div>}
                     </div>
