@@ -81,146 +81,230 @@ export default function LandingPageClient({ businesses }) {
             </motion.div>
           </div>
 
-          {/* Right Mobile App Mockup (Animated Internal Feed) */}
+          {/* Right Mobile App Mockup (Friend's Concept - Enriched) */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 0.4, type: "spring", bounce: 0.4 }}
             className="w-full lg:w-1/2 flex justify-center relative hidden md:flex perspective-1000 mt-12 lg:mt-0"
           >
+            <style>{`
+              @keyframes phoneFloat {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+              }
+              @keyframes promoMove {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-3px); }
+              }
+              @keyframes handshakeShake {
+                0%, 100% { transform: rotate(0) scale(1); }
+                50% { transform: rotate(-8deg) scale(1.08); }
+              }
+              @keyframes enquiryPulse {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(37, 99, 235, 0); }
+                50% { transform: scale(1.02); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+              }
+              @keyframes searchGlow {
+                0%, 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                50% { box-shadow: 0 6px 20px rgba(37,99,235,0.15); }
+              }
+              @keyframes categorySlide {
+                0%, 20% { transform: translateX(0); }
+                40%, 60% { transform: translateX(-40px); }
+                80%, 100% { transform: translateX(0); }
+              }
+              @keyframes productSlide {
+                0%, 25% { transform: translateX(0); }
+                45%, 70% { transform: translateX(-120px); }
+                90%, 100% { transform: translateX(0); }
+              }
+            `}</style>
+
             <motion.div 
               style={{ y: y2 }} 
-              className="relative z-10 w-[280px] sm:w-[300px] h-[560px] sm:h-[600px] bg-slate-50 rounded-[3rem] border-[8px] border-slate-900 shadow-2xl overflow-hidden flex flex-col transform rotate-y-[-10deg] rotate-x-[5deg]"
+              className="relative z-10 w-[300px] h-[600px] bg-[#f8fafc] rounded-[2.5rem] border-[10px] border-[#101828] overflow-hidden flex flex-col transform rotate-y-[-10deg] rotate-x-[5deg] animate-[phoneFloat_4s_ease-in-out_infinite]"
+              style={{ boxShadow: '0 30px 70px rgba(0,0,0,0.22), 0 10px 25px rgba(0,0,0,0.12)' }}
             >
-               {/* App Header (Static) */}
-               <div className="bg-blue-600 p-5 pt-10 pb-4 text-white relative z-20 shadow-md">
-                  <div className="flex justify-between items-center mb-4">
-                     <div className="flex items-center gap-3">
-                       <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
-                         M
-                       </div>
-                       <div>
-                         <p className="text-[10px] text-blue-200 leading-tight">Welcome back,</p>
-                         <p className="font-bold text-sm leading-tight">Mandar User</p>
-                       </div>
-                     </div>
-                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative">
-                       <span className="text-white text-sm">??</span>
-                       <div className="absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full border border-blue-600"></div>
-                     </div>
+              {/* STATUS BAR */}
+              <div className="h-7 px-5 pt-2 flex justify-between items-center text-[10px] font-bold text-slate-800 bg-white z-50">
+                <span>9:41</span>
+                <div className="flex gap-1 text-[8px] items-center">
+                  <span>?</span><span>?</span><span>?</span>
+                </div>
+              </div>
+
+              {/* APP HEADER */}
+              <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-4 pt-3 pb-6 text-white rounded-b-3xl shadow-md z-40 relative">
+                <div className="flex justify-between items-center mb-1">
+                  <div>
+                    <div className="text-xl font-extrabold tracking-tight flex items-center gap-1">
+                      Mandar <span className="text-yellow-400">Hub</span>
+                    </div>
+                    <div className="text-[8px] text-blue-100 opacity-90 font-medium tracking-wide">
+                      Buyers � Sellers � Grow Together
+                    </div>
                   </div>
-                  <div className="w-full h-10 bg-white/10 rounded-xl mb-1 flex items-center px-3 border border-white/20">
-                    <Search className="w-4 h-4 text-white/70 mr-2" />
-                    <span className="text-white/60 text-xs">Search buyers, suppliers...</span>
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                    <span className="text-sm">?</span>
                   </div>
-               </div>
-               
-               {/* App Body - Animated Feed */}
-               <div className="flex-1 p-4 flex flex-col gap-4 overflow-hidden relative">
+                </div>
+              </div>
+
+              {/* SEARCH */}
+              <div className="mx-4 -mt-4 bg-white h-10 rounded-xl px-3 flex items-center gap-2 text-slate-400 text-xs z-50 relative animate-[searchGlow_3s_infinite]">
+                <span className="text-sm">??</span>
+                <span className="font-medium">Search products, suppliers...</span>
+              </div>
+
+              {/* SCROLLABLE BODY */}
+              <div className="flex-1 overflow-hidden relative mt-4 flex flex-col gap-5">
+                
+                {/* CATEGORIES */}
+                <div>
+                  <div className="px-4 animate-[categorySlide_8s_ease-in-out_infinite] whitespace-nowrap flex gap-3">
+                    
+                    <div className="inline-flex flex-col items-center">
+                      <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-emerald-500 bg-emerald-50/50">
+                        ??
+                      </div>
+                      <span className="text-[9px] font-bold text-slate-600">Vegetables</span>
+                    </div>
+
+                    <div className="inline-flex flex-col items-center">
+                      <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-amber-500 bg-amber-50/50">
+                        ??
+                      </div>
+                      <span className="text-[9px] font-bold text-slate-600">Grains</span>
+                    </div>
+
+                    <div className="inline-flex flex-col items-center">
+                      <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-blue-500 bg-blue-50/50">
+                        ??
+                      </div>
+                      <span className="text-[9px] font-bold text-slate-600">Grocery</span>
+                    </div>
+
+                    <div className="inline-flex flex-col items-center">
+                      <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-purple-500 bg-purple-50/50">
+                        ??
+                      </div>
+                      <span className="text-[9px] font-bold text-slate-600">Industrial</span>
+                    </div>
+
+                    <div className="inline-flex flex-col items-center">
+                      <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-slate-400">
+                        +
+                      </div>
+                      <span className="text-[9px] font-bold text-slate-600">More</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* PROMO */}
+                <div className="mx-4 bg-gradient-to-br from-amber-100 to-amber-50 p-4 rounded-[1.2rem] shadow-sm flex justify-between items-center border border-amber-200/60 animate-[promoMove_4s_ease-in-out_infinite]">
+                  <div>
+                    <div className="text-xs font-extrabold text-slate-900 mb-1 flex items-center gap-1">
+                      <span className="text-green-600">?</span> Verified Suppliers
+                    </div>
+                    <p className="text-[9px] text-slate-600 w-32 leading-tight mb-2">Connect directly with trusted Mandar businesses.</p>
+                    <button className="bg-amber-400 text-amber-950 px-3 py-1.5 rounded-full text-[9px] font-extrabold shadow-sm">
+                      Explore Now ?
+                    </button>
+                  </div>
+                  <div className="text-4xl animate-[handshakeShake_2s_ease-in-out_infinite] origin-bottom-right">
+                    ??
+                  </div>
+                </div>
+
+                {/* PRODUCTS */}
+                <div>
+                  <div className="px-4 flex justify-between items-center mb-2">
+                    <strong className="text-xs text-slate-900">Featured Products</strong>
+                    <span className="text-[9px] text-blue-600 font-bold">View All ?</span>
+                  </div>
                   
-                  {/* Category Pills (Static) */}
-                  <div className="flex gap-2 px-1">
-                     <div className="w-[4.5rem] h-16 bg-white border border-slate-100 rounded-2xl flex-shrink-0 flex flex-col items-center justify-center shadow-[0_2px_8px_rgb(0,0,0,0.04)]">
-                       <Sprout className="w-6 h-6 text-emerald-500 mb-1" />
-                       <span className="text-[9px] font-bold text-slate-600">Agriculture</span>
-                     </div>
-                     <div className="w-[4.5rem] h-16 bg-white border border-slate-100 rounded-2xl flex-shrink-0 flex flex-col items-center justify-center shadow-[0_2px_8px_rgb(0,0,0,0.04)]">
-                       <Factory className="w-6 h-6 text-slate-500 mb-1" />
-                       <span className="text-[9px] font-bold text-slate-600">Industrial</span>
-                     </div>
-                     <div className="w-[4.5rem] h-16 bg-white border border-slate-100 rounded-2xl flex-shrink-0 flex flex-col items-center justify-center shadow-[0_2px_8px_rgb(0,0,0,0.04)]">
-                       <Package className="w-6 h-6 text-orange-500 mb-1" />
-                       <span className="text-[9px] font-bold text-slate-600">Packaging</span>
-                     </div>
+                  <div className="px-4 animate-[productSlide_7s_ease-in-out_infinite] whitespace-nowrap flex gap-3">
+                    
+                    {/* Product Card 1 */}
+                    <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
+                      <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        ??
+                      </div>
+                      <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
+                        <CheckCircle2 className="w-2 h-2" /> Verified
+                      </div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
+                      <div className="text-[13px] font-bold text-slate-900 mb-2">
+                        ?18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                      </div>
+                      <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
+                        ?? Send Enquiry
+                      </button>
+                    </div>
+
+                    {/* Product Card 2 */}
+                    <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
+                      <div className="h-20 bg-amber-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        ??
+                      </div>
+                      <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
+                        <CheckCircle2 className="w-2 h-2" /> Verified
+                      </div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Premium Wheat</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Grains & Cereals</div>
+                      <div className="text-[13px] font-bold text-slate-900 mb-2">
+                        ?28 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                      </div>
+                      <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]" style={{ animationDelay: '1.5s' }}>
+                        ?? Send Enquiry
+                      </button>
+                    </div>
+
+                    {/* Product Card 3 (for smooth loop) */}
+                    <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
+                      <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
+                        ??
+                      </div>
+                      <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
+                        <CheckCircle2 className="w-2 h-2" /> Verified
+                      </div>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
+                      <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
+                      <div className="text-[13px] font-bold text-slate-900 mb-2">
+                        ?18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                      </div>
+                      <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
+                        ?? Send Enquiry
+                      </button>
+                    </div>
+
                   </div>
+                </div>
 
-                  {/* Animated Cards Container */}
-                  <motion.div 
-                    animate={{ y: [0, -150, -300, -450, 0] }}
-                    transition={{ repeat: Infinity, duration: 15, ease: "easeInOut", times: [0, 0.25, 0.5, 0.75, 1] }}
-                    className="flex flex-col gap-4 pt-2"
-                  >
-                    {/* Card 1: Requirement */}
-                    <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
-                       <div className="flex items-center gap-2 mb-2">
-                         <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                         <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">New Tender / Requirement</span>
-                       </div>
-                       <h4 className="font-extrabold text-slate-900 text-sm mb-1 leading-tight">Need 1000kg Premium Wheat</h4>
-                       <p className="text-xs text-slate-500 mb-3">Delivery to Mumbai, Maharashtra</p>
-                       <div className="w-full bg-slate-50 rounded-lg py-2 flex items-center justify-center border border-slate-100 text-xs font-bold text-slate-600">
-                         Send Quotation
-                       </div>
-                    </div>
-
-                    {/* Card 2: Verified Profile */}
-                    <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
-                       <div className="flex items-center gap-3 mb-3">
-                         <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
-                           <Building2 className="w-5 h-5 text-blue-600" />
-                         </div>
-                         <div>
-                           <h4 className="font-bold text-slate-900 text-sm leading-tight flex items-center gap-1">
-                             Jain Trademart
-                             <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
-                           </h4>
-                           <p className="text-[11px] text-slate-500">Agriculture & Farming</p>
-                         </div>
-                       </div>
-                       <div className="w-full h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm text-xs font-bold text-white">
-                         View Full Profile
-                       </div>
-                    </div>
-
-                    {/* Card 3: Product Catalog */}
-                    <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
-                       <div className="flex items-center gap-2 mb-3">
-                         <div className="w-8 h-8 bg-purple-50 rounded-full flex items-center justify-center shrink-0">
-                           <Package className="w-4 h-4 text-purple-600" />
-                         </div>
-                         <h4 className="font-bold text-slate-800 text-xs">New Products Added</h4>
-                       </div>
-                       <div className="flex gap-2">
-                         <div className="w-1/2 bg-slate-50 border border-slate-100 rounded-xl p-2 flex flex-col items-center justify-center">
-                           <Package className="w-6 h-6 text-slate-400 mb-1" />
-                           <span className="text-[10px] font-semibold text-slate-600 text-center leading-tight">Cotton Yarn</span>
-                         </div>
-                         <div className="w-1/2 bg-slate-50 border border-slate-100 rounded-xl p-2 flex flex-col items-center justify-center">
-                           <Package className="w-6 h-6 text-slate-400 mb-1" />
-                           <span className="text-[10px] font-semibold text-slate-600 text-center leading-tight">Silk Thread</span>
-                         </div>
-                       </div>
-                    </div>
-
-                    {/* Card 4: Duplicate Requirement to make infinite loop smooth */}
-                    <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
-                       <div className="flex items-center gap-2 mb-2">
-                         <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                         <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">New Tender / Requirement</span>
-                       </div>
-                       <h4 className="font-extrabold text-slate-900 text-sm mb-1 leading-tight">Need 1000kg Premium Wheat</h4>
-                       <p className="text-xs text-slate-500 mb-3">Delivery to Mumbai, Maharashtra</p>
-                       <div className="w-full bg-slate-50 rounded-lg py-2 flex items-center justify-center border border-slate-100 text-xs font-bold text-slate-600">
-                         Send Quotation
-                       </div>
-                    </div>
-
-                  </motion.div>
-
-                  {/* Fade out gradient at bottom of feed */}
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-10"></div>
-               </div>
-               
-               {/* Bottom Nav (Static) */}
-               <div className="w-full h-16 bg-white border-t border-slate-100 flex items-center justify-around px-4 relative z-20">
-                 <div className="w-6 h-6 rounded-md bg-blue-600"></div>
-                 <div className="w-6 h-6 rounded-md bg-slate-200"></div>
-                 <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center -mt-6 border-4 border-white shadow-sm">
-                   <div className="w-4 h-4 bg-blue-600 rounded-sm"></div>
-                 </div>
-                 <div className="w-6 h-6 rounded-md bg-slate-200"></div>
-                 <div className="w-6 h-6 rounded-md bg-slate-200"></div>
-               </div>
+              </div>
+              
+              {/* BOTTOM NAV */}
+              <div className="h-14 bg-white border-t border-slate-200 flex justify-around items-center px-2 z-50">
+                <div className="flex flex-col items-center text-blue-600">
+                  <span className="text-lg">�</span>
+                  <span className="text-[7px] font-bold mt-0.5">Home</span>
+                </div>
+                <div className="flex flex-col items-center text-slate-400">
+                  <span className="text-lg">??</span>
+                  <span className="text-[7px] font-bold mt-0.5">Enquiries</span>
+                </div>
+                <div className="flex flex-col items-center text-slate-400">
+                  <span className="text-lg">??</span>
+                  <span className="text-[7px] font-bold mt-0.5">My Leads</span>
+                </div>
+                <div className="flex flex-col items-center text-slate-400">
+                  <span className="text-lg">??</span>
+                  <span className="text-[7px] font-bold mt-0.5">Profile</span>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
