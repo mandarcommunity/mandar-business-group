@@ -1,7 +1,7 @@
 import { supabase } from '../../lib/supabase';
 import IndustriesClient from './IndustriesClient';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function IndustriesPage() {
   const { data: industries, error } = await supabase
