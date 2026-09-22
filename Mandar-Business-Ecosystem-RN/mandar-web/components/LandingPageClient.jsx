@@ -229,56 +229,56 @@ export default function LandingPageClient({ businesses }) {
                     
                     {/* Product Card 1 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-orange-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        🍘
-                      </div>
+                      <div className="h-20 bg-slate-100 rounded-xl overflow-hidden mb-2">
+                          <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=200&q=80" alt="Khakhra" className="w-full h-full object-cover" />
+                        </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Khakhra</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Snacks & Namkeen</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹120 <span className="text-[9px] font-normal text-slate-500">/pkt</span>
-                      </div>
+                          ₹120 <span className="text-[9px] font-normal text-slate-500">/pkt</span>
+                        </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
-                        💬 Send Enquiry
-                      </button>
+                          ✉ Send Enquiry
+                        </button>
                     </div>
 
                     {/* Product Card 2 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-yellow-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        🧈
-                      </div>
+                      <div className="h-20 bg-slate-100 rounded-xl overflow-hidden mb-2">
+                          <img src="https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&w=200&q=80" alt="Pure Cow Ghee" className="w-full h-full object-cover" />
+                        </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Cow Ghee</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Dairy & Oils</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹750 <span className="text-[9px] font-normal text-slate-500">/ltr</span>
-                      </div>
+                          ₹750 <span className="text-[9px] font-normal text-slate-500">/ltr</span>
+                        </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]" style={{ animationDelay: '1.5s' }}>
-                        💬 Send Enquiry
+                          ✉ Send Enquiry
                       </button>
                     </div>
 
                     {/* Product Card 3 (for smooth loop) */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
-                      <div className="h-20 bg-stone-100 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        ☕
-                      </div>
+                      <div className="h-20 bg-slate-100 rounded-xl overflow-hidden mb-2">
+                          <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=200&q=80" alt="Premium Coffee" className="w-full h-full object-cover" />
+                        </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Coffee</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Beverages</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ₹450 <span className="text-[9px] font-normal text-slate-500">/kg</span>
-                      </div>
+                          ₹450 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
-                        💬 Send Enquiry
-                      </button>
+                          ✉ Send Enquiry
+                        </button>
                     </div>
 
                   </div>
