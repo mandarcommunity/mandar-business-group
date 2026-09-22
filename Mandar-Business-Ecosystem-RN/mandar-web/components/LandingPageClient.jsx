@@ -130,7 +130,7 @@ export default function LandingPageClient({ businesses }) {
               <div className="h-7 px-5 pt-2 flex justify-between items-center text-[10px] font-bold text-slate-800 bg-white z-50">
                 <span>9:41</span>
                 <div className="flex gap-1 text-[8px] items-center">
-                  <span>?</span><span>?</span><span>?</span>
+                  <span>●</span><span>●</span><span>▰</span>
                 </div>
               </div>
 
@@ -142,18 +142,18 @@ export default function LandingPageClient({ businesses }) {
                       Mandar <span className="text-yellow-400">Hub</span>
                     </div>
                     <div className="text-[8px] text-blue-100 opacity-90 font-medium tracking-wide">
-                      Buyers � Sellers � Grow Together
+                      Buyers • Sellers • Grow Together
                     </div>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <span className="text-sm">?</span>
+                    <span className="text-sm">☰</span>
                   </div>
                 </div>
               </div>
 
               {/* SEARCH */}
               <div className="mx-4 -mt-4 bg-white h-10 rounded-xl px-3 flex items-center gap-2 text-slate-400 text-xs z-50 relative animate-[searchGlow_3s_infinite]">
-                <span className="text-sm">??</span>
+                <span className="text-sm">🔍</span>
                 <span className="font-medium">Search products, suppliers...</span>
               </div>
 
@@ -166,35 +166,35 @@ export default function LandingPageClient({ businesses }) {
                     
                     <div className="inline-flex flex-col items-center">
                       <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-emerald-500 bg-emerald-50/50">
-                        ??
+                        🥦
                       </div>
                       <span className="text-[9px] font-bold text-slate-600">Vegetables</span>
                     </div>
 
                     <div className="inline-flex flex-col items-center">
                       <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-amber-500 bg-amber-50/50">
-                        ??
+                        🌾
                       </div>
                       <span className="text-[9px] font-bold text-slate-600">Grains</span>
                     </div>
 
                     <div className="inline-flex flex-col items-center">
                       <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-blue-500 bg-blue-50/50">
-                        ??
+                        🛒
                       </div>
                       <span className="text-[9px] font-bold text-slate-600">Grocery</span>
                     </div>
 
                     <div className="inline-flex flex-col items-center">
                       <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-purple-500 bg-purple-50/50">
-                        ??
+                        🏭
                       </div>
                       <span className="text-[9px] font-bold text-slate-600">Industrial</span>
                     </div>
 
                     <div className="inline-flex flex-col items-center">
                       <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl mb-1 text-slate-400">
-                        +
+                        ＋
                       </div>
                       <span className="text-[9px] font-bold text-slate-600">More</span>
                     </div>
@@ -206,15 +206,15 @@ export default function LandingPageClient({ businesses }) {
                 <div className="mx-4 bg-gradient-to-br from-amber-100 to-amber-50 p-4 rounded-[1.2rem] shadow-sm flex justify-between items-center border border-amber-200/60 animate-[promoMove_4s_ease-in-out_infinite]">
                   <div>
                     <div className="text-xs font-extrabold text-slate-900 mb-1 flex items-center gap-1">
-                      <span className="text-green-600">?</span> Verified Suppliers
+                      <span className="text-green-600">✓</span> Verified Suppliers
                     </div>
                     <p className="text-[9px] text-slate-600 w-32 leading-tight mb-2">Connect directly with trusted Mandar businesses.</p>
                     <button className="bg-amber-400 text-amber-950 px-3 py-1.5 rounded-full text-[9px] font-extrabold shadow-sm">
-                      Explore Now ?
+                      Explore Now →
                     </button>
                   </div>
                   <div className="text-4xl animate-[handshakeShake_2s_ease-in-out_infinite] origin-bottom-right">
-                    ??
+                    🤝
                   </div>
                 </div>
 
@@ -222,7 +222,7 @@ export default function LandingPageClient({ businesses }) {
                 <div>
                   <div className="px-4 flex justify-between items-center mb-2">
                     <strong className="text-xs text-slate-900">Featured Products</strong>
-                    <span className="text-[9px] text-blue-600 font-bold">View All ?</span>
+                    <span className="text-[9px] text-blue-600 font-bold">View All →</span>
                   </div>
                   
                   <div className="px-4 animate-[productSlide_7s_ease-in-out_infinite] whitespace-nowrap flex gap-3">
@@ -230,7 +230,7 @@ export default function LandingPageClient({ businesses }) {
                     {/* Product Card 1 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
                       <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        ??
+                        🍅
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
@@ -238,17 +238,17 @@ export default function LandingPageClient({ businesses }) {
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ?18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
-                        ?? Send Enquiry
+                        💬 Send Enquiry
                       </button>
                     </div>
 
                     {/* Product Card 2 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
                       <div className="h-20 bg-amber-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        ??
+                        🌾
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
@@ -256,17 +256,17 @@ export default function LandingPageClient({ businesses }) {
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Premium Wheat</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Grains & Cereals</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ?28 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹28 <span className="text-[9px] font-normal text-slate-500">/kg</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]" style={{ animationDelay: '1.5s' }}>
-                        ?? Send Enquiry
+                        💬 Send Enquiry
                       </button>
                     </div>
 
                     {/* Product Card 3 (for smooth loop) */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
                       <div className="h-20 bg-red-50 rounded-xl flex items-center justify-center text-4xl mb-2">
-                        ??
+                        🍅
                       </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
@@ -274,10 +274,10 @@ export default function LandingPageClient({ businesses }) {
                       <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Fresh Tomatoes</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Vegetables & Fruits</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
-                        ?18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
+                        ₹18 <span className="text-[9px] font-normal text-slate-500">/kg</span>
                       </div>
                       <button className="w-full bg-white border border-blue-600 text-blue-600 rounded-lg py-1.5 text-[9px] font-bold flex items-center justify-center gap-1 animate-[enquiryPulse_3s_infinite]">
-                        ?? Send Enquiry
+                        💬 Send Enquiry
                       </button>
                     </div>
 
@@ -289,19 +289,19 @@ export default function LandingPageClient({ businesses }) {
               {/* BOTTOM NAV */}
               <div className="h-14 bg-white border-t border-slate-200 flex justify-around items-center px-2 z-50">
                 <div className="flex flex-col items-center text-blue-600">
-                  <span className="text-lg">�</span>
+                  <span className="text-lg">⌂</span>
                   <span className="text-[7px] font-bold mt-0.5">Home</span>
                 </div>
                 <div className="flex flex-col items-center text-slate-400">
-                  <span className="text-lg">??</span>
+                  <span className="text-lg">💬</span>
                   <span className="text-[7px] font-bold mt-0.5">Enquiries</span>
                 </div>
                 <div className="flex flex-col items-center text-slate-400">
-                  <span className="text-lg">??</span>
+                  <span className="text-lg">💼</span>
                   <span className="text-[7px] font-bold mt-0.5">My Leads</span>
                 </div>
                 <div className="flex flex-col items-center text-slate-400">
-                  <span className="text-lg">??</span>
+                  <span className="text-lg">👤</span>
                   <span className="text-[7px] font-bold mt-0.5">Profile</span>
                 </div>
               </div>
