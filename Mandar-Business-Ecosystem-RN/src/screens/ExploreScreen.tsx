@@ -66,7 +66,7 @@ export default function ExploreScreen() {
     return industries
       .filter((ind) => ind.name.toLowerCase().includes(search.toLowerCase()))
       .slice(0, 5);
-  }, [search]);
+  }, [search, industries]);
 
   const filteredAds = useMemo(() => {
     if (!search.trim()) return featuredAds;
