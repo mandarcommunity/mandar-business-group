@@ -1,5 +1,7 @@
-export const revalidate = 60;
-import { supabase } from '../../../lib/supabase';
+﻿const fs = require('fs');
+const pageFile = 'app/industry/[slug]/page.js';
+
+const newContent = `import { supabase } from '../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Building2, MapPin, BadgeCheck, Phone, Mail, Globe, Search } from 'lucide-react';
@@ -66,7 +68,7 @@ export default async function IndustryPage({ params }) {
         {businesses && businesses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((biz) => (
-              <Link href={`/biz/${biz.slug || biz.id}`} key={biz.id}>
+              <Link href={\`/biz/\${biz.slug || biz.id}\`} key={biz.id}>
                 <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200 transition-all duration-300 group flex flex-col h-full">
                   
                   {/* Card Header */}
@@ -128,3 +130,6 @@ export default async function IndustryPage({ params }) {
     </div>
   );
 }
+`;
+
+fs.writeFileSync(pageFile, newContent, 'utf8');

@@ -1,5 +1,7 @@
-export const revalidate = 60;
-import { supabase } from '../../../lib/supabase';
+﻿const fs = require('fs');
+const pageFile = 'app/industry/[slug]/page.js';
+
+const newContent = `import { supabase } from '../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Building2, MapPin, BadgeCheck, Phone, Mail, Globe, Search } from 'lucide-react';
@@ -55,18 +57,28 @@ export default async function IndustryPage({ params }) {
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-10 relative z-20 pb-20">
         
-        {/* Stats Bar Area */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-8 flex justify-between items-center gap-4">
+        {/* Stats & Search Bar Area */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2 px-2 text-slate-600 font-semibold">
             <span className="w-2 h-2 rounded-full bg-green-500"></span>
             {businesses?.length || 0} Businesses Found
+          </div>
+          <div className="relative w-full md:w-96">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-slate-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              placeholder="Search in this industry..."
+            />
           </div>
         </div>
 
         {businesses && businesses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((biz) => (
-              <Link href={`/biz/${biz.slug || biz.id}`} key={biz.id}>
+              <Link href={\`/biz/\${biz.slug || biz.id}\`} key={biz.id}>
                 <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200 transition-all duration-300 group flex flex-col h-full">
                   
                   {/* Card Header */}
@@ -119,7 +131,7 @@ export default async function IndustryPage({ params }) {
             <p className="text-slate-500 max-w-md mx-auto mb-8 text-lg">
               There are currently no verified businesses listed under the {industryName} category.
             </p>
-            <Link href="/industries" className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-sm">
+            <Link href="/" className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-sm">
               Explore Other Industries
             </Link>
           </div>
@@ -128,3 +140,6 @@ export default async function IndustryPage({ params }) {
     </div>
   );
 }
+`;
+
+fs.writeFileSync(pageFile, newContent, 'utf8');
