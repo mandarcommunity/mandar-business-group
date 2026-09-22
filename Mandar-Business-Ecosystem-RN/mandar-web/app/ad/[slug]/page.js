@@ -26,7 +26,7 @@ export default async function AdPage({ params }) {
     .from('advertisements')
     .select(`
       *,
-      business:businesses!business_id(business_name, slug, profile_image)
+      business:businesses(business_name, slug, profile_image)
     `)
     .eq(isId ? 'id' : 'slug', slug)
     .single();
@@ -36,24 +36,24 @@ export default async function AdPage({ params }) {
   const business = ad.business || null;
 
   return (
-    <div className="bg-gray-900 min-h-screen text-gray-100 flex flex-col items-center justify-center py-12 px-4 relative">
+    <div className="bg-slate-900 min-h-screen text-gray-100 flex flex-col items-center justify-center py-12 px-4 relative">
       <div className="absolute inset-0 overflow-hidden">
         {ad.image_url && (
           <img src={ad.image_url} alt="" className="w-full h-full object-cover opacity-20 blur-xl" />
         )}
-        <div className="absolute inset-0 bg-gray-900/80"></div>
+        <div className="absolute inset-0 bg-slate-900/80"></div>
       </div>
       
       <div className="z-10 max-w-2xl w-full">
         {business && (
-          <Link href={`/biz/${business.slug}`} className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors">
+          <Link href={`/biz/${business.slug}`} className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to {business.business_name}
           </Link>
         )}
         
-        <div className="bg-white text-gray-900 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="bg-white text-slate-900 rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 ring-1 ring-slate-900/5">
           {ad.image_url && ad.image_url.startsWith("http") ? (
-            <div className="w-full aspect-video bg-gray-100">
+            <div className="w-full aspect-video bg-slate-100">
               <img src={ad.image_url} alt={ad.title} className="w-full h-full object-contain" />
             </div>
           ) : (
@@ -64,18 +64,18 @@ export default async function AdPage({ params }) {
           
           <div className="p-8 md:p-10 text-center">
             <h1 className="text-3xl md:text-4xl font-extrabold mb-4">{ad.title}</h1>
-            <p className="text-gray-600 mb-8 whitespace-pre-wrap leading-relaxed max-w-lg mx-auto">
+            <p className="text-slate-600 mb-8 whitespace-pre-wrap leading-relaxed max-w-lg mx-auto">
               {ad.description}
             </p>
             
             <div className="flex flex-col items-center gap-4">
               <a 
                 href="https://play.google.com/store/apps/details?id=com.mandar.community" 
-                className="bg-secondary hover:bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg flex items-center gap-2 transition-transform active:scale-95 w-full sm:w-auto justify-center"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg flex items-center gap-2 transition-transform active:scale-95 w-full sm:w-auto justify-center"
               >
                 {ad.cta_type || "Learn More"} <ExternalLink className="w-5 h-5" />
               </a>
-              <span className="text-xs text-gray-400 uppercase tracking-wide">Advertisement</span>
+              <span className="text-xs text-slate-400 uppercase tracking-widest font-bold">Advertisement</span>
             </div>
           </div>
         </div>
