@@ -23,8 +23,7 @@ export default async function RequirementPage({ params }) {
     .from('requirements')
     .select(`
       *,
-      user:users!user_id(full_name),
-      business:businesses!business_id(business_name, slug, profile_image)
+      user:users!user_id(full_name)
     `)
     .eq(isId ? 'id' : 'slug', slug)
     .single();
