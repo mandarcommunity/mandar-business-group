@@ -62,7 +62,7 @@ export default function LandingPageClient({ businesses, industries }) {
             </motion.p>
 
             {/* Premium Search Bar */}
-            <motion.div 
+            <motion.form onSubmit={handleSearch} 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
@@ -73,12 +73,9 @@ export default function LandingPageClient({ businesses, industries }) {
                 type="text" 
                 placeholder="Search products..." 
                 className="w-full min-w-0 flex-grow bg-transparent border-none outline-none px-3 sm:px-4 text-slate-800 placeholder-slate-400 text-sm sm:text-base"
-                readOnly
+                value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <a href="https://play.google.com/store/apps/details?id=com.mandar.community" className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-colors shadow-sm shrink-0">
-                Search
-              </a>
-            </motion.div>
+              <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold transition-colors shadow-sm shrink-0">Search</button></motion.form>
           </div>
 
           {/* Right Mobile App Mockup (Friend's Concept - Enriched) */}
