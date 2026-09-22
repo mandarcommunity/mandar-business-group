@@ -18,10 +18,14 @@ export default async function IndustryPage({ params }) {
   const { data: businesses } = await supabase
     .from('businesses')
     .select('id, business_name, slug, profile_image, city, state, verified, industries, description, primary_phone, email, website')
-    .contains('industries', [industryName])
+    
     .order('created_at', { ascending: false });
 
+  
+  // Manual filter to bypass potential Supabase JSONB contains operator issues on free tier / anon keys
+  const filteredBusinesses = businesses ? businesses.filter(b => b.industries && b.industries.includes(industryName)) : [];
   const emoji = getIndustryEmoji(industryName);
+  
 
   return (
     <div className="bg-[#f8fafc] min-h-screen text-slate-900 font-sans">
@@ -59,13 +63,13 @@ export default async function IndustryPage({ params }) {
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-8 flex justify-between items-center gap-4">
           <div className="flex items-center gap-2 px-2 text-slate-600 font-semibold">
             <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            {businesses?.length || 0} Businesses Found
+            {filteredBusinesses?.length || 0} Businesses Found
           </div>
         </div>
 
         {businesses && businesses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {businesses.map((biz) => (
+            {filteredBusinesses.map((biz) => (
               <Link href={`/biz/${biz.slug || biz.id}`} key={biz.id}>
                 <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200 transition-all duration-300 group flex flex-col h-full">
                   
