@@ -1,3 +1,4 @@
+import { useIndustries } from "../hooks/useIndustries";
 import {
   ScrollView,
   StyleSheet,
@@ -37,9 +38,7 @@ import LoadingState from "../components/states/LoadingState";
 
 import ErrorState from "../components/states/ErrorState";
 
-import {
-  industries,
-} from "../data/industries";
+
 import {
   COLORS,
   SPACING,
