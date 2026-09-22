@@ -1,6 +1,8 @@
 "use client";
+
+
 import { INDUSTRIES } from "../constants/industries";
-import { slugify } from "../lib/utils";
+import { slugify, getIndustryIcon } from "../lib/utils";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Search, ShieldCheck, TrendingUp, Building2, Smartphone, ArrowRight, Package, MapPin, CheckCircle2, Factory, Briefcase, Zap } from 'lucide-react';
@@ -146,24 +148,29 @@ export default function LandingPageClient({ businesses }) {
         <div className="flex overflow-x-auto pb-8 pt-4 px-6 gap-6 snap-x snap-mandatory hide-scrollbar max-w-7xl mx-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {INDUSTRIES.slice(0, 15).map((industry, i) => {
             const colors = [
-              "bg-blue-50 text-blue-600 border-blue-100",
-              "bg-purple-50 text-purple-600 border-purple-100",
-              "bg-emerald-50 text-emerald-600 border-emerald-100",
-              "bg-orange-50 text-orange-600 border-orange-100",
-              "bg-pink-50 text-pink-600 border-pink-100",
+              "bg-blue-100 text-blue-600",
+              "bg-purple-100 text-purple-600",
+              "bg-emerald-100 text-emerald-600",
+              "bg-orange-100 text-orange-600",
+              "bg-pink-100 text-pink-600",
+              "bg-indigo-100 text-indigo-600",
+              "bg-yellow-100 text-yellow-600",
             ];
             const colorClass = colors[i % colors.length];
             
             return (
               <Link href={`/industry/${slugify(industry)}`} key={i}>
                 <motion.div 
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className={`snap-start shrink-0 w-64 h-32 rounded-3xl ${colorClass} border flex flex-col justify-between p-5 cursor-pointer shadow-sm hover:shadow-md transition-all`}
+                  whileHover={{ y: -5, scale: 1.05 }}
+                  className="snap-start shrink-0 flex flex-col items-center gap-3 cursor-pointer group w-32"
                 >
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm font-black text-lg">
-                    {industry.charAt(0)}
+                  <div className={`w-20 h-20 rounded-2xl ${colorClass} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
+                    {(() => {
+                      const IconComponent = getIndustryIcon(industry);
+                      return <IconComponent className="w-8 h-8" />;
+                    })()}
                   </div>
-                  <span className="text-lg font-bold truncate">{industry}</span>
+                  <span className="text-sm font-semibold text-slate-700 text-center leading-tight line-clamp-2">{industry}</span>
                 </motion.div>
               </Link>
             );

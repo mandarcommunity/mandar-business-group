@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { INDUSTRIES } from '../../constants/industries';
-import { slugify } from '../../lib/utils';
+import { slugify, getIndustryIcon } from '../../lib/utils';
 
 export default function IndustriesPage() {
   return (
@@ -30,8 +30,11 @@ export default function IndustriesPage() {
             return (
               <Link href={`/industry/${slugify(industry)}`} key={i}>
                 <div className={`flex items-center gap-3 p-4 rounded-2xl cursor-pointer transition-all ${colorClass}`}>
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm font-black shrink-0">
-                    {industry.charAt(0)}
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
+                    {(() => {
+                      const Icon = getIndustryIcon(industry);
+                      return <Icon className="w-5 h-5" />;
+                    })()}
                   </div>
                   <span className="font-semibold text-sm leading-tight">{industry}</span>
                 </div>
