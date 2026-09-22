@@ -4,6 +4,7 @@ import { ArrowLeft, MapPin, Phone, Briefcase, Factory, Mail, Globe, CheckCircle2
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ShareButton from '../../../components/ShareButton';
+import BackButton from '../../../components/BackButton';
 
 const WhatsAppIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -72,9 +73,7 @@ export default async function BusinessProfilePage({ params }) {
       {/* MINI WEBSITE NAVBAR */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-3">
-          <Link href="/directory" className="mr-2 p-2 bg-slate-50 hover:bg-slate-100 rounded-full transition-colors text-slate-600 hover:text-slate-900 border border-slate-200">
-             <ArrowLeft className="w-5 h-5" />
-          </Link>
+          <BackButton className="mr-2" />
           {validImage ? (
             <img src={business.profile_image} className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-sm" alt="logo" />
           ) : (

@@ -1,14 +1,12 @@
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 import { Mail, MapPin } from 'lucide-react';
 
 export default function Contact() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
-      <Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold mb-8 transition-colors">
-        <ArrowLeft className="w-4 h-4" /> Back to Home
-      </Link>
+      <BackButton className="mb-8" />
       <h1 className="text-4xl font-extrabold text-slate-900 mb-8">Contact Us</h1>
       <p className="text-xl text-slate-500 mb-12">
         Have questions, feedback, or need support with your business listing? We're here to help.
