@@ -7,6 +7,10 @@ import BackButton from '../../components/BackButton';
 
 export default function DirectoryClient({ initialBusinesses, industries }) {
   const [searchQuery, setSearchQuery] = useState('');
+  
+  useEffect(() => {
+    if (q) setSearchQuery(q);
+  }, [q]);
   const [selectedIndustry, setSelectedIndustry] = useState('All');
 
   const filteredBusinesses = initialBusinesses.filter(biz => {

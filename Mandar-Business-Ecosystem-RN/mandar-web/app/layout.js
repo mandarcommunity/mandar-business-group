@@ -12,6 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="antialiased min-h-screen bg-gray-50 flex flex-col">
         <SmartAppBanner />
+        <div className="h-1 bg-gradient-to-r from-orange-500 to-amber-500 w-full shrink-0"></div>
         <main className="flex-grow">
           {children}
         </main>

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 
 export default function SmartAppBanner() {
   const [show, setShow] = useState(true);
@@ -29,7 +30,7 @@ export default function SmartAppBanner() {
           className="p-1 opacity-70 hover:opacity-100"
           aria-label="Close"
         >
-          ?
+          <X className="w-5 h-5" />
         </button>
       </div>
     </div>

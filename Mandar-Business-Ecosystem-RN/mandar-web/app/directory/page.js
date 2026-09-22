@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 import { supabase } from '../../lib/supabase';
 import DirectoryClient from './DirectoryClient';
+import { Suspense } from 'react';
 
 export default async function DirectoryPage() {
   const { data: businesses, error: bizError } = await supabase

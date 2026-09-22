@@ -21,8 +21,7 @@ export default function LeadsClient({ leads }) {
       {/* HEADER SECTION */}
       <div className="bg-white border-b border-slate-200 pt-24 pb-12 px-6 relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-orange-500 to-amber-500"></div>
-        <div className="absolute top-6 left-6 z-20">
+                <div className="absolute top-6 left-6 z-20">
           <BackButton />
         </div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
