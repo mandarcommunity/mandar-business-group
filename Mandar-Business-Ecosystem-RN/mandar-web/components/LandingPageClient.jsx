@@ -461,7 +461,7 @@ export default function LandingPageClient({ businesses, industries }) {
             {/* Small Feature 2 */}
             <motion.div whileHover={{ scale: 0.98 }} className="bg-purple-50 rounded-3xl p-8 border border-purple-100 flex flex-col justify-center">
               <Building2 className="w-10 h-10 text-purple-600 mb-5" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Digital Catalog</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight flex flex-wrap items-center gap-2 relative z-10">Digital Catalog <Link href="/products" className="text-sm bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full hover:bg-purple-200 transition-colors whitespace-nowrap shrink-0 relative z-10">View All</Link></h3>
               <p className="text-slate-600">Showcase your products beautifully to the world.</p>
             </motion.div>
 
