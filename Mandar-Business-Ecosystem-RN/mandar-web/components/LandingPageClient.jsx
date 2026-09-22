@@ -445,7 +445,7 @@ export default function LandingPageClient({ businesses, industries }) {
             <motion.div whileHover={{ scale: 0.98 }} className="md:col-span-2 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-10 border border-blue-100 flex flex-col justify-center relative overflow-hidden group">
               <div className="absolute right-0 bottom-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-colors duration-500"></div>
               <ShieldCheck className="w-12 h-12 text-blue-600 mb-6" />
-              <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Verified Trust Network</h3>
+              <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight flex items-center gap-3">Verified Trust Network <Link href="/directory" className="text-sm font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">View All</Link></h3>
               <p className="text-slate-600 text-lg max-w-md leading-relaxed">
                 Every business undergoes strict verification. Deal with legitimate, high-quality manufacturers and buyers.
               </p>
