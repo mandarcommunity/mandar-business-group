@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const { data: ad } = await supabase.from('advertisements').select('title, description, image_url').eq(slug.includes('-') ? 'slug' : 'id', slug).single();
+  const { data: ad } = await supabase.from('advertisements').select('title, description, image_url').eq(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-/.test(slug) ? 'id' : 'slug', slug).single();
   if (!ad) return { title: 'Advertisement Not Found' };
   return {
     title: `${ad.title} | Promoted`,
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
 
 export default async function AdPage({ params }) {
   const { slug } = await params;
-  const isId = !slug.includes('-');
+  const isId = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-/.test(slug);
 
   const { data: ad } = await supabase
     .from('advertisements')
