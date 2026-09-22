@@ -62,7 +62,7 @@ const fetchAds = async () => {
     const token = await getAccessToken();
     const res = await getMyAdvertisements(token as string);
     setAdvertisements(res.data.data.map((ad: any) => {
-      const daysLeft = Math.ceil((new Date(ad.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+      const daysLeft = Math.floor((new Date(ad.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
       const expiryText = daysLeft > 0 ? `Expires in ${daysLeft} days` : daysLeft === 0 ? "Expires today" : "Expired";
       
       return {
@@ -73,7 +73,7 @@ const fetchAds = async () => {
         industry: ad.industries?.join(", ") || "General",
         postedTime: new Date(ad.created_at).toLocaleDateString(),
         expiryText,
-        status: ad.status,
+        status: daysLeft < 0 && ad.status === "Active" ? "Expired" : ad.status,
         description: ad.description
       };
     }));

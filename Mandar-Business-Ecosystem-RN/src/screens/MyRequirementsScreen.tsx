@@ -151,7 +151,7 @@ const fetchRequirements = async () => {
       expiryDate.setDate(expiryDate.getDate() + 30);
       const now = new Date();
       const diffTime = expiryDate.getTime() - now.getTime();
-      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const daysLeft = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       
       let expiryText = "";
       if (req.status === "Active") {
@@ -163,7 +163,9 @@ const fetchRequirements = async () => {
           expiryText = "Expired";
         }
       }
-      return { ...req, expiryText };
+      let status = req.status;
+        if (daysLeft < 0 && status === "Active") status = "Expired";
+        return { ...req, expiryText, status };
     });
     setRequirements(formattedReqs);
   } catch (err) {
