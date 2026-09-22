@@ -317,6 +317,40 @@ export default function LandingPageClient({ businesses }) {
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Explore by Industry</h2>
             <p className="text-slate-500">Discover verified businesses across {INDUSTRIES.length}+ sectors.</p>
           </div>
+          <Link href="/industries" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 bg-blue-50 px-5 py-2.5 rounded-full transition-colors">
+            See All <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* Horizontal Scroll Container */}
+        <div className="flex overflow-x-auto pb-8 pt-4 px-6 gap-6 snap-x snap-mandatory hide-scrollbar max-w-7xl mx-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {INDUSTRIES.map((industry, i) => {
+            const colors = [
+              "bg-blue-100 text-blue-600",
+              "bg-purple-100 text-purple-600",
+              "bg-emerald-100 text-emerald-600",
+              "bg-orange-100 text-orange-600",
+              "bg-pink-100 text-pink-600",
+              "bg-indigo-100 text-indigo-600",
+              "bg-yellow-100 text-yellow-600",
+            ];
+            const colorClass = colors[i % colors.length];
+            
+            return (
+              <Link href={`/industry/${slugify(industry)}`} key={i}>
+                <motion.div 
+                  whileHover={{ y: -5, scale: 1.05 }}
+                  className="snap-start shrink-0 flex flex-col items-center gap-3 cursor-pointer group w-32"
+                >
+                  <div className={`w-20 h-20 rounded-2xl ${colorClass} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
+                    <span className="text-3xl">{getIndustryEmoji(industry)}</span>
+                  </div>
+                  <span className="text-sm font-semibold text-slate-700 text-center leading-tight line-clamp-2">{industry}</span>
+                </motion.div>
+              </Link>
+            );
+          })}
+          
           
         </div>
         
