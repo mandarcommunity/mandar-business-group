@@ -31,7 +31,7 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
       const hasMatchingProduct = biz.products && biz.products.some(p => (p.name || '').toLowerCase().includes(searchLower));
 
       const matchesSearch = matchesText || hasMatchingProduct;
-      const matchesIndustry = selectedIndustry === 'All' || (biz.industries ? biz.industries[0] : "General") === selectedIndustry;
+      const matchesIndustry = selectedIndustry === 'All' || (biz.industries && biz.industries.includes(selectedIndustry)) || (!biz.industries && selectedIndustry === "General");
       return matchesSearch && matchesIndustry;
     })
     .sort((a, b) => {
