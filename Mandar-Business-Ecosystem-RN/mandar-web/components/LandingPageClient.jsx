@@ -1,4 +1,7 @@
 "use client";
+import { INDUSTRIES } from "../constants/industries";
+import { slugify } from "../lib/utils";
+
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Search, ShieldCheck, TrendingUp, Building2, Smartphone, ArrowRight, Package, MapPin, CheckCircle2, Factory, Briefcase, Zap } from 'lucide-react';
 import Link from 'next/link';
@@ -9,14 +12,7 @@ export default function LandingPageClient({ businesses }) {
   const y2 = useTransform(scrollY, [0, 1000], [0, -100]);
 
   // Categories for a JustDial-like feel
-  const categories = [
-    { name: "Manufacturing", icon: Factory, color: "bg-blue-100 text-blue-600" },
-    { name: "Retail", icon: Building2, color: "bg-purple-100 text-purple-600" },
-    { name: "Wholesale", icon: Package, color: "bg-orange-100 text-orange-600" },
-    { name: "Services", icon: Briefcase, color: "bg-green-100 text-green-600" },
-    { name: "Electronics", icon: Zap, color: "bg-yellow-100 text-yellow-600" },
-    { name: "Textiles", icon: Search, color: "bg-pink-100 text-pink-600" },
-  ];
+  
 
   return (
     <div className="bg-[#f8fafc] text-slate-900 min-h-screen font-sans selection:bg-blue-200 overflow-hidden">
@@ -134,24 +130,63 @@ export default function LandingPageClient({ businesses }) {
         </div>
       </section>
 
-      {/* 2. CATEGORIES (JustDial style but modern) */}
-      <section className="py-16 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-10">Explore by Industry</p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-            {categories.map((cat, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -5, scale: 1.05 }}
-                className="flex flex-col items-center gap-3 cursor-pointer group"
-              >
-                <div className={`w-16 h-16 rounded-2xl ${cat.color} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
-                  <cat.icon className="w-7 h-7" />
-                </div>
-                <span className="text-sm font-semibold text-slate-700">{cat.name}</span>
-              </motion.div>
-            ))}
+            {/* 2. DYNAMIC INDUSTRIES CAROUSEL */}
+      <section className="py-20 bg-white border-b border-slate-200 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-8 flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Explore by Industry</h2>
+            <p className="text-slate-500">Discover verified businesses across {INDUSTRIES.length}+ sectors.</p>
           </div>
+          <Link href="/industries" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 bg-blue-50 px-5 py-2.5 rounded-full transition-colors">
+            See All <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* Horizontal Scroll Container */}
+        <div className="flex overflow-x-auto pb-8 pt-4 px-6 gap-6 snap-x snap-mandatory hide-scrollbar max-w-7xl mx-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {INDUSTRIES.slice(0, 15).map((industry, i) => {
+            const colors = [
+              "bg-blue-50 text-blue-600 border-blue-100",
+              "bg-purple-50 text-purple-600 border-purple-100",
+              "bg-emerald-50 text-emerald-600 border-emerald-100",
+              "bg-orange-50 text-orange-600 border-orange-100",
+              "bg-pink-50 text-pink-600 border-pink-100",
+            ];
+            const colorClass = colors[i % colors.length];
+            
+            return (
+              <Link href={`/industry/${slugify(industry)}`} key={i}>
+                <motion.div 
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className={`snap-start shrink-0 w-64 h-32 rounded-3xl ${colorClass} border flex flex-col justify-between p-5 cursor-pointer shadow-sm hover:shadow-md transition-all`}
+                >
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm font-black text-lg">
+                    {industry.charAt(0)}
+                  </div>
+                  <span className="text-lg font-bold truncate">{industry}</span>
+                </motion.div>
+              </Link>
+            );
+          })}
+          
+          <Link href="/industries">
+            <motion.div 
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="snap-start shrink-0 w-64 h-32 rounded-3xl bg-slate-900 text-white flex flex-col items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-all gap-3"
+            >
+              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                <ArrowRight className="w-6 h-6 text-white" />
+              </div>
+              <span className="font-bold">Explore All {INDUSTRIES.length}</span>
+            </motion.div>
+          </Link>
+        </div>
+        
+        {/* Mobile See All */}
+        <div className="px-6 mt-4 flex justify-center md:hidden">
+          <Link href="/industries" className="flex w-full justify-center items-center gap-2 text-blue-600 font-bold bg-blue-50 px-6 py-3 rounded-xl transition-colors">
+            See All Industries <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
