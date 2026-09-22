@@ -443,9 +443,9 @@ export default function LandingPageClient({ businesses, industries }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
             {/* Big Feature */}
             <motion.div whileHover={{ scale: 0.98 }} className="md:col-span-2 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-10 border border-blue-100 flex flex-col justify-center relative overflow-hidden group">
-              <div className="absolute right-0 bottom-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-colors duration-500"></div>
+              <div className="absolute right-0 bottom-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-colors duration-500 pointer-events-none"></div>
               <ShieldCheck className="w-12 h-12 text-blue-600 mb-6" />
-              <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight flex items-center gap-3">Verified Trust Network <Link href="/directory" className="text-sm font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">View All</Link></h3>
+              <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight flex flex-wrap items-center gap-3 relative z-10">Verified Trust Network <Link href="/directory" className="text-sm font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors whitespace-nowrap shrink-0 relative z-10">View All</Link></h3>
               <p className="text-slate-600 text-lg max-w-md leading-relaxed">
                 Every business undergoes strict verification. Deal with legitimate, high-quality manufacturers and buyers.
               </p>
@@ -454,7 +454,7 @@ export default function LandingPageClient({ businesses, industries }) {
             {/* Small Feature 1 */}
             <motion.div whileHover={{ scale: 0.98 }} className="bg-orange-50 rounded-3xl p-8 border border-orange-100 flex flex-col justify-center">
               <TrendingUp className="w-10 h-10 text-orange-600 mb-5" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight flex items-center gap-2">Live Leads <Link href="/leads" className="text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full hover:bg-orange-200 transition-colors">View All</Link></h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight flex flex-wrap items-center gap-2 relative z-10">Live Leads <Link href="/leads" className="text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full hover:bg-orange-200 transition-colors whitespace-nowrap shrink-0 relative z-10">View All</Link></h3>
               <p className="text-slate-600">Instant notifications for new tenders and requirements.</p>
             </motion.div>
 
