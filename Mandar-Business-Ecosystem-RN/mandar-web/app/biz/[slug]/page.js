@@ -50,7 +50,7 @@ export default async function BusinessProfilePage({ params }) {
     .select('*')
     .eq('business_id', business.id)
     .order('created_at', { ascending: false })
-    .limit(12);
+    .limit(50);
 
   const phone = business.mobile || business.user?.mobile;
   const whatsapp = phone; 
