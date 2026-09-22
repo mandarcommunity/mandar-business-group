@@ -17,7 +17,7 @@ export default function LandingPageClient({ businesses, industries }) {
   
 
   return (
-    <div className="bg-[#f8fafc] text-slate-900 min-h-screen font-sans selection:bg-blue-200 overflow-hidden">
+    <div className="bg-[#f8fafc] text-slate-900 min-h-screen font-sans selection:bg-blue-200">
       
       {/* 1. PREMIUM LIGHT HERO (Stripe/Vercel inspired, but B2B focused) */}
       <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4 sm:px-6 pt-28 pb-20 bg-white overflow-hidden border-b border-slate-200">
