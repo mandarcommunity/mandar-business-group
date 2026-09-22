@@ -11,7 +11,7 @@ content = re.sub(
     }
     
     if (user.is_blocked) {
-      throw new Error("Your account has been blocked. If you think this is a mistake, please contact us at support@mandarcommunity.in");
+      throw new Error("Your account has been blocked. If you think this is a mistake, please contact us at support@paxzillionsolutions.com");
     }''',
     content
 )
