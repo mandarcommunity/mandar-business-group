@@ -235,7 +235,7 @@ export default function LandingPageClient({ businesses }) {
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Khakhra (Roasted)</h4>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Khakhra</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Snacks & Namkeen</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
                         ₹120 <span className="text-[9px] font-normal text-slate-500">/pkt</span>
@@ -253,7 +253,7 @@ export default function LandingPageClient({ businesses }) {
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Pure Cow Ghee</h4>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Cow Ghee</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Dairy & Oils</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
                         ₹750 <span className="text-[9px] font-normal text-slate-500">/ltr</span>
@@ -271,7 +271,7 @@ export default function LandingPageClient({ businesses }) {
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
                       </div>
-                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Premium Coffee</h4>
+                      <h4 className="text-[11px] font-extrabold text-slate-900 mt-3 truncate">Coffee</h4>
                       <div className="text-[8px] text-slate-500 mb-1">Beverages</div>
                       <div className="text-[13px] font-bold text-slate-900 mb-2">
                         ₹450 <span className="text-[9px] font-normal text-slate-500">/kg</span>
