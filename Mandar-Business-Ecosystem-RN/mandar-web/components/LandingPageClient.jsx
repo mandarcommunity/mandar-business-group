@@ -11,6 +11,14 @@ import { Search, ShieldCheck, TrendingUp, Building2, Smartphone, ArrowRight, Pac
 import Link from 'next/link';
 
 export default function LandingPageClient({ businesses, industries }) {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/directory?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -100]);
