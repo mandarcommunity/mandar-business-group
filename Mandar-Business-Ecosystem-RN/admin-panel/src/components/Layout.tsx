@@ -9,7 +9,8 @@ import {
   MessageSquare,
   LogOut,
   Image,
-  Briefcase
+  Briefcase,
+  Factory
 } from 'lucide-react';
 
 const MENU_ITEMS = [
@@ -20,6 +21,7 @@ const MENU_ITEMS = [
   { path: '/ads', label: 'Sponsored Ads', icon: Image },
   { path: '/enquiries', label: 'Ad Enquiries', icon: Briefcase },
   { path: '/feedbacks', label: 'Feedback', icon: MessageSquare, hasBadge: true },
+  { path: '/industries', label: 'Industries Master', icon: Factory },
 ];
 
 export default function Layout() {
