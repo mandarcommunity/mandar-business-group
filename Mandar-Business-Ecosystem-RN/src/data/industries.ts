@@ -1,4 +1,4 @@
-import { INDUSTRIES } from "../constants/industries";
+import { useIndustries } from "../hooks/useIndustries";
 
 const INDUSTRY_ICONS: Record<string, string> = {
   "Agriculture": "🌾",

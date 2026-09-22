@@ -28,9 +28,10 @@ import EmptyState from "../components/states/EmptyState";
 import LoadingState from "../components/states/LoadingState";
 import ErrorState from "../components/states/ErrorState";
 import { COLORS, SPACING, TYPOGRAPHY } from "../theme";
-import { INDUSTRIES } from "../constants/industries";
+import { useIndustries } from "../hooks/useIndustries";
 
 export default function EditProductScreen() {
+  const { industries: INDUSTRIES } = useIndustries();
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const product = route.params?.product;

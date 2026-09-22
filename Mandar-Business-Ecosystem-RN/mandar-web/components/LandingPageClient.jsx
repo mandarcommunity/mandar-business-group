@@ -1,14 +1,14 @@
 "use client";
 
 
-import { INDUSTRIES } from "../constants/industries";
-import { slugify, getIndustryEmoji } from "../lib/utils";
+
+import { slugify } from "../lib/utils";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Search, ShieldCheck, TrendingUp, Building2, Smartphone, ArrowRight, Package, MapPin, CheckCircle2, Factory, Briefcase, Zap, Sprout } from 'lucide-react';
 import Link from 'next/link';
 
-export default function LandingPageClient({ businesses }) {
+export default function LandingPageClient({ businesses, industries }) {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -315,7 +315,7 @@ export default function LandingPageClient({ businesses }) {
         <div className="max-w-7xl mx-auto px-6 mb-8 flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Explore by Industry</h2>
-            <p className="text-slate-500">Discover verified businesses across {INDUSTRIES.length}+ sectors.</p>
+            <p className="text-slate-500">Discover verified businesses across {industries.length}+ sectors.</p>
           </div>
           <Link href="/industries" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 bg-blue-50 px-5 py-2.5 rounded-full transition-colors">
             See All <ArrowRight className="w-4 h-4" />
@@ -324,7 +324,7 @@ export default function LandingPageClient({ businesses }) {
 
         {/* Horizontal Scroll Container */}
         <div className="flex overflow-x-auto pb-8 pt-4 px-6 gap-6 snap-x snap-mandatory hide-scrollbar max-w-7xl mx-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {INDUSTRIES.map((industry, i) => {
+          {industries.map((industry, i) => {
             const colors = [
               "bg-blue-100 text-blue-600",
               "bg-purple-100 text-purple-600",
@@ -343,7 +343,7 @@ export default function LandingPageClient({ businesses }) {
                   className="snap-start shrink-0 flex flex-col items-center gap-3 cursor-pointer group w-32"
                 >
                   <div className={`w-20 h-20 rounded-2xl ${colorClass} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
-                    <span className="text-3xl">{getIndustryEmoji(industry)}</span>
+                    <span className="text-3xl">{industry.emoji}</span>
                   </div>
                   <span className="text-sm font-semibold text-slate-700 text-center leading-tight line-clamp-2">{industry}</span>
                 </motion.div>

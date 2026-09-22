@@ -7,6 +7,7 @@ import ModerationScreen from './screens/ModerationScreen';
 import SponsoredAdsScreen from './screens/SponsoredAdsScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
 import EnquiriesScreen from './screens/EnquiriesScreen';
+import IndustriesScreen from './screens/IndustriesScreen';
 import Layout from './components/Layout';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/ads" element={token ? <SponsoredAdsScreen /> : <Navigate to="/login" />} />
           <Route path="/enquiries" element={token ? <EnquiriesScreen /> : <Navigate to="/login" />} />
           <Route path="/feedbacks" element={token ? <FeedbackScreen /> : <Navigate to="/login" />} />
+          <Route path="/industries" element={token ? <IndustriesScreen /> : <Navigate to="/login" />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -3,15 +3,16 @@ import { supabase } from '../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Building2, MapPin, BadgeCheck, Phone, Mail, Globe, Search } from 'lucide-react';
-import { INDUSTRIES } from '../../../constants/industries';
-import { slugify, getIndustryEmoji } from '../../../lib/utils';
+
+
 
 export default async function IndustryPage({ params }) {
   // Await params in Next.js 15+
   const { slug } = await params;
   
   // Find the exact industry name based on slug
-  const industryName = INDUSTRIES.find(ind => slugify(ind) === slug);
+  const { data: industryData } = await supabase.from('industries').select('*').eq('slug', slug).single();
+  const industryName = industryData?.name;
   if (!industryName) return notFound();
 
   // Query Supabase for businesses that contain this industry in their industries array
@@ -24,7 +25,7 @@ export default async function IndustryPage({ params }) {
   
   // Manual filter to bypass potential Supabase JSONB contains operator issues on free tier / anon keys
   const filteredBusinesses = businesses ? businesses.filter(b => b.industries && b.industries.includes(industryName)) : [];
-  const emoji = getIndustryEmoji(industryName);
+  const emoji = industryData?.emoji || '??';
   
 
   return (

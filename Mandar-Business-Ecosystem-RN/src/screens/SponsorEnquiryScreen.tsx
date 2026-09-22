@@ -37,9 +37,10 @@ import { getAccessToken } from "../utils/storage";
 import { getMyBusiness } from "../services/business.service";
 import { API } from "../services/api";
 import MultiSelectSearchDropdown from "../components/shared/MultiSelectSearchDropdown";
-import { INDUSTRIES } from "../constants/industries";
+import { useIndustries } from "../hooks/useIndustries";
 
 export default function SponsorEnquiryScreen() {
+  const { industries: INDUSTRIES } = useIndustries();
 
   const navigation =
     useNavigation<any>();
