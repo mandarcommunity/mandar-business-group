@@ -1,6 +1,6 @@
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 import { supabase } from '../../../lib/supabase';
-import { MapPin, Phone, Briefcase, Factory, Mail, Globe, CheckCircle2, Package, ArrowRight, Zap, Calendar, TrendingUp } from 'lucide-react';
+import { ArrowLeft, MapPin, Phone, Briefcase, Factory, Mail, Globe, CheckCircle2, Package, ArrowRight, Zap, Calendar, TrendingUp } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ShareButton from '../../../components/ShareButton';
@@ -72,6 +72,9 @@ export default async function BusinessProfilePage({ params }) {
       {/* MINI WEBSITE NAVBAR */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-3">
+          <Link href="/directory" className="mr-2 p-2 bg-slate-50 hover:bg-slate-100 rounded-full transition-colors text-slate-600 hover:text-slate-900 border border-slate-200">
+             <ArrowLeft className="w-5 h-5" />
+          </Link>
           {validImage ? (
             <img src={business.profile_image} className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-sm" alt="logo" />
           ) : (

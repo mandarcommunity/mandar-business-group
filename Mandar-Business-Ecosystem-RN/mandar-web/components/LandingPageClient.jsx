@@ -375,10 +375,11 @@ export default function LandingPageClient({ businesses, industries }) {
               </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex overflow-x-auto pb-8 pt-4 gap-6 snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
             {businesses?.map((biz, idx) => (
               <motion.div 
-                key={biz.id}
+                  key={biz.id}
+                  className="w-[280px] sm:w-[320px] shrink-0 snap-start"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
