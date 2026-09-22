@@ -44,6 +44,7 @@ import {
 } from "../theme";
 
 export default function AllIndustriesScreen() {
+  const { industryObjects: industries } = useIndustries();
 
   const navigation =
     useNavigation<any>();

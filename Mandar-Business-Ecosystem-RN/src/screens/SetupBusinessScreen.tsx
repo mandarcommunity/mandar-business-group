@@ -47,9 +47,7 @@ import {
   TYPOGRAPHY,
 } from "../theme";
 
-import {
-  INDUSTRIES,
-} from "../constants/industries";
+import { useIndustries } from "../hooks/useIndustries";
 
 import {
 
@@ -96,6 +94,7 @@ const BUSINESS_TYPES = [
 ];
 
 export default function SetupBusinessScreen() {
+  const { industries: INDUSTRIES } = useIndustries();
 
   const navigation =
     useNavigation<any>();

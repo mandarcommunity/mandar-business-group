@@ -50,6 +50,7 @@ import { getAllBusinesses } from "../services/business.service";
 import { getAccessToken } from "../utils/storage";
 
 export default function ExploreScreen() {
+  const { industryObjects: industries } = useIndustries();
   const navigation = useNavigation<any>();
 
   const [isLoading, setIsLoading] = useState(true);

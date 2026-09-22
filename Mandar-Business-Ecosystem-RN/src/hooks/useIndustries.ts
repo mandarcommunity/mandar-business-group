@@ -1,24 +1,141 @@
 import { useState, useEffect } from "react";
 import { API } from "../services/api";
 
+const INDUSTRY_ICONS: Record<string, string> = {
+  "Agriculture": "??",
+  "Animal Feed": "??",
+  "Automobile": "??",
+  "Automobile Parts": "??",
+  "Automation": "??",
+  "Aviation": "??",
+  "Bakery": "??",
+  "Beauty & Cosmetics": "??",
+  "Building Materials": "??",
+  "Catering": "???",
+  "Chemicals": "??",
+  "Cold Storage": "??",
+  "Computer Hardware": "??",
+  "Construction": "???",
+  "Consulting": "??",
+  "Courier Services": "??",
+  "Dairy": "??",
+  "Defense": "???",
+  "Digital Marketing": "??",
+  "Distribution": "??",
+  "E-commerce": "??",
+  "Education": "??",
+  "Electrical": "?",
+  "Electronics": "??",
+  "Energy": "??",
+  "Engineering": "??",
+  "Event Management": "??",
+  "Export": "??",
+  "Fabrication": "??",
+  "Fashion": "??",
+  "FMCG": "???",
+  "Food Processing": "??",
+  "Food & Beverages": "??",
+  "Furniture": "??",
+  "Garments": "??",
+  "Gas": "??",
+  "Gems & Jewellery": "??",
+  "Government Supplier": "???",
+  "Graphic Design": "??",
+  "Handicrafts": "??",
+  "Handloom": "??",
+  "Healthcare": "??",
+  "Home Decor": "???",
+  "Hospitality": "???",
+  "Hotel": "??",
+  "HR Services": "??",
+  "Import": "??",
+  "Industrial Machinery": "??",
+  "Interior Design": "???",
+  "IT Services": "??",
+  "Jewellery": "??",
+  "Kitchen Equipment": "??",
+  "Leather": "??",
+  "Legal Services": "??",
+  "Logistics": "??",
+  "Machine Tools": "??",
+  "Manufacturing": "??",
+  "Marine": "??",
+  "Marketing": "??",
+  "Media": "??",
+  "Medical Equipment": "??",
+  "Mining": "??",
+  "Mobile Accessories": "??",
+  "NGO": "??",
+  "Packaging": "??",
+  "Paper": "??",
+  "Petroleum": "???",
+  "Pharmaceutical": "??",
+  "Photography": "??",
+  "Plastic": "???",
+  "Printing": "???",
+  "Real Estate": "??",
+  "Recruitment": "??",
+  "Recycling": "??",
+  "Renewable Energy": "??",
+  "Research": "??",
+  "Retail": "??",
+  "Safety Equipment": "??",
+  "Salon": "??",
+  "Security Services": "??",
+  "Service Provider": "???",
+  "Software": "??",
+  "Sports": "?",
+  "Stationery": "??",
+  "Steel": "???",
+  "Storage": "???",
+  "Supplier": "??",
+  "Telecommunications": "??",
+  "Textile": "??",
+  "Tourism": "???",
+  "Trading": "??",
+  "Transportation": "??",
+  "Travel": "??",
+  "Warehouse": "??",
+  "Waste Management": "???",
+  "Water Solutions": "??",
+  "Web Development": "??",
+  "Wholesale": "??",
+  "Wood": "??",
+  "Other": "?",
+  "Food": "??",
+  "Industrial": "??",
+};
+
 // Global cache
 let cachedIndustries: string[] = [];
+let cachedIndustryObjects: any[] = [];
 
 export function useIndustries() {
   const [industries, setIndustries] = useState<string[]>(cachedIndustries);
+  const [industryObjects, setIndustryObjects] = useState<any[]>(cachedIndustryObjects);
 
   useEffect(() => {
     if (cachedIndustries.length === 0) {
       API.get("/system/industries")
         .then((res) => {
           if (res.data && res.data.success) {
-            cachedIndustries = res.data.data;
-            setIndustries(cachedIndustries);
+            const names = res.data.data;
+            cachedIndustries = names;
+            
+            const objs = names.map((industryName: string) => ({
+              id: industryName.toLowerCase().replace(/\s+/g, '-'),
+              name: industryName,
+              icon: INDUSTRY_ICONS[industryName] || "??",
+            }));
+            cachedIndustryObjects = objs;
+            
+            setIndustries(names);
+            setIndustryObjects(objs);
           }
         })
         .catch(console.error);
     }
   }, []);
 
-  return { industries };
+  return { industries, industryObjects };
 }
