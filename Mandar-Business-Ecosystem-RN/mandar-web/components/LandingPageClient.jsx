@@ -138,7 +138,7 @@ export default function LandingPageClient({ businesses }) {
               <div className="bg-gradient-to-br from-blue-600 to-indigo-700 px-4 pt-3 pb-6 text-white rounded-b-3xl shadow-md z-40 relative">
                 <div className="flex justify-between items-center mb-1">
                   <div>
-                    <div className="text-xl font-extrabold tracking-tight flex items-center gap-1">
+                    <div className="text-[15px] font-extrabold tracking-tight flex items-center gap-1 whitespace-nowrap">
                       Mandar <span className="text-yellow-400">Business Group</span>
                     </div>
                     <div className="text-[8px] text-blue-100 opacity-90 font-medium tracking-wide">
