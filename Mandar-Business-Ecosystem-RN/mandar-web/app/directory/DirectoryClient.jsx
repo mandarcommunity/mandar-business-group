@@ -97,14 +97,17 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
                               <Building2 className="w-8 h-8" />
                             </div>
                           )}
-                          {biz.verified && (
-                            <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
-                              <BadgeCheck className="w-5 h-5 text-blue-600" />
-                            </div>
-                          )}
+                          
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-slate-900 truncate group-hover:text-blue-600 transition-colors" title={biz.business_name}>{biz.business_name}</h3>
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                            <h3 className="font-bold text-slate-900 truncate group-hover:text-blue-600 transition-colors" title={biz.business_name}>{biz.business_name}</h3>
+                            {biz.verified ? (
+                              <span className="shrink-0 bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5 w-max"><BadgeCheck className="w-3 h-3"/> Verified Seller</span>
+                            ) : (
+                              <span className="shrink-0 bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[10px] font-bold w-max border border-slate-200">Unverified Seller</span>
+                            )}
+                          </div>
                           <p className="text-xs text-slate-500 flex items-center gap-1 mt-1 truncate">
                             {indObj?.emoji || '??'} {(biz.industries ? biz.industries[0] : "General") || "General"}
                           </p>

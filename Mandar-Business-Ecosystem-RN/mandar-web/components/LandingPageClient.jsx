@@ -397,11 +397,15 @@ export default function LandingPageClient({ businesses, industries }) {
                         </div>
                       )}
                     </div>
-                    {biz.verified && (
-                      <div className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Verified
-                      </div>
-                    )}
+                    {biz.verified ? (
+                        <div className="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Verified Seller
+                        </div>
+                      ) : (
+                        <div className="bg-slate-100 text-slate-500 px-2.5 py-1 rounded-full flex items-center gap-1 text-xs font-bold border border-slate-200">
+                           Unverified Seller
+                        </div>
+                      )}
                   </div>
 
                   <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">{biz.business_name}</h3>

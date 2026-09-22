@@ -83,7 +83,11 @@ export default async function BusinessProfilePage({ params }) {
           )}
           <div>
             <h2 className="font-bold text-slate-900 text-lg leading-tight line-clamp-1 max-w-[200px] sm:max-w-xs">{business.business_name}</h2>
-            {business.verified && <span className="text-xs text-blue-600 font-semibold flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Verified Partner</span>}
+            {business.verified ? (
+              <span className="text-xs text-blue-600 font-bold flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Verified Seller</span>
+            ) : (
+              <span className="text-xs text-slate-500 font-bold border border-slate-200 bg-slate-50 px-1.5 py-0.5 rounded inline-block mt-1">Unverified Seller</span>
+            )}
           </div>
         </div>
         <div className="flex gap-2">
