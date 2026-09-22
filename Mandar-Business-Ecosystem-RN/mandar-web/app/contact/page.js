@@ -16,8 +16,8 @@ export default function Contact() {
           </div>
           <h3 className="text-xl font-bold text-slate-900 mb-2">Email Support</h3>
           <p className="text-slate-600 mb-4">For privacy, policy, or general inquiries, reach out to us via email.</p>
-          <a href="mailto:support@paxzillionsolutions.com" className="text-blue-600 font-semibold hover:underline">
-            support@paxzillionsolutions.com
+          <a href="mailto:support@mandarcommunity.in" className="text-blue-600 font-semibold hover:underline">
+            support@mandarcommunity.in
           </a>
         </div>
 
