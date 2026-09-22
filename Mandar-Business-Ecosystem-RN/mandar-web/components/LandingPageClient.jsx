@@ -337,7 +337,7 @@ export default function LandingPageClient({ businesses, industries }) {
             const colorClass = colors[i % colors.length];
             
             return (
-              <Link href={`/industry/${slugify(industry)}`} key={i}>
+              <Link href={`/industry/${industry.slug}`} key={i}>
                 <motion.div 
                   whileHover={{ y: -5, scale: 1.05 }}
                   className="snap-start shrink-0 flex flex-col items-center gap-3 cursor-pointer group w-32"
@@ -345,7 +345,7 @@ export default function LandingPageClient({ businesses, industries }) {
                   <div className={`w-20 h-20 rounded-2xl ${colorClass} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
                     <span className="text-3xl">{industry.emoji}</span>
                   </div>
-                  <span className="text-sm font-semibold text-slate-700 text-center leading-tight line-clamp-2">{industry}</span>
+                  <span className="text-sm font-semibold text-slate-700 text-center leading-tight line-clamp-2">{industry.name}</span>
                 </motion.div>
               </Link>
             );
