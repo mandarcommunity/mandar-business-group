@@ -19,13 +19,26 @@ export default function DirectoryClient({ initialBusinesses, industries }) {
   }, [q]);
   const [selectedIndustry, setSelectedIndustry] = useState('All');
 
-  const filteredBusinesses = initialBusinesses.filter(biz => {
-    const matchesSearch = (biz.business_name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          (biz.description || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          (biz.city || '').toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesIndustry = selectedIndustry === 'All' || (biz.industries ? biz.industries[0] : "General") === selectedIndustry;
-    return matchesSearch && matchesIndustry;
-  });
+    const filteredBusinesses = initialBusinesses
+    .filter(biz => {
+      const searchLower = searchQuery.toLowerCase();
+      // Check business fields
+      const matchesText = (biz.business_name || '').toLowerCase().includes(searchLower) || 
+                          (biz.description || '').toLowerCase().includes(searchLower) ||
+                          (biz.city || '').toLowerCase().includes(searchLower);
+      
+      // Check products
+      const hasMatchingProduct = biz.products && biz.products.some(p => (p.name || '').toLowerCase().includes(searchLower));
+
+      const matchesSearch = matchesText || hasMatchingProduct;
+      const matchesIndustry = selectedIndustry === 'All' || (biz.industries ? biz.industries[0] : "General") === selectedIndustry;
+      return matchesSearch && matchesIndustry;
+    })
+    .sort((a, b) => {
+      // verified true comes first
+      if (a.verified === b.verified) return 0;
+      return a.verified ? -1 : 1;
+    });
 
   return (
     <div className="bg-[#f8fafc] min-h-screen pb-24">

@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 export default async function DirectoryPage() {
   const { data: businesses, error: bizError } = await supabase
     .from('businesses')
-    .select('id, business_name, slug, profile_image, city, state, verified, industries, description, contact_person')
+    .select('id, business_name, slug, profile_image, city, state, verified, industries, description, contact_person, products(name)')
     .order('business_name');
     
   const { data: industries, error: indError } = await supabase
