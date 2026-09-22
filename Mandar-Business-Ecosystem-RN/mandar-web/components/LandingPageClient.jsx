@@ -447,7 +447,7 @@ export default function LandingPageClient({ businesses, industries }) {
             {/* Small Feature 1 */}
             <motion.div whileHover={{ scale: 0.98 }} className="bg-orange-50 rounded-3xl p-8 border border-orange-100 flex flex-col justify-center">
               <TrendingUp className="w-10 h-10 text-orange-600 mb-5" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Live Leads</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight flex items-center gap-2">Live Leads <Link href="/leads" className="text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full hover:bg-orange-200 transition-colors">View All</Link></h3>
               <p className="text-slate-600">Instant notifications for new tenders and requirements.</p>
             </motion.div>
 
