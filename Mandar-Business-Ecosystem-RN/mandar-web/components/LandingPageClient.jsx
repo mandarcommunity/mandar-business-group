@@ -5,6 +5,8 @@
 import { slugify } from "../lib/utils";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Search, ShieldCheck, TrendingUp, Building2, Smartphone, ArrowRight, Package, MapPin, CheckCircle2, Factory, Briefcase, Zap, Sprout } from 'lucide-react';
 import Link from 'next/link';
 
