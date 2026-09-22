@@ -8,7 +8,7 @@ export default async function ProductsPage() {
     .from('products')
     .select(`
       id, name, description, price, image_url, slug, business_id,
-      business:businesses!inner(business_name, city, state, verified, slug, profile_image, industries, contact_person, mobile_number)
+      business:businesses(business_name, city, state, verified, slug, profile_image, industries, contact_person, mobile_number)
     `)
     .order('created_at', { ascending: false });
     
