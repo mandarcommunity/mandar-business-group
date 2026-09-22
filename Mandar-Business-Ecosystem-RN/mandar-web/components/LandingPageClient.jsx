@@ -230,7 +230,7 @@ export default function LandingPageClient({ businesses }) {
                     {/* Product Card 1 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
                       <div className="h-20 bg-slate-100 rounded-xl overflow-hidden mb-2">
-                          <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=200&q=80" alt="Khakhra" className="w-full h-full object-cover" />
+                          <img src="https://i.ibb.co/MkMgsYtq/khakhra.webp" alt="Khakhra" className="w-full h-full object-cover" />
                         </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
@@ -248,7 +248,7 @@ export default function LandingPageClient({ businesses }) {
                     {/* Product Card 2 */}
                     <div className="w-[130px] bg-white rounded-[1rem] p-2 shadow-sm border border-slate-100 relative shrink-0 inline-block">
                       <div className="h-20 bg-slate-100 rounded-xl overflow-hidden mb-2">
-                          <img src="https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&w=200&q=80" alt="Pure Cow Ghee" className="w-full h-full object-cover" />
+                          <img src="https://i.ibb.co/7tr5QC2Q/Pure-cow-ghee.webp" alt="Pure Cow Ghee" className="w-full h-full object-cover" />
                         </div>
                       <div className="absolute top-20 left-3 bg-white text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded shadow-sm flex items-center gap-0.5">
                         <CheckCircle2 className="w-2 h-2" /> Verified
