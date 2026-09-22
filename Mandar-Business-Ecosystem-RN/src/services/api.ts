@@ -4,6 +4,7 @@ import { DeviceEventEmitter, Alert } from "react-native";
 
 export const API = axios.create({
   baseURL: "http://172.27.175.85:5000/api",
+  timeout: 15000,
 });
 
 let isRefreshing = false;
@@ -24,6 +25,12 @@ API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    // Handle timeout specifically
+    if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+      console.log('Request timed out:', originalRequest.url);
+      return Promise.reject(new Error('Connection timed out. Please check your internet or server connection.'));
+    }
 
     if (error.response && error.response.status === 403 && error.response.data?.message?.includes('blocked')) {
       await clearStorage();

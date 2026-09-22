@@ -1,3 +1,4 @@
+import { supabase } from "../utils/supabase";
 import {
   KeyboardAvoidingView,
   Platform,

@@ -124,7 +124,7 @@ const sections = [
 
       "For support, policy or legal related queries contact:",
 
-      "support@paxzillionsolutions.com",
+      "support@mandarcommunity.in",
 
       "Last Updated: June 2026",
     ],
