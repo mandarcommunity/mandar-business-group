@@ -112,17 +112,19 @@ export default function SearchBar() {
                   <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginBottom: 2 }}><Text style={[styles.resultName, { marginBottom: 0 }]} numberOfLines={1}>{item.businessName}</Text>{item.verified && <BadgeCheck size={14} color="#3b82f6" />}</View>
                   
                   <View style={styles.resultMeta}>
-                    {item.industry ? (
-                      <Text style={styles.resultMetaText} numberOfLines={1}>{item.industry}</Text>
-                    ) : null}
-                    {item.location ? (
-                      <>
-                        <Text style={styles.metaDot}>�</Text>
-                        <MapPin size={10} color={COLORS.textMuted} />
-                        <Text style={styles.resultMetaText} numberOfLines={1}>{item.location}</Text>
-                      </>
-                    ) : null}
-                  </View>
+                      {item.industry ? (
+                        <Text style={[styles.resultMetaText, { flexShrink: 1 }]} numberOfLines={1}>{item.industry}</Text>
+                      ) : null}
+                      {item.industry && item.location ? (
+                        <Text style={styles.metaDot}>-</Text>
+                      ) : null}
+                      {item.location ? (
+                        <View style={{ flexDirection: "row", alignItems: "center", flexShrink: 1, gap: 2 }}>
+                          <MapPin size={10} color="#71717a" />
+                          <Text style={[styles.resultMetaText, { flexShrink: 1 }]} numberOfLines={1}>{item.location}</Text>
+                        </View>
+                      ) : null}
+                    </View>
                 </View>
               </TouchableOpacity>
             ))
