@@ -423,9 +423,9 @@ export default function ConversationScreen({ route }: any) {
 
         {/* INPUT */}
         <View style={styles.inputSection}>
-          <TouchableOpacity style={styles.attachButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Attachment feature coming soon", ToastAndroid.SHORT); }}>
-            <Plus size={20} color={COLORS.textPrimary} />
-          </TouchableOpacity>
+          <TouchableOpacity style={styles.attachButton} onPress={pickAttachment} disabled={uploadingAttachment}>
+              <Plus size={20} color={uploadingAttachment ? COLORS.textMuted : COLORS.textPrimary} />
+            </TouchableOpacity>
 
           <View style={styles.inputWrapper}>
             <TextInput
@@ -476,12 +476,32 @@ export default function ConversationScreen({ route }: any) {
       <Modal visible={menuVisible} transparent animationType="fade" onRequestClose={() => setMenuVisible(false)}>
         <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-start', alignItems: 'flex-end', paddingTop: 60, paddingRight: 20 }} activeOpacity={1} onPress={() => setMenuVisible(false)}>
           <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: 200, overflow: 'hidden', elevation: 5 }}>
-            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={() => { setMenuVisible(false); navigation.navigate("BusinessProfile", { businessId: businessId || otherUserId }); }}>
+            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={async () => { 
+              setMenuVisible(false); 
+              let targetId = businessId;
+              if (!targetId && otherUserId) {
+                const { supabase } = require("../utils/supabase");
+                const { data } = await supabase.from('businesses').select('id').eq('user_id', otherUserId).single();
+                if (data?.id) targetId = data.id;
+              }
+              if (targetId) { navigation.navigate("BusinessProfile", { businessId: targetId }); } else { const { ToastAndroid } = require("react-native"); ToastAndroid.show("No business profile found for this user", ToastAndroid.SHORT); } 
+            }}>
               <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>View Profile</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={() => { setMenuVisible(false); navigation.navigate("BusinessCatalog", { businessId: businessId || otherUserId }); }}>
+            
+            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={async () => { 
+              setMenuVisible(false); 
+              let targetId = businessId;
+              if (!targetId && otherUserId) {
+                const { supabase } = require("../utils/supabase");
+                const { data } = await supabase.from('businesses').select('id').eq('user_id', otherUserId).single();
+                if (data?.id) targetId = data.id;
+              }
+              if (targetId) { navigation.navigate("BusinessCatalog", { businessId: targetId }); } else { const { ToastAndroid } = require("react-native"); ToastAndroid.show("No catalog found for this user", ToastAndroid.SHORT); } 
+            }}>
               <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>View Products</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity style={{ padding: 16 }} onPress={() => setMenuVisible(false)}>
               <Text style={{ fontSize: 15, color: COLORS.error }}>Report / Block</Text>
             </TouchableOpacity>
