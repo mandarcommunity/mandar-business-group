@@ -133,6 +133,7 @@ export default function LeadsScreen() {
       const formatted = res.data.data.map((req: any) => ({
         id: req.id,
         user_id: req.user_id,
+        business_id: req.businesses?.id,
         personName: req.users?.full_name || "Unknown User",
         businessName: req.businesses?.business_name || "Unknown Business",
         title: req.title,

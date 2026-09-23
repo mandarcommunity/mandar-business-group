@@ -1,4 +1,5 @@
-import {
+import * as ImagePicker from "expo-image-picker";
+import { Modal,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -219,12 +220,61 @@ const messagesData = [
 ];
 
 export default function ConversationScreen({ route }: any) {
-  const { chatId, otherUserId, name, otherUserName, businessName } = route?.params || {};
+  const { chatId, otherUserId, name, otherUserName, businessName, businessId } = route?.params || {};
   
   const displayTitle = businessName || name || otherUserName || "User";
   const displaySubtitle = businessName ? (name || "Contact Person") : "Active now";
   const navigation = useNavigation<any>();
 
+  const pickAttachment = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 0.2,
+      });
+      if (result.canceled || !result.assets[0].uri) return;
+      
+      if (!currentChatId) {
+        const { ToastAndroid } = require("react-native");
+        ToastAndroid.show("Please send a text message first to initialize chat", ToastAndroid.SHORT);
+        return;
+      }
+      
+      setUploadingAttachment(true);
+      const { supabase } = require("../utils/supabase");
+      const { sendMessage } = require("../services/chat.service");
+      const { getAccessToken } = require("../utils/storage");
+      
+      const response = await fetch(result.assets[0].uri);
+      const blob = await response.blob();
+      const ext = result.assets[0].uri.split('.').pop() || 'jpg';
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+      
+      const { data, error } = await supabase.storage.from('chat_attachments').upload(fileName, blob);
+      if (error) throw error;
+      
+      const { data: publicUrlData } = supabase.storage.from('chat_attachments').getPublicUrl(fileName);
+      
+      const token = await getAccessToken();
+      const finalMsg = "[IMAGE]" + publicUrlData.publicUrl;
+      await sendMessage(token, currentChatId, finalMsg);
+      
+      setMessages((prev: any) => [{
+        id: Math.random().toString(),
+        message: finalMsg,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isSender: true
+      }, ...prev]);
+      
+    } catch(err) {
+      console.error(err);
+      const { ToastAndroid } = require("react-native");
+      ToastAndroid.show("Failed to upload image", ToastAndroid.SHORT);
+    } finally {
+      setUploadingAttachment(false);
+    }
+  };
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -232,6 +282,8 @@ export default function ConversationScreen({ route }: any) {
   const [sending, setSending] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<string | null>(chatId || null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [uploadingAttachment, setUploadingAttachment] = useState(false);
 
   useEffect(() => {
     const setupChat = async () => {
@@ -344,7 +396,7 @@ export default function ConversationScreen({ route }: any) {
             <TouchableOpacity style={styles.iconButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Calling feature coming soon", ToastAndroid.SHORT); }}>
               <Phone size={18} color={COLORS.textPrimary} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Options coming soon", ToastAndroid.SHORT); }}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => setMenuVisible(true)}>
               <EllipsisVertical size={18} color={COLORS.textPrimary} />
             </TouchableOpacity>
           </View>
@@ -419,7 +471,24 @@ export default function ConversationScreen({ route }: any) {
             <SendHorizontal size={18} color={COLORS.white} />
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+
+      <Modal visible={menuVisible} transparent animationType="fade" onRequestClose={() => setMenuVisible(false)}>
+        <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-start', alignItems: 'flex-end', paddingTop: 60, paddingRight: 20 }} activeOpacity={1} onPress={() => setMenuVisible(false)}>
+          <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: 200, overflow: 'hidden', elevation: 5 }}>
+            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={() => { setMenuVisible(false); navigation.navigate("BusinessProfile", { businessId: businessId || otherUserId }); }}>
+              <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>View Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={() => { setMenuVisible(false); navigation.navigate("BusinessCatalog", { businessId: businessId || otherUserId }); }}>
+              <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>View Products</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ padding: 16 }} onPress={() => setMenuVisible(false)}>
+              <Text style={{ fontSize: 15, color: COLORS.error }}>Report / Block</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
     </SafeAreaView>
   );
 }

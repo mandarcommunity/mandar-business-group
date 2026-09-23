@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 
 import {
@@ -46,16 +47,22 @@ export default function MessageBubble({
       >
 
         {/* MESSAGE */}
-        <Text
-          style={[
-            styles.message,
-
-            isSender &&
-              styles.senderMessage,
-          ]}
-        >
-          {message}
-        </Text>
+                {message.startsWith("[IMAGE]") ? (
+          <Image 
+            source={{ uri: message.substring(7) }} 
+            style={{ width: 220, height: 220, borderRadius: 12, marginBottom: 8, backgroundColor: "#f0f0f0" }} 
+            resizeMode="cover"
+          />
+        ) : (
+          <Text
+            style={[
+              styles.message,
+              isSender && styles.senderMessage,
+            ]}
+          >
+            {message}
+          </Text>
+        )}
 
         {/* TIME */}
         <Text
