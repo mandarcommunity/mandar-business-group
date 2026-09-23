@@ -391,15 +391,25 @@ export default function ConversationScreen({ route }: any) {
               try {
                 const { getAccessToken } = require("../utils/storage");
                 const { getBusinessById } = require("../services/business.service");
+                const { API } = require("../services/api");
                 const { Linking, ToastAndroid } = require("react-native");
                 
                 let phoneToCall = null;
+                const token = await getAccessToken();
                 
                 if (businessId) {
-                  const token = await getAccessToken();
                   const res = await getBusinessById(businessId, token);
                   if (res.data?.phone) phoneToCall = res.data.phone;
                   else if (res.data?.user?.mobile) phoneToCall = res.data.user.mobile;
+                } else if (otherUserId) {
+                  // Fallback: get business by user ID from API
+                  const res = await API.get(`/businesses/user/${otherUserId}`, { headers: { Authorization: `Bearer ${token}` } });
+                  if (res.data?.data?.phone) phoneToCall = res.data.data.phone;
+                  else {
+                    // Get user mobile
+                    const userRes = await API.get('/auth/me', { headers: { Authorization: `Bearer ${token}` } }); // Not exactly, other user
+                    // We can't fetch other user's mobile easily without an API. Let's rely on business.
+                  }
                 }
                 
                 if (!phoneToCall) {
@@ -409,6 +419,7 @@ export default function ConversationScreen({ route }: any) {
                 
                 Linking.openURL(`tel:${phoneToCall}`);
               } catch (e) {
+                console.error(e);
                 const { ToastAndroid } = require("react-native");
                 ToastAndroid.show("Failed to fetch phone number", ToastAndroid.SHORT);
               }
@@ -499,8 +510,11 @@ export default function ConversationScreen({ route }: any) {
               setMenuVisible(false); 
               let targetId = businessId;
               if (!targetId && otherUserId) {
-                const { supabase } = require("../utils/supabase");
-                const { data } = await supabase.from('businesses').select('id').eq('user_id', otherUserId).single();
+                const { API } = require("../services/api");
+                const { getAccessToken } = require("../utils/storage");
+                const t = await getAccessToken();
+                const res = await API.get(`/businesses/user/${otherUserId}`, { headers: { Authorization: `Bearer ${t}` } });
+                const data = res.data?.data;
                 if (data?.id) targetId = data.id;
               }
               if (targetId) { navigation.navigate("BusinessProfile", { businessId: targetId }); } else { const { ToastAndroid } = require("react-native"); ToastAndroid.show("No business profile found for this user", ToastAndroid.SHORT); } 
@@ -512,8 +526,11 @@ export default function ConversationScreen({ route }: any) {
               setMenuVisible(false); 
               let targetId = businessId;
               if (!targetId && otherUserId) {
-                const { supabase } = require("../utils/supabase");
-                const { data } = await supabase.from('businesses').select('id').eq('user_id', otherUserId).single();
+                const { API } = require("../services/api");
+                const { getAccessToken } = require("../utils/storage");
+                const t = await getAccessToken();
+                const res = await API.get(`/businesses/user/${otherUserId}`, { headers: { Authorization: `Bearer ${t}` } });
+                const data = res.data?.data;
                 if (data?.id) targetId = data.id;
               }
               if (targetId) { navigation.navigate("BusinessCatalog", { businessId: targetId }); } else { const { ToastAndroid } = require("react-native"); ToastAndroid.show("No catalog found for this user", ToastAndroid.SHORT); } 
