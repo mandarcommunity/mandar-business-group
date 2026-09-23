@@ -78,11 +78,14 @@ export default function ChatsScreen() {
       
       // Transform data for UI
       const chatsList = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+        console.log("CHATS API RESPONSE:", JSON.stringify(res.data));
+        console.log("PARSED CHATS LIST:", JSON.stringify(chatsList));
       const formattedChats = chatsList.map((chat: any) => ({
         id: chat.id,
         personName: chat.personName || "User",
         businessName: chat.businessName || "Business",
-        lastMessage: "Tap to view messages",
+        lastMessage: chat.lastMessage || "Tap to view messages",
+          profileImage: chat.profileImage || null,
         time: new Date(chat.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         unreadCount: 0,
         archived: false,
@@ -99,9 +102,11 @@ export default function ChatsScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchChats();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchChats();
+    }, [])
+  );
 
   /* FILTERED CHATS */
   const filteredChats =
@@ -523,9 +528,8 @@ export default function ChatsScreen() {
                       chat.personName
                     }
 
-                    businessName={
-                      chat.businessName
-                    }
+                    businessName={chat.businessName}
+                      profileImage={chat.profileImage}
 
                     lastMessage={
                       chat.lastMessage

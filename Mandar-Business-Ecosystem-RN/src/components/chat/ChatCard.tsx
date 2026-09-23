@@ -19,6 +19,7 @@ import {
 interface ChatCardProps {
 
   personName: string;
+  profileImage?: string | null;
 
   businessName: string;
 
@@ -38,6 +39,7 @@ interface ChatCardProps {
 export default function ChatCard({
 
   personName,
+  profileImage,
 
   businessName,
 
@@ -71,15 +73,13 @@ export default function ChatCard({
     >
 
       {/* AVATAR */}
-      <View style={styles.avatar}>
-
-        <Text style={styles.avatarText}>
-
-          {personName.charAt(0)}
-
-        </Text>
-
-      </View>
+      {profileImage ? (
+        <Image source={{ uri: profileImage }} style={styles.avatar} />
+      ) : (
+        <View style={styles.avatar}>
+          <Text style={styles.avatarText}>{personName.charAt(0)}</Text>
+        </View>
+      )}
 
       {/* CONTENT */}
       <View style={styles.content}>
@@ -173,7 +173,7 @@ export default function ChatCard({
           style={styles.lastMessage}
         >
 
-          {lastMessage}
+          {lastMessage?.startsWith('[IMAGE]') ? '?? Photo' : lastMessage}
 
         </Text>
 
