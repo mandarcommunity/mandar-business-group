@@ -296,10 +296,9 @@ const styles = StyleSheet.create({
 
   industry: {
     fontSize: 11,
-
     fontWeight: "700",
-
     color: COLORS.accent,
+    flexShrink: 1,
   },
 
   dot: {
