@@ -26,6 +26,7 @@ import {
 
 import {
   useNavigation,
+  useFocusEffect,
 } from "@react-navigation/native";
 
 import {

@@ -230,7 +230,7 @@ export default function ConversationScreen({ route }: any) {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: 'images' as any,
-          allowsEditing: true,
+          
           quality: 0.2,
           base64: true,
         });
