@@ -539,19 +539,14 @@ export default function LeadsScreen() {
                         null
                       );
 
-                      navigation.navigate(
-                        "Conversation",
-
-                        {
+                      navigation.navigate("Chats", {
+                        screen: "Conversation",
+                        params: {
                           chatId: lead.id,
-
-                          name:
-                            lead.personName,
-
-                          businessName:
-                            lead.businessName,
+                          name: lead.personName,
+                          businessName: lead.businessName,
                         }
-                      );
+                      });
 
                     }, 250);
 
