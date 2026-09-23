@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { useState, useEffect, useMemo } from "react";
-import { Search, MapPin, BriefcaseBusiness } from "lucide-react-native";
+import { Search, MapPin, BriefcaseBusiness, BadgeCheck } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { COLORS, SPACING, TYPOGRAPHY } from "../../theme";
 import { getAllBusinesses } from "../../services/business.service";
@@ -109,9 +109,7 @@ export default function SearchBar() {
                 </View>
                 
                 <View style={styles.resultInfo}>
-                  <Text style={styles.resultName} numberOfLines={1}>
-                    {item.businessName} {item.verified ? "?" : ""}
-                  </Text>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginBottom: 2 }}><Text style={[styles.resultName, { marginBottom: 0 }]} numberOfLines={1}>{item.businessName}</Text>{item.verified && <BadgeCheck size={14} color="#3b82f6" />}</View>
                   
                   <View style={styles.resultMeta}>
                     {item.industry ? (
