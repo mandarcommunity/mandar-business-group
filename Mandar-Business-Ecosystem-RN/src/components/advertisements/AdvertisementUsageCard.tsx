@@ -19,6 +19,14 @@ interface AdvertisementUsageCardProps {
   limit: number;
 }
 
+
+  const getNextMonthDate = () => {
+    const nextMonth = new Date();
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    nextMonth.setDate(1);
+    return nextMonth.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
 export default function AdvertisementUsageCard({
   used,
   limit,
@@ -64,7 +72,7 @@ export default function AdvertisementUsageCard({
         </Text>
 
         <Text style={styles.subtitle}>
-          Advertisements reset automatically every month.
+          Your advertisement limit resets on {getNextMonthDate()}.
         </Text>
 
         <Text style={styles.remainingText}>

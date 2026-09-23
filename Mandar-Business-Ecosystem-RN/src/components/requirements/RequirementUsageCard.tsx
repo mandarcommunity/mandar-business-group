@@ -19,6 +19,14 @@ interface RequirementUsageCardProps {
   limit: number;
 }
 
+
+  const getNextMonthDate = () => {
+    const nextMonth = new Date();
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    nextMonth.setDate(1);
+    return nextMonth.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
 export default function RequirementUsageCard({
   used,
   limit,
@@ -64,7 +72,7 @@ export default function RequirementUsageCard({
         </Text>
 
         <Text style={styles.subtitle}>
-          Requirements reset automatically every month.
+          Your requirement limit resets on {getNextMonthDate()}.
         </Text>
 
         <Text style={styles.remainingText}>

@@ -226,6 +226,14 @@ return (
 
 }
 
+
+  const getUsedThisMonth = () => {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+    return requirements.filter((item: any) => new Date(item.created_at || item.postedTime) >= startOfMonth).length;
+  };
+  
 return (
 <SafeAreaView
 edges={["top"]}
@@ -316,9 +324,7 @@ style={styles.container}
 
       {/* USAGE CARD */}
       <RequirementUsageCard
-        used={
-          requirements.length
-        }
+        used={getUsedThisMonth()}
 
         limit={5}
       />
