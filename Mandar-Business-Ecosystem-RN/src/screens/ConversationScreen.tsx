@@ -280,7 +280,9 @@ export default function ConversationScreen({ route }: any) {
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
 
   useEffect(() => {
-    const setupChat = async () => {
+      let myChannel: any = null;
+      const { supabase } = require("../utils/supabase");
+      const setupChat = async () => {
       try {
         setIsLoading(true);
         const { getAccessToken, getUser } = require("../utils/storage");
@@ -310,7 +312,8 @@ export default function ConversationScreen({ route }: any) {
             isSender: m.sender_id === user.id
           })));
 
-          const channel = supabase
+          supabase.removeAllChannels(); // Safe clear
+          myChannel = supabase
             .channel(`chat_${activeChatId}`)
             .on('postgres_changes', { 
               event: 'INSERT', 
@@ -330,11 +333,8 @@ export default function ConversationScreen({ route }: any) {
             })
             .subscribe();
 
-          return () => {
-            supabase.removeChannel(channel);
-          };
-        }
-      } catch (err) {
+            }
+        } catch (err) {
         console.error("Setup chat error", err);
         setHasError(true);
       } finally {
@@ -343,6 +343,12 @@ export default function ConversationScreen({ route }: any) {
     };
     
     setupChat();
+    
+    return () => {
+      if (myChannel) {
+        supabase.removeChannel(myChannel);
+      }
+    };
   }, [currentChatId, otherUserId]);
 
   /* LOADING */
