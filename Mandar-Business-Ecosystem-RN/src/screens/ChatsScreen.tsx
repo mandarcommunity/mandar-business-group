@@ -167,10 +167,7 @@ export default function ChatsScreen() {
 
       return filtered;
 
-    }, [
-      search,
-      selectedFilter,
-    ]);
+    }, [chats, search, selectedFilter]);
 
   /* LOADING */
   if (loading) {
