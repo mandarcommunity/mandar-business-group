@@ -134,6 +134,7 @@ export default function LeadsScreen() {
         id: req.id,
         user_id: req.user_id,
         business_id: req.businesses?.id,
+        business_id: req.businesses?.id,
         personName: req.users?.full_name || "Unknown User",
         businessName: req.businesses?.business_name || "Unknown Business",
         title: req.title,
@@ -543,7 +544,8 @@ export default function LeadsScreen() {
                       navigation.navigate("Chats", {
                         screen: "Conversation",
                         params: {
-                          chatId: lead.id,
+                          otherUserId: lead.user_id,
+                          businessId: lead.business_id,
                           name: lead.personName,
                           businessName: lead.businessName,
                         }

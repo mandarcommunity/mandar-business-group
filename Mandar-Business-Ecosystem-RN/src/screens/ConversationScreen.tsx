@@ -404,7 +404,8 @@ export default function ConversationScreen({ route }: any) {
                 } else if (otherUserId) {
                   // Fallback: get business by user ID from API
                   const res = await API.get(`/businesses/user/${otherUserId}`, { headers: { Authorization: `Bearer ${token}` } });
-                  if (res.data?.data?.phone) phoneToCall = res.data.data.phone;
+                  if (res.data?.data?.mobile) phoneToCall = res.data.data.mobile;
+                    else if (res.data?.data?.phone) phoneToCall = res.data.data.phone;
                   else {
                     // Get user mobile
                     const userRes = await API.get('/auth/me', { headers: { Authorization: `Bearer ${token}` } }); // Not exactly, other user
