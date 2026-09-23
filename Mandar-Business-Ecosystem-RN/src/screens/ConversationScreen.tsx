@@ -219,7 +219,10 @@ const messagesData = [
 ];
 
 export default function ConversationScreen({ route }: any) {
-  const { chatId, otherUserId, otherUserName = "User" } = route?.params || {};
+  const { chatId, otherUserId, name, otherUserName, businessName } = route?.params || {};
+  
+  const displayTitle = businessName || name || otherUserName || "User";
+  const displaySubtitle = businessName ? (name || "Contact Person") : "Active now";
   const navigation = useNavigation<any>();
 
   const [message, setMessage] = useState("");
@@ -332,16 +335,16 @@ export default function ConversationScreen({ route }: any) {
             </TouchableOpacity>
 
             <View style={styles.headerInfo}>
-              <Text style={styles.personName}>{otherUserName}</Text>
-              <Text style={styles.businessName}>Active now</Text>
+              <Text style={styles.personName}>{displayTitle}</Text>
+              <Text style={styles.businessName}>{displaySubtitle}</Text>
             </View>
           </View>
 
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Calling feature coming soon", ToastAndroid.SHORT); }}>
               <Phone size={18} color={COLORS.textPrimary} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Options coming soon", ToastAndroid.SHORT); }}>
               <EllipsisVertical size={18} color={COLORS.textPrimary} />
             </TouchableOpacity>
           </View>
@@ -368,7 +371,7 @@ export default function ConversationScreen({ route }: any) {
 
         {/* INPUT */}
         <View style={styles.inputSection}>
-          <TouchableOpacity style={styles.attachButton}>
+          <TouchableOpacity style={styles.attachButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Attachment feature coming soon", ToastAndroid.SHORT); }}>
             <Plus size={20} color={COLORS.textPrimary} />
           </TouchableOpacity>
 
