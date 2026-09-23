@@ -207,8 +207,8 @@ export default function MainTabsNavigator() {
             "Conversation";
 
           return {
-
-            tabBarStyle:
+          unmountOnBlur: true,
+          tabBarStyle:
   hideTabBar
 
     ? {
