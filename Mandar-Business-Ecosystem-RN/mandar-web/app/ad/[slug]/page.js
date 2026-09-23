@@ -125,12 +125,23 @@ export default async function AdPage({ params }) {
               </div>
             )}
             
-            <a 
-              href="https://play.google.com/store/apps/details?id=com.mandarcommunity" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95 w-full"
-            >
-              {formatCTA(ad.cta_type)} <ExternalLink className="w-5 h-5" />
-            </a>
+            {ad.cta_type === 'visit_catalog' && business ? (
+              <Link 
+                href={`/biz/${business.slug}`}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95 w-full"
+              >
+                {formatCTA(ad.cta_type)} <ArrowRight className="w-5 h-5" />
+              </Link>
+            ) : (
+              <a 
+                href="https://play.google.com/store/apps/details?id=com.mandarcommunity" 
+                target="_blank"
+                rel="noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95 w-full"
+              >
+                {formatCTA(ad.cta_type)} <ExternalLink className="w-5 h-5" />
+              </a>
+            )}
           </div>
         </div>
       </div>
