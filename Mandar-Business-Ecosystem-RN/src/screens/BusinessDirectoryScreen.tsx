@@ -79,6 +79,7 @@ export default function BusinessDirectoryScreen() {
         phone: b.mobile || b.user?.mobile,
         whatsapp: b.mobile || b.user?.mobile,
         slug: b.slug,
+          products: b.products?.map((p: any) => p.name).join(", ") || "",
       }));
       setBusinesses(mappedBusinesses);
       
@@ -207,9 +208,7 @@ export default function BusinessDirectoryScreen() {
 
             ||
 
-            business.location
-              .toLowerCase()
-              .includes(query);
+            business.location.toLowerCase().includes(query) || (business.products && business.products.toLowerCase().includes(query));
 
           const matchesIndustry =
 
@@ -254,9 +253,8 @@ export default function BusinessDirectoryScreen() {
             matchesVerified
 
           );
-
-        }
-      );
+          }
+        ).sort((a, b) => { if (a.verified === b.verified) return 0; return a.verified ? -1 : 1; });
 
     }, [
 

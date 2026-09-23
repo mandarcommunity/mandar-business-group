@@ -1,8 +1,5 @@
-import {
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, Text, Pressable, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   Search,
@@ -15,26 +12,20 @@ import {
 } from "../../theme";
 
 export default function SearchBar() {
+  const navigation = useNavigation<any>();
 
   return (
 
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => navigation.navigate("BusinessDirectory")}>
 
       <Search
         size={18}
         color={COLORS.textMuted}
       />
 
-      <TextInput
-        placeholder="Search businesses or products..."
-        placeholderTextColor={
-          COLORS.textMuted
-        }
+      <Text style={styles.input}>Search businesses or products...</Text>
 
-        style={styles.input}
-      />
-
-    </View>
+    </Pressable>
   );
 }
 
@@ -79,8 +70,7 @@ const styles = StyleSheet.create({
     fontSize:
       TYPOGRAPHY.body,
 
-    color:
-      COLORS.textPrimary,
+    color: COLORS.textMuted,
 
     paddingVertical: 0,
 
