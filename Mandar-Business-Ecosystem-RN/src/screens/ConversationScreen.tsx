@@ -242,13 +242,24 @@ export default function ConversationScreen({ route }: any) {
         return;
       }
       
-      setUploadingAttachment(true);
-      const { sendMessage } = require("../services/chat.service");
-      const { getAccessToken } = require("../utils/storage");
-      
-      const token = await getAccessToken();
-        const base64Str = result.assets[0].base64;
+      setSelectedAttachment(result.assets[0]);
+      } catch (err) {
+        console.error("Pick attachment error", err);
+      }
+    };
+
+    const confirmSendAttachment = async () => {
+      if (!selectedAttachment) return;
+      try {
+        setUploadingAttachment(true);
+        const { sendMessage } = require("../services/chat.service");
+        const { getAccessToken } = require("../utils/storage");
+        const token = await getAccessToken();
+        
+        const base64Str = selectedAttachment.base64;
         if (!base64Str) throw new Error("No base64 data");
+        
+        setSelectedAttachment(null); // Hide modal immediately
         
         const resMsg = await sendMessage(token, currentChatId, "[IMAGE_BASE64]" + base64Str);
         const finalMsg = resMsg.data?.data?.content || "[IMAGE_SENT]";
@@ -277,6 +288,8 @@ export default function ConversationScreen({ route }: any) {
   const [currentChatId, setCurrentChatId] = useState<string | null>(chatId || null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [menuVisible, setMenuVisible] = useState(false);
+    const [selectedAttachment, setSelectedAttachment] = useState<any>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
 
   useEffect(() => {
@@ -458,7 +471,37 @@ export default function ConversationScreen({ route }: any) {
           />
         )}
 
-        {/* INPUT */}
+        
+        {/* Attachment Confirmation Modal */}
+        <Modal visible={!!selectedAttachment} transparent animationType="slide" onRequestClose={() => setSelectedAttachment(null)}>
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center' }}>
+            <View style={{ position: 'absolute', top: 40, left: 20, right: 20, flexDirection: 'row', justifyContent: 'space-between', zIndex: 10 }}>
+              <TouchableOpacity onPress={() => setSelectedAttachment(null)} style={{ padding: 10 }}>
+                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmSendAttachment} style={{ padding: 10, backgroundColor: COLORS.primary, borderRadius: 8 }}>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Send Image</Text>
+              </TouchableOpacity>
+            </View>
+            {selectedAttachment?.uri && (
+              <Image source={{ uri: selectedAttachment.uri }} style={{ width: '100%', height: '80%', resizeMode: 'contain' }} />
+            )}
+          </View>
+        </Modal>
+
+        {/* Fullscreen Image Preview Modal */}
+        <Modal visible={!!previewImage} transparent animationType="fade" onRequestClose={() => setPreviewImage(null)}>
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.95)', justifyContent: 'center' }}>
+            <TouchableOpacity onPress={() => setPreviewImage(null)} style={{ position: 'absolute', top: 40, right: 20, padding: 10, zIndex: 10 }}>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Close</Text>
+            </TouchableOpacity>
+            {previewImage && (
+              <Image source={{ uri: previewImage }} style={{ width: '100%', height: '80%', resizeMode: 'contain' }} />
+            )}
+          </View>
+        </Modal>
+
+          {/* INPUT */}
         <View style={styles.inputSection}>
           <TouchableOpacity style={styles.attachButton} onPress={pickAttachment} disabled={uploadingAttachment}>
               <Plus size={20} color={uploadingAttachment ? COLORS.textMuted : COLORS.textPrimary} />

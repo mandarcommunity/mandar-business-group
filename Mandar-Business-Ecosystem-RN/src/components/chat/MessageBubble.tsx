@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
   Image,
 } from "react-native";
 
@@ -17,6 +18,7 @@ interface MessageBubbleProps {
   time: string;
 
   isSender?: boolean;
+  onImagePress?: (uri: string) => void;
 }
 
 export default function MessageBubble({
@@ -48,11 +50,13 @@ export default function MessageBubble({
 
         {/* MESSAGE */}
                 {message.startsWith("[IMAGE]") ? (
-          <Image 
-            source={{ uri: message.substring(7) }} 
-            style={{ width: 220, height: 220, borderRadius: 12, marginBottom: 8, backgroundColor: "#f0f0f0" }} 
-            resizeMode="cover"
-          />
+          <TouchableOpacity activeOpacity={0.8} onPress={() => onImagePress && onImagePress(message.substring(7))}>
+              <Image 
+                source={{ uri: message.substring(7) }} 
+                style={{ width: 220, height: 220, borderRadius: 12, marginBottom: 8, backgroundColor: "#f0f0f0" }} 
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
         ) : (
           <Text
             style={[
