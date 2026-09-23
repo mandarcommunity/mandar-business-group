@@ -331,7 +331,7 @@ export default function AdvertisementFeedScreen() {
                     });
                     return;
                   }
-                  navigation.navigate("Chats");
+                  navigation.navigate("Chats", { screen: "Conversation", params: { otherUserId: item.businesses?.user_id, name: item.users?.full_name || "User", businessName: item.businesses?.business_name } });
                 }}
                 onSeeMorePress={() =>
                   navigation.navigate("AdvertisementDetails", {

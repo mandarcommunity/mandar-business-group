@@ -347,7 +347,7 @@ export default function BusinessCatalogScreen() {
                     return;
                   }
                   setChatting(true);
-                  navigation.navigate("Chats");
+                  navigation.navigate("Chats", { screen: "Conversation", params: { otherUserId: business.user_id, name: business.contact_person || "User", businessName: business.business_name } });
                 }}
                 style={[
                   styles.primaryAction,
@@ -439,7 +439,7 @@ export default function BusinessCatalogScreen() {
                           Alert.alert("Notice", "You cannot chat with yourself.");
                           return;
                         }
-                        navigation.navigate("Chats");
+                        navigation.navigate("Chats", { screen: "Conversation", params: { otherUserId: business.user_id, name: business.contact_person || "User", businessName: business.business_name } });
                       }}
                       onSharePress={async () => {
                         try {
