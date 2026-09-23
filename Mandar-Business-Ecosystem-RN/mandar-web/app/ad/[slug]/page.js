@@ -20,6 +20,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
+
+const formatCTA = (type) => {
+  if (!type) return "Learn More";
+  return type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
 export default async function AdPage({ params }) {
   const { slug } = await params;
   const isId = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-/.test(slug);
@@ -120,10 +126,10 @@ export default async function AdPage({ params }) {
             )}
             
             <a 
-              href="https://play.google.com/store/apps/details?id=com.mandar.community" 
+              href="https://play.google.com/store/apps/details?id=com.mandarcommunity" 
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95 w-full"
             >
-              {ad.cta_type || "Learn More"} <ExternalLink className="w-5 h-5" />
+              {formatCTA(ad.cta_type)} <ExternalLink className="w-5 h-5" />
             </a>
           </div>
         </div>
