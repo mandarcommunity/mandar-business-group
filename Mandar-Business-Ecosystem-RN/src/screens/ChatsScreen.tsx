@@ -79,14 +79,14 @@ export default function ChatsScreen() {
       const chatsList = Array.isArray(res.data) ? res.data : (res.data?.data || []);
       const formattedChats = chatsList.map((chat: any) => ({
         id: chat.id,
-        personName: "User", // Wait for profile fetch
-        businessName: "Business",
+        personName: chat.personName || "User",
+        businessName: chat.businessName || "Business",
         lastMessage: "Tap to view messages",
         time: new Date(chat.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         unreadCount: 0,
         archived: false,
         pinned: false,
-        otherUserId: chat.user2_id
+        otherUserId: chat.otherUserId || chat.user2_id
       }));
       setChats(formattedChats);
     } catch (err: any) {
