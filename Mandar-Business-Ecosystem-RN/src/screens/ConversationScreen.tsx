@@ -247,13 +247,14 @@ export default function ConversationScreen({ route }: any) {
         let activeChatId = currentChatId;
         if (!activeChatId && otherUserId) {
           const chatRes = await getOrCreateChat(token, otherUserId);
-          activeChatId = chatRes.data.id;
+          activeChatId = chatRes.data?.data?.id || chatRes.data?.id;
           setCurrentChatId(activeChatId);
         }
 
         if (activeChatId) {
           const msgsRes = await getChatMessages(token, activeChatId);
-          setMessages(msgsRes.data.map((m: any) => ({
+          const rawMessages = Array.isArray(msgsRes.data) ? msgsRes.data : (msgsRes.data?.data || []);
+          setMessages(rawMessages.map((m: any) => ({
             id: m.id,
             message: m.content,
             time: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
