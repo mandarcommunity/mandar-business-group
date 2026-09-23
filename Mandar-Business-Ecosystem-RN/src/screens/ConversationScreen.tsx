@@ -263,7 +263,6 @@ export default function ConversationScreen({ route }: any) {
         
         const resMsg = await sendMessage(token, currentChatId, "[IMAGE_BASE64]" + base64Str);
         const finalMsg = resMsg.data?.data?.content || "[IMAGE_SENT]";
-      await sendMessage(token, currentChatId, finalMsg);
       
       setMessages((prev: any) => [{
         id: Math.random().toString(),
@@ -390,7 +389,8 @@ export default function ConversationScreen({ route }: any) {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 25}
       >
         {/* HEADER */}
         <View style={styles.header}>
@@ -531,7 +531,7 @@ export default function ConversationScreen({ route }: any) {
                 const token = await getAccessToken();
                 
                 const sentRes = await sendMessage(token, currentChatId, textToSend);
-                const newMsg = sentRes.data;
+                  const newMsg = sentRes.data?.data || sentRes.data;
                 
                 setMessages(prev => [{
                   id: newMsg.id,

@@ -25,6 +25,7 @@ export default function MessageBubble({
   message,
   time,
   isSender,
+  onImagePress,
 }: MessageBubbleProps) {
 
   return (
@@ -49,7 +50,7 @@ export default function MessageBubble({
       >
 
         {/* MESSAGE */}
-                {message.startsWith("[IMAGE]") ? (
+                {message?.startsWith("[IMAGE]") ? (
           <TouchableOpacity activeOpacity={0.8} onPress={() => onImagePress && onImagePress(message.substring(7))}>
               <Image 
                 source={{ uri: message.substring(7) }} 
