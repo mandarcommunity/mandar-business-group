@@ -387,7 +387,32 @@ export default function ConversationScreen({ route }: any) {
           </View>
 
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => { const { ToastAndroid } = require("react-native"); ToastAndroid.show("Calling feature coming soon", ToastAndroid.SHORT); }}>
+            <TouchableOpacity style={styles.iconButton} onPress={async () => { 
+              try {
+                const { getAccessToken } = require("../utils/storage");
+                const { getBusinessById } = require("../services/business.service");
+                const { Linking, ToastAndroid } = require("react-native");
+                
+                let phoneToCall = null;
+                
+                if (businessId) {
+                  const token = await getAccessToken();
+                  const res = await getBusinessById(businessId, token);
+                  if (res.data?.phone) phoneToCall = res.data.phone;
+                  else if (res.data?.user?.mobile) phoneToCall = res.data.user.mobile;
+                }
+                
+                if (!phoneToCall) {
+                  ToastAndroid.show("No phone number found", ToastAndroid.SHORT);
+                  return;
+                }
+                
+                Linking.openURL(`tel:${phoneToCall}`);
+              } catch (e) {
+                const { ToastAndroid } = require("react-native");
+                ToastAndroid.show("Failed to fetch phone number", ToastAndroid.SHORT);
+              }
+            }}>
               <Phone size={18} color={COLORS.textPrimary} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton} onPress={() => setMenuVisible(true)}>
