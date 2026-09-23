@@ -229,10 +229,11 @@ export default function ConversationScreen({ route }: any) {
   const pickAttachment = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        quality: 0.2,
-      });
+          mediaTypes: 'images' as any,
+          allowsEditing: true,
+          quality: 0.2,
+          base64: true,
+        });
       if (result.canceled || !result.assets[0].uri) return;
       
       if (!currentChatId) {
@@ -242,22 +243,15 @@ export default function ConversationScreen({ route }: any) {
       }
       
       setUploadingAttachment(true);
-      const { supabase } = require("../utils/supabase");
       const { sendMessage } = require("../services/chat.service");
       const { getAccessToken } = require("../utils/storage");
       
-      const response = await fetch(result.assets[0].uri);
-      const blob = await response.blob();
-      const ext = result.assets[0].uri.split('.').pop() || 'jpg';
-      const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
-      
-      const { data, error } = await supabase.storage.from('chat_attachments').upload(fileName, blob);
-      if (error) throw error;
-      
-      const { data: publicUrlData } = supabase.storage.from('chat_attachments').getPublicUrl(fileName);
-      
       const token = await getAccessToken();
-      const finalMsg = "[IMAGE]" + publicUrlData.publicUrl;
+        const base64Str = result.assets[0].base64;
+        if (!base64Str) throw new Error("No base64 data");
+        
+        const resMsg = await sendMessage(token, currentChatId, "[IMAGE_BASE64]" + base64Str);
+        const finalMsg = resMsg.data?.data?.content || "[IMAGE_SENT]";
       await sendMessage(token, currentChatId, finalMsg);
       
       setMessages((prev: any) => [{
