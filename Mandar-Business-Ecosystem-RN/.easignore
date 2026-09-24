@@ -1,0 +1,10 @@
+backend/
+admin-panel/
+mandar-web/
+*.js
+*.ts
+!metro.config.js
+!babel.config.js
+!app.config.js
+!index.js
+!index.ts
