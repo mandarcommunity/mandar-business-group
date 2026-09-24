@@ -28,21 +28,61 @@ export default function CitySelector({ city, setCity, state, setState }: CitySel
     return allStates.filter(s => s.toLowerCase().includes(state.toLowerCase()));
   }, [state]);
 
-  // Get list of cities for the selected state
+  // Get list of cities globally across all states, or filter if they type
   const filteredCities = useMemo(() => {
-    if (!city.trim() || !state.trim()) return [];
-    
-    // Exact state match
-    const stateObj = INDIA_LOCATIONS.find(item => item.state.toLowerCase() === state.toLowerCase());
-    if (!stateObj) return [];
+    if (!city.trim()) {
+      return [];
+    }
 
-    return stateObj.cities
-      .filter(c => c.toLowerCase().includes(city.toLowerCase()))
+    return INDIA_LOCATIONS.flatMap(
+      (item) => item.cities.map(cityName => ({ city: cityName, state: item.state }))
+    )
+      .filter((item) => item.city.toLowerCase().includes(city.toLowerCase()))
       .slice(0, 5); // show top 5 matches
-  }, [city, state]);
+  }, [city]);
 
   return (
     <View style={styles.container}>
+      {/* CITY / VILLAGE INPUT */}
+      <PrimaryInput
+        value={city}
+        onChangeText={(text) => {
+          setCity(text);
+          setShowCityDropdown(true);
+          setShowStateDropdown(false);
+        }}
+        onFocus={() => {
+          setShowCityDropdown(true);
+          setShowStateDropdown(false);
+        }}
+        placeholder="City or Village"
+        autoCapitalize="words"
+      />
+
+      {/* CITY DROPDOWN */}
+      {showCityDropdown && filteredCities.length > 0 && (
+        <View style={styles.dropdown}>
+          <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+            {filteredCities.map((item, index) => (
+              <Pressable
+                key={`${item.city}-${index}`}
+                android_disableSound
+                onPress={() => {
+                  setCity(item.city);
+                  setState(item.state); // Auto-fill state!
+                  setShowCityDropdown(false);
+                }}
+                style={styles.dropdownItem}
+              >
+                <Text style={styles.dropdownText}>{item.city} - {item.state}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+
+      <View style={{ height: SPACING.md }} />
+
       {/* STATE INPUT */}
       <PrimaryInput
         value={state}
@@ -74,45 +114,6 @@ export default function CitySelector({ city, setCity, state, setState }: CitySel
                 style={styles.dropdownItem}
               >
                 <Text style={styles.dropdownText}>{s}</Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-      )}
-
-      <View style={{ height: SPACING.md }} />
-
-      {/* CITY / VILLAGE INPUT */}
-      <PrimaryInput
-        value={city}
-        onChangeText={(text) => {
-          setCity(text);
-          setShowCityDropdown(true);
-          setShowStateDropdown(false);
-        }}
-        onFocus={() => {
-          setShowCityDropdown(true);
-          setShowStateDropdown(false);
-        }}
-        placeholder="City or Village"
-        autoCapitalize="words"
-      />
-
-      {/* CITY DROPDOWN */}
-      {showCityDropdown && filteredCities.length > 0 && (
-        <View style={styles.dropdown}>
-          <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
-            {filteredCities.map((c) => (
-              <Pressable
-                key={c}
-                android_disableSound
-                onPress={() => {
-                  setCity(c);
-                  setShowCityDropdown(false);
-                }}
-                style={styles.dropdownItem}
-              >
-                <Text style={styles.dropdownText}>{c}</Text>
               </Pressable>
             ))}
           </ScrollView>
