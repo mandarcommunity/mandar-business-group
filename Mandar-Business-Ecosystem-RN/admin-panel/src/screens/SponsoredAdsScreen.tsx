@@ -13,7 +13,7 @@ export default function SponsoredAdsScreen() {
   const fetchAds = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get('http://localhost:5000/api/admin/sponsored-ads', {
+      const res = await axios.get('https://mandar-community.onrender.com/api/admin/sponsored-ads', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAds(res.data.data);
@@ -31,7 +31,7 @@ export default function SponsoredAdsScreen() {
   const handleToggle = async (id: string, currentStatus: boolean) => {
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.patch(`http://localhost:5000/api/admin/sponsored-ads/${id}`, 
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/sponsored-ads/${id}`, 
         { is_active: !currentStatus },
         { headers: { Authorization: `Bearer ${token}` }}
       );
@@ -45,7 +45,7 @@ export default function SponsoredAdsScreen() {
     if (!window.confirm("Delete this sponsored ad permanently?")) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/admin/sponsored-ads/${id}`, {
+      await axios.delete(`https://mandar-community.onrender.com/api/admin/sponsored-ads/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchAds();
@@ -61,11 +61,11 @@ export default function SponsoredAdsScreen() {
     try {
       const token = localStorage.getItem('adminToken');
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/admin/sponsored-ads/${editingId}`, newAd, {
+        await axios.put(`https://mandar-community.onrender.com/api/admin/sponsored-ads/${editingId}`, newAd, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post('http://localhost:5000/api/admin/sponsored-ads', newAd, {
+        await axios.post('https://mandar-community.onrender.com/api/admin/sponsored-ads', newAd, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

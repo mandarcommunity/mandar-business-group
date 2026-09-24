@@ -24,7 +24,7 @@ export default function UserManagementScreen() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get('http://localhost:5000/api/admin/users', {
+      const res = await axios.get('https://mandar-community.onrender.com/api/admin/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data.data || []);
@@ -44,7 +44,7 @@ export default function UserManagementScreen() {
     try {
       const token = localStorage.getItem('adminToken');
       const action = isBlocked ? 'unblock' : 'block';
-      await axios.patch(`http://localhost:5000/api/admin/users/${id}/${action}`, {}, {
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/users/${id}/${action}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();
@@ -61,7 +61,7 @@ export default function UserManagementScreen() {
     if (!window.confirm('CRITICAL ACTION: Are you sure you want to permanently delete this user and all their associated data? This cannot be undone.')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, {
+      await axios.delete(`https://mandar-community.onrender.com/api/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();
@@ -78,7 +78,7 @@ export default function UserManagementScreen() {
     if (!window.confirm(`Are you sure you want to change this user's role to ${newRole.toUpperCase()}?`)) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.patch(`http://localhost:5000/api/admin/users/${id}/role`, { role: newRole }, {
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/users/${id}/role`, { role: newRole }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();

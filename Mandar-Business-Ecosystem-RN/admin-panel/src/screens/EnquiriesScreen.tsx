@@ -37,7 +37,7 @@ export default function EnquiriesScreen() {
   const fetchEnquiries = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("http://localhost:5000/api/admin/sponsor-enquiries", {
+      const res = await axios.get("https://mandar-community.onrender.com/api/admin/sponsor-enquiries", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data?.data) {
@@ -54,7 +54,7 @@ export default function EnquiriesScreen() {
     if (e) e.stopPropagation();
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.patch(`http://localhost:5000/api/admin/sponsor-enquiries/${id}`, 
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/sponsor-enquiries/${id}`, 
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

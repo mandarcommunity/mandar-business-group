@@ -43,7 +43,7 @@ export default function VerificationsScreen() {
   const fetchVerifications = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("http://localhost:5000/api/admin/verifications", {
+      const res = await axios.get("https://mandar-community.onrender.com/api/admin/verifications", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data?.data) {
@@ -61,7 +61,7 @@ export default function VerificationsScreen() {
     if (!window.confirm("Approve this business for the Blue Tick verification?")) return;
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.put(`http://localhost:5000/api/admin/verifications/${id}/approve`, {}, {
+      await axios.put(`https://mandar-community.onrender.com/api/admin/verifications/${id}/approve`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -87,7 +87,7 @@ export default function VerificationsScreen() {
     
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.put(`http://localhost:5000/api/admin/verifications/${rejectingId}/reject`, 
+      await axios.put(`https://mandar-community.onrender.com/api/admin/verifications/${rejectingId}/reject`, 
         { reason: rejectionReason },
         { headers: { Authorization: `Bearer ${token}` } }
       );

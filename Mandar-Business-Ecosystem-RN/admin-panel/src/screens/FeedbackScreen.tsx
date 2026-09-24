@@ -37,7 +37,7 @@ export default function FeedbackScreen() {
   const fetchFeedbacks = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("http://localhost:5000/api/system/feedback", {
+      const res = await axios.get("https://mandar-community.onrender.com/api/system/feedback", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data?.success) {
@@ -54,7 +54,7 @@ export default function FeedbackScreen() {
     if (e) e.stopPropagation();
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.put(`http://localhost:5000/api/system/feedback/${id}/read`, {}, {
+      const res = await axios.put(`https://mandar-community.onrender.com/api/system/feedback/${id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data?.success) {
@@ -75,7 +75,7 @@ export default function FeedbackScreen() {
     
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.delete(`http://localhost:5000/api/system/feedback/${id}`, {
+      const res = await axios.delete(`https://mandar-community.onrender.com/api/system/feedback/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data?.success) {

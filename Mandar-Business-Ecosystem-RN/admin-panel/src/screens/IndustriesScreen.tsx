@@ -25,7 +25,7 @@ export default function IndustriesScreen() {
   const fetchIndustries = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get('http://localhost:5000/api/admin/industries', {
+      const res = await axios.get('https://mandar-community.onrender.com/api/admin/industries', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setIndustries(res.data.data || []);
@@ -68,11 +68,11 @@ export default function IndustriesScreen() {
       };
 
       if (editMode) {
-        await axios.put(`http://localhost:5000/api/admin/industries/${formData.id}`, payload, {
+        await axios.put(`https://mandar-community.onrender.com/api/admin/industries/${formData.id}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post('http://localhost:5000/api/admin/industries', payload, {
+        await axios.post('https://mandar-community.onrender.com/api/admin/industries', payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -89,7 +89,7 @@ export default function IndustriesScreen() {
   const toggleStatus = async (id: string, currentStatus: boolean) => {
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.patch(`http://localhost:5000/api/admin/industries/${id}/toggle`, 
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/industries/${id}/toggle`, 
         { is_active: !currentStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -104,7 +104,7 @@ export default function IndustriesScreen() {
     if (!window.confirm("Are you sure? This might break businesses linked to this industry!")) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/admin/industries/${id}`, {
+      await axios.delete(`https://mandar-community.onrender.com/api/admin/industries/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setIndustries(industries.filter(ind => ind.id !== id));

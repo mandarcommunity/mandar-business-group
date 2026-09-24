@@ -12,7 +12,7 @@ export default function DashboardScreen() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await axios.get('http://localhost:5000/api/admin/dashboard', {
+        const res = await axios.get('https://mandar-community.onrender.com/api/admin/dashboard', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setStats(res.data.data);

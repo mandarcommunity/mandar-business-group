@@ -16,7 +16,7 @@ export default function ModerationScreen() {
       const token = localStorage.getItem('adminToken');
       
       if (activeTab === 'keywords') {
-        const res = await axios.get(`http://localhost:5000/api/admin/banned-keywords`, {
+        const res = await axios.get(`https://mandar-community.onrender.com/api/admin/banned-keywords`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setKeywords(res.data.data || []);
@@ -26,7 +26,7 @@ export default function ModerationScreen() {
         if (activeTab === 'leads') endpoint = '/api/admin/requirements';
         if (activeTab === 'products') endpoint = '/api/admin/products';
         
-        const res = await axios.get(`http://localhost:5000${endpoint}`, {
+        const res = await axios.get(`https://mandar-community.onrender.com${endpoint}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data.data || []);
@@ -51,7 +51,7 @@ export default function ModerationScreen() {
       if (activeTab === 'leads') endpoint = `/api/admin/requirements/${id}`;
       if (activeTab === 'products') endpoint = `/api/admin/products/${id}`;
       
-      await axios.delete(`http://localhost:5000${endpoint}`, {
+      await axios.delete(`https://mandar-community.onrender.com${endpoint}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();
@@ -64,7 +64,7 @@ export default function ModerationScreen() {
     if (!window.confirm('Are you sure you want to suspend this product? It will be hidden from the app immediately.')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.patch(`http://localhost:5000/api/admin/products/${id}/suspend`, {}, {
+      await axios.patch(`https://mandar-community.onrender.com/api/admin/products/${id}/suspend`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();
@@ -78,7 +78,7 @@ export default function ModerationScreen() {
     if (!newKeyword.trim()) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.post(`http://localhost:5000/api/admin/banned-keywords`, { keyword: newKeyword }, {
+      await axios.post(`https://mandar-community.onrender.com/api/admin/banned-keywords`, { keyword: newKeyword }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNewKeyword('');
@@ -91,7 +91,7 @@ export default function ModerationScreen() {
   const handleDeleteKeyword = async (id: string) => {
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`http://localhost:5000/api/admin/banned-keywords/${id}`, {
+      await axios.delete(`https://mandar-community.onrender.com/api/admin/banned-keywords/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();

@@ -16,7 +16,7 @@ export default function LoginScreen() {
     setError('');
     
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://mandar-community.onrender.com/api/auth/login', {
         email,
         password,
       });
@@ -26,7 +26,7 @@ export default function LoginScreen() {
         
         // Let's do a quick check to see if the dashboard stats load (this verifies admin role)
         try {
-          await axios.get('http://localhost:5000/api/admin/dashboard', {
+          await axios.get('https://mandar-community.onrender.com/api/admin/dashboard', {
             headers: { Authorization: `Bearer ${response.data.data.accessToken}` }
           });
           window.location.href = '/';
