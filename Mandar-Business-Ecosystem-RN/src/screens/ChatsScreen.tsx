@@ -94,6 +94,7 @@ export default function ChatsScreen() {
         archived: !!chat.archived,
           pinned: !!chat.pinned,
           blocked: !!chat.blocked,
+          blockedByOther: !!chat.blockedByOther,
         otherUserId: chat.otherUserId || chat.user2_id
       }));
       setChats(formattedChats);
@@ -633,6 +634,7 @@ export default function ChatsScreen() {
 
                             otherUserId: chat.otherUserId,
                               blocked: chat.blocked,
+                              blockedByOther: chat.blockedByOther,
 
                             otherUserName:
                               chat.personName,

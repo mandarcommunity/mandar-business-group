@@ -297,6 +297,7 @@ export default function ConversationScreen({ route }: any) {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [isBlocked, setIsBlocked] = useState(route?.params?.blocked || false);
+  const isBlockedByOther = route?.params?.blockedByOther || false;
 
   useEffect(() => {
       let myChannel: any = null;
@@ -585,10 +586,14 @@ export default function ConversationScreen({ route }: any) {
 
           {/* INPUT */}
         {isBlocked ? (
-            <View style={[styles.inputSection, { justifyContent: 'center', paddingVertical: 16 }]}>
-              <Text style={{ textAlign: 'center', color: '#888' }}>You blocked this chat. Unblock to send a message.</Text>
-            </View>
-          ) : (
+              <View style={[styles.inputSection, { justifyContent: 'center', paddingVertical: 16 }]}>
+                <Text style={{ textAlign: 'center', color: '#888' }}>You blocked this chat. Unblock to send a message.</Text>
+              </View>
+            ) : isBlockedByOther ? (
+              <View style={[styles.inputSection, { justifyContent: 'center', paddingVertical: 16 }]}>
+                <Text style={{ textAlign: 'center', color: '#888' }}>You have been blocked by this user. Ask them to unblock you.</Text>
+              </View>
+            ) : (
           <View style={styles.inputSection}>
             
           <TouchableOpacity style={styles.attachButton} onPress={pickAttachment} disabled={uploadingAttachment}>
