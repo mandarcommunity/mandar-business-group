@@ -88,7 +88,7 @@ export const deleteBannedKeyword = async (req: any, res: Response) => {
 
 export const getVerifications = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('businesses').select('*, users(*)');
+    const { data } = await supabase.from('businesses').select('*, users(*)').neq('verification_status', 'unverified');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -209,5 +209,6 @@ export const updateEnquiryStatus = async (req: any, res: Response) => {
     res.json({ success: true });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
+
 
 
