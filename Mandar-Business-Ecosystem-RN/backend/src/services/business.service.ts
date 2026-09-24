@@ -26,6 +26,7 @@ export const createBusinessService =
       .insert({
         user_id: userId,
         business_name: data.businessName,
+        slug: generateSlug(data.businessName),
         contact_person: data.contactPerson || userData?.full_name || "",
         industries: data.industries,
         business_types: data.businessTypes,
@@ -286,3 +287,4 @@ export const getBusinessByIdService = async (businessId: string) => {
     user: userData
   };
 };
+
