@@ -3,7 +3,7 @@ import { getRefreshToken, saveAccessToken, saveRefreshToken, clearStorage } from
 import { DeviceEventEmitter, Alert } from "react-native";
 
 export const API = axios.create({
-  baseURL: "http://172.27.175.85:5000/api",
+  baseURL: "https://mandar-community.onrender.com/api",
 });
 
 let isRefreshing = false;
@@ -53,7 +53,7 @@ API.interceptors.response.use(
           throw new Error("No refresh token");
         }
 
-        const res = await axios.post("http://172.27.175.85:5000/api/auth/refresh-token", { refreshToken });
+        const res = await axios.post("https://mandar-community.onrender.com/api/auth/refresh-token", { refreshToken });
         const { accessToken, refreshToken: newRefreshToken } = res.data.data;
 
         await saveAccessToken(accessToken);

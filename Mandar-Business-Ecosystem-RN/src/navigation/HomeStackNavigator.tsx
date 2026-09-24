@@ -13,6 +13,7 @@ import IndustryDetailsScreen from "../screens/IndustryDetailsScreen";
 import SponsorEnquiryScreen from "../screens/SponsorEnquiryScreen";
 
 import NotificationsScreen from "../screens/NotificationsScreen";
+import BusinessProfileScreen from "../screens/BusinessProfileScreen";
 import DirectoryStackNavigator from "./DirectoryStackNavigator";
 
 const Stack =
@@ -98,6 +99,12 @@ export default function HomeStackNavigator() {
       <Stack.Screen
         name="BusinessDirectory"
         component={DirectoryStackNavigator}
+      />
+
+      {/* BUSINESS PROFILE */}
+      <Stack.Screen
+        name="BusinessProfile"
+        component={BusinessProfileScreen}
       />
 
     </Stack.Navigator>

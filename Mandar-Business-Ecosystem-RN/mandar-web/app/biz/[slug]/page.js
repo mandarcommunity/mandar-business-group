@@ -12,12 +12,15 @@ const WhatsAppIcon = ({ className }) => (
   </svg>
 );
 
+
+const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const { data: business } = await supabase
     .from('businesses')
     .select('business_name, description, profile_image')
-    .eq(slug.includes('-') ? 'slug' : 'id', slug)
+    .eq(isUUID(slug) ? 'id' : 'slug', slug)
     .single();
 
   if (!business) return { title: 'Business Not Found' };
@@ -35,7 +38,7 @@ export async function generateMetadata({ params }) {
 
 export default async function BusinessProfilePage({ params }) {
   const { slug } = await params;
-  const isId = !slug.includes('-');
+  const isId = isUUID(slug);
 
   const { data: business } = await supabase
     .from('businesses')
@@ -175,7 +178,7 @@ export default async function BusinessProfilePage({ params }) {
             </div>
             <div className="text-center hidden md:block">
                <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-3"><TrendingUp className="w-6 h-6"/></div>
-               <h4 className="text-2xl font-black text-slate-900">Verified</h4>
+               <h4 className="text-2xl font-black text-slate-900">{business.verified ? "Verified" : "Unverified"}</h4>
                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Status</p>
             </div>
           </div>
@@ -303,3 +306,5 @@ export default async function BusinessProfilePage({ params }) {
     </div>
   );
 }
+
+
