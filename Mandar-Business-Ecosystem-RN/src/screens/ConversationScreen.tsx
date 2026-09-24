@@ -293,6 +293,9 @@ export default function ConversationScreen({ route }: any) {
     const [selectedAttachment, setSelectedAttachment] = useState<any>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [reportReason, setReportReason] = useState("");
 
   useEffect(() => {
       let myChannel: any = null;
@@ -375,46 +378,7 @@ export default function ConversationScreen({ route }: any) {
       <SafeAreaView style={styles.container}>
         <LoadingState title="Loading conversation..." />
       
-        <Modal visible={reportModalVisible} transparent animationType="fade" onRequestClose={() => setReportModalVisible(false)}>
-          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: '80%', padding: 20 }}>
-              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Report Chat</Text>
-              <Text style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 15 }}>Reporting will also block this chat and send a report to the admin.</Text>
-              
-              <TextInput
-                style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 8, padding: 10, minHeight: 80, textAlignVertical: 'top' }}
-                placeholder="Describe the issue (e.g. scam, spam, abusive)..."
-                multiline
-                value={reportReason}
-                onChangeText={setReportReason}
-              />
-              
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
-                <TouchableOpacity onPress={() => setReportModalVisible(false)} style={{ padding: 10, marginRight: 10 }}>
-                  <Text style={{ color: COLORS.textSecondary, fontWeight: 'bold' }}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  onPress={async () => {
-                    if (!reportReason.trim()) return;
-                    try {
-                      const { reportChat } = require("../services/chat.service");
-                      const { getAccessToken } = require("../utils/storage");
-                      const t = await getAccessToken();
-                      await reportChat(t, activeChatId, reportReason);
-                      setReportModalVisible(false);
-                      setReportReason("");
-                      const { Alert } = require("react-native");
-                      Alert.alert("Reported", "Chat has been reported and blocked.");
-                    } catch(e){}
-                  }}
-                  style={{ padding: 10, backgroundColor: COLORS.error, borderRadius: 8 }}>
-                  <Text style={{ color: COLORS.white, fontWeight: 'bold' }}>Submit Report</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </SafeAreaView>
+        </SafeAreaView>
     );
   }
 
@@ -697,7 +661,46 @@ export default function ConversationScreen({ route }: any) {
         </TouchableOpacity>
       </Modal>
 
-    </SafeAreaView>
+    <Modal visible={reportModalVisible} transparent animationType="fade" onRequestClose={() => setReportModalVisible(false)}>
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: '80%', padding: 20 }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Report Chat</Text>
+              <Text style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 15 }}>Reporting will also block this chat and send a report to the admin.</Text>
+              
+              <TextInput
+                style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 8, padding: 10, minHeight: 80, textAlignVertical: 'top' }}
+                placeholder="Describe the issue (e.g. scam, spam, abusive)..."
+                multiline
+                value={reportReason}
+                onChangeText={setReportReason}
+              />
+              
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
+                <TouchableOpacity onPress={() => setReportModalVisible(false)} style={{ padding: 10, marginRight: 10 }}>
+                  <Text style={{ color: COLORS.textSecondary, fontWeight: 'bold' }}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  onPress={async () => {
+                    if (!reportReason.trim()) return;
+                    try {
+                      const { reportChat } = require("../services/chat.service");
+                      const { getAccessToken } = require("../utils/storage");
+                      const t = await getAccessToken();
+                      await reportChat(t, activeChatId, reportReason);
+                      setReportModalVisible(false);
+                      setReportReason("");
+                      const { Alert } = require("react-native");
+                      Alert.alert("Reported", "Chat has been reported and blocked.");
+                    } catch(e){}
+                  }}
+                  style={{ padding: 10, backgroundColor: COLORS.error, borderRadius: 8 }}>
+                  <Text style={{ color: COLORS.white, fontWeight: 'bold' }}>Submit Report</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
   );
 }
 
