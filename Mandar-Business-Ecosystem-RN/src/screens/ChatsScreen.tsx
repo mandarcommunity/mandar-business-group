@@ -515,7 +515,7 @@ export default function ChatsScreen() {
           ) : (
 
             <>
-            /* ACTION MODAL */
+            {/* ACTION MODAL */}
 <Modal visible={!!longPressedChat} transparent animationType="fade" onRequestClose={() => setLongPressedChat(null)}>
           <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} activeOpacity={1} onPress={() => setLongPressedChat(null)}>
             <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: '80%', overflow: 'hidden' }}>
