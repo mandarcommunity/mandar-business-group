@@ -528,6 +528,7 @@ export default function ConversationScreen({ route }: any) {
             </TouchableOpacity>
           </View>
         </View>
+      )}
 
         {!messages.length ? (
           <View style={styles.emptyWrapper}>

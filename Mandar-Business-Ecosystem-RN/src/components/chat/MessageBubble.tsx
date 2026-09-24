@@ -93,7 +93,7 @@ export default function MessageBubble({
 
       </View>
 
-    </View>
+    </TouchableOpacity>
   );
 }
 
