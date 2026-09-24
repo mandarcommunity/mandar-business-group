@@ -1,5 +1,4 @@
 import {
-  Modal,
   useMemo,
   useState,
   useEffect,
@@ -11,6 +10,7 @@ import LoadingState from "../components/states/LoadingState";
 import ErrorState from "../components/states/ErrorState";
 
 import {
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
