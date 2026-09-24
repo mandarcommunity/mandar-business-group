@@ -16,7 +16,7 @@ export const getDashboardStats = async (req: any, res: Response) => {
   try {
     const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true });
     const { count: verifiedBusinesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'verified');
-    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true });
+    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
     const { count: activeAds } = await supabase.from('advertisements').select('*', { count: 'exact', head: true });
     const { count: activeLeads } = await supabase.from('requirements').select('*', { count: 'exact', head: true });
     
@@ -209,4 +209,5 @@ export const updateEnquiryStatus = async (req: any, res: Response) => {
     res.json({ success: true });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
+
 
