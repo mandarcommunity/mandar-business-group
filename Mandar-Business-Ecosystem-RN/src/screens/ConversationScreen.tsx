@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { Modal,
+import { Modal, Image,
   FlatList,
   KeyboardAvoidingView,
   Platform,
