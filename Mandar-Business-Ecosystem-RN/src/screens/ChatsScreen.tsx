@@ -595,7 +595,7 @@ export default function ChatsScreen() {
                     businessName={chat.businessName}
                       profileImage={chat.profileImage}
 
-                    lastMessage={chat.blocked ? "?? Blocked" : chat.lastMessage}
+                    lastMessage={chat.blocked ? "\uD83D\uDEAB Blocked" : chat.lastMessage}
 
                     time={chat.time}
 
@@ -632,6 +632,7 @@ export default function ChatsScreen() {
                               chat.id,
 
                             otherUserId: chat.otherUserId,
+                              blocked: chat.blocked,
 
                             otherUserName:
                               chat.personName,

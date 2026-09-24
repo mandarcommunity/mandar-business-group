@@ -172,7 +172,7 @@ export default function ChatCard({
           style={styles.lastMessage}
         >
 
-          {lastMessage?.startsWith('[IMAGE]') ? '?? Photo' : lastMessage}
+          {lastMessage?.startsWith('[IMAGE]') ? '\uD83D\uDCF7 Photo' : lastMessage}
 
         </Text>
 
