@@ -81,17 +81,24 @@ export default function MessageBubble({
         )}
 
         {/* TIME */}
-        <Text
-          style={[
-            styles.time,
-
-            isSender
-              ? styles.senderTime
-              : styles.receiverTime,
-          ]}
-        >
-          {time}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginTop: 4 }}>
+          <Text
+            style={[
+              styles.time,
+              { marginTop: 0 },
+              isSender
+                ? styles.senderTime
+                : styles.receiverTime,
+            ]}
+          >
+            {time}
+          </Text>
+          {isSender && (
+            <Text style={{ color: isRead ? '#34B7F1' : '#999', fontSize: 11, marginLeft: 4 }}>
+              {isRead ? "\u2713\u2713" : "\u2713"}
+            </Text>
+          )}
+        </View>
 
       </View>
 

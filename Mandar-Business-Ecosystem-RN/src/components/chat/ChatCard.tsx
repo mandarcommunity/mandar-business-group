@@ -178,7 +178,7 @@ export default function ChatCard({
 
           {isLastMessageMine && !lastMessage?.includes('Blocked') && (
               <Text style={{ color: isLastMessageRead ? '#34B7F1' : '#999', fontSize: 13, marginRight: 2 }}>
-                {isLastMessageRead ? "?? " : "? "}
+                {isLastMessageRead ? "\u2713\u2713 " : "\u2713 "}
               </Text>
             )}
             {lastMessage?.startsWith('[IMAGE]') ? '\uD83D\uDCF7 Photo' : lastMessage}
