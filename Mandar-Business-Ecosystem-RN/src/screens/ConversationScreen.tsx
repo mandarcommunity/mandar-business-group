@@ -500,19 +500,9 @@ export default function ConversationScreen({ route }: any) {
             <View style={{ position: 'absolute', top: 40, right: 20, flexDirection: 'row', zIndex: 10 }}>
                 <TouchableOpacity onPress={async () => {
                   try {
-                    const FileSystem = require('expo-file-system');
-                    const MediaLibrary = require('expo-media-library');
-                    const { status } = await MediaLibrary.requestPermissionsAsync();
-                    if (status === 'granted') {
-                      const { ToastAndroid } = require("react-native");
-                      ToastAndroid.show("Downloading image...", ToastAndroid.SHORT);
-                      const fileUri = FileSystem.documentDirectory + `image_${Date.now()}.jpg`;
-                      await FileSystem.downloadAsync(previewImage, fileUri);
-                      await MediaLibrary.saveToLibraryAsync(fileUri);
-                      ToastAndroid.show("Saved to gallery!", ToastAndroid.SHORT);
-                    } else {
-                      const { Alert } = require("react-native");
-                      Alert.alert("Permission required", "Need permission to save images.");
+                    const { Linking } = require("react-native");
+                    if (previewImage) {
+                      Linking.openURL(previewImage).catch((e: any) => console.error("Error opening URL", e));
                     }
                   } catch (e) {
                     console.log(e);
