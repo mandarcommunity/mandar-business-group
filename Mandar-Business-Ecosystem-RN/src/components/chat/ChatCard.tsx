@@ -21,6 +21,8 @@ interface ChatCardProps {
 
   personName: string;
   profileImage?: string | null;
+  isLastMessageMine?: boolean;
+  isLastMessageRead?: boolean;
 
   businessName: string;
 
@@ -52,6 +54,8 @@ export default function ChatCard({
   onLongPress,
   archived,
   profileImage,
+  isLastMessageMine,
+  isLastMessageRead,
 }: ChatCardProps) {
 
   return (
@@ -172,7 +176,12 @@ export default function ChatCard({
           style={styles.lastMessage}
         >
 
-          {lastMessage?.startsWith('[IMAGE]') ? '\uD83D\uDCF7 Photo' : lastMessage}
+          {isLastMessageMine && !lastMessage?.includes('Blocked') && (
+              <Text style={{ color: isLastMessageRead ? '#34B7F1' : '#999', fontSize: 13, marginRight: 2 }}>
+                {isLastMessageRead ? "?? " : "? "}
+              </Text>
+            )}
+            {lastMessage?.startsWith('[IMAGE]') ? '\uD83D\uDCF7 Photo' : lastMessage}
 
         </Text>
 

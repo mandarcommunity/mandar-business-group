@@ -56,6 +56,7 @@ const messagesData = [
     time: "10:12 AM",
 
     isSender: false,
+                isRead: newMsg.is_read,
   },
 
   {
@@ -271,7 +272,8 @@ export default function ConversationScreen({ route }: any) {
         id: Math.random().toString(),
         message: finalMsg,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        isSender: true
+        isSender: true,
+        isRead: false
       }, ...prev]);
       
     } catch (err: any) {
@@ -332,19 +334,24 @@ export default function ConversationScreen({ route }: any) {
             id: m.id,
             message: m.content,
             time: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isSender: m.sender_id === user.id
+            isSender: m.sender_id === user.id,
+            isRead: m.is_read
           })));
 
           supabase.removeAllChannels(); // Safe clear
           myChannel = supabase
             .channel(`chat_${activeChatId}`)
             .on('postgres_changes', { 
-              event: 'INSERT', 
+              event: '*', 
               schema: 'public', 
               table: 'chat_messages',
               filter: `chat_id=eq.${activeChatId}`
             }, (payload: any) => {
               const newMsg = payload.new;
+              if (payload.eventType === 'UPDATE') {
+                setMessages((prev: any[]) => prev.map(m => m.id === newMsg.id ? { ...m, isRead: newMsg.is_read } : m));
+                return;
+              }
               if (newMsg.sender_id === user.id) return;
               
               setMessages((prev) => [{
@@ -513,7 +520,7 @@ export default function ConversationScreen({ route }: any) {
               <MessageBubble
                 message={item.message}
                 time={item.time}
-                isSender={item.isSender}
+                isSender={item.isSender} isRead={item.isRead}
                 onImagePress={setPreviewImage}
                 selected={selectedMessages.includes(item.id)}
                 onLongPress={() => {
@@ -630,9 +637,10 @@ export default function ConversationScreen({ route }: any) {
                   id: newMsg.id,
                   message: newMsg.content,
                   time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                  isSender: true
-                }, ...prev]);
-              } catch (err: any) {
+                  isSender: true,
+                    isRead: false
+                  }, ...prev]);
+                } catch (err: any) {
                   console.error("Send message error", err);
                   setMessage(textToSend);
                   const { Alert } = require("react-native");

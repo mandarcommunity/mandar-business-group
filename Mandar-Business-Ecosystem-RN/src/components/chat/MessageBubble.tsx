@@ -16,6 +16,7 @@ interface MessageBubbleProps {
   message: string;
   time: string;
   isSender?: boolean;
+  isRead?: boolean;
   onImagePress?: (uri: string) => void;
   selected?: boolean;
   onLongPress?: () => void;
@@ -26,6 +27,7 @@ export default function MessageBubble({
   message,
   time,
   isSender,
+  isRead,
   onImagePress,
   selected,
   onLongPress,

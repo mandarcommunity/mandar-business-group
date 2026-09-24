@@ -88,6 +88,8 @@ export default function ChatsScreen() {
         personName: chat.personName || "User",
         businessName: chat.businessName || "Business",
         lastMessage: chat.lastMessage || "Tap to view messages",
+          isLastMessageMine: !!chat.isLastMessageMine,
+          isLastMessageRead: !!chat.isLastMessageRead,
           profileImage: chat.profileImage || null,
         time: new Date(chat.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         unreadCount: chat.unreadCount || 0,
@@ -597,6 +599,8 @@ export default function ChatsScreen() {
                       profileImage={chat.profileImage}
 
                     lastMessage={chat.blocked ? "\uD83D\uDEAB Blocked" : chat.lastMessage}
+                      isLastMessageMine={chat.isLastMessageMine}
+                      isLastMessageRead={chat.isLastMessageRead}
 
                     time={chat.time}
 
