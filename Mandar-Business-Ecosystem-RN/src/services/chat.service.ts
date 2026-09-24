@@ -23,3 +23,9 @@ export const sendMessage = async (token: string, chatId: string, content: string
     headers: { Authorization: `Bearer ${token}` }
   });
 };
+
+export const markChatAsRead = async (token: string, chatId: string) => {
+  return await API.post(`/chats/${chatId}/read`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
