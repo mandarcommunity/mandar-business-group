@@ -165,7 +165,7 @@ export default function LoginScreen() {
 
         {/* HEADER */}
         <AuthHeader
-          title="Welcome to Mandar Connect"
+          title="Welcome to Mandar Community"
 
           subtitle="Trusted community service ecosystem for Mandar Jain Sangh."
         />
