@@ -1,58 +1,71 @@
 {
-  "expo": {
-    "name": "Mandar Community",
-    "slug": "Mandar-Business-Ecosystem-RN",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "scheme": "mandar",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.mandar.community",
-      "associatedDomains": ["applinks:mandarcommunity.in"]
-    },
-    "android": {
-      "softwareKeyboardLayoutMode": "resize",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.mandar.community",
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            { "scheme": "https", "host": "mandarcommunity.in", "pathPrefix": "/biz" },
-            { "scheme": "https", "host": "mandarcommunity.in", "pathPrefix": "/p" },
-            { "scheme": "https", "host": "mandarcommunity.in", "pathPrefix": "/ad" },
-            { "scheme": "https", "host": "mandarcommunity.in", "pathPrefix": "/req" }
-          ],
-          "category": ["BROWSABLE", "DEFAULT"]
-        }
-      ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "8162055b-9beb-42c5-9cae-9a73f6c283e1"
-      }
-    },
-    "plugins": [
-      "expo-font",
-      "expo-status-bar"
-    ]
-  }
+    "expo":  {
+                 "name":  "Mandar Community",
+                 "slug":  "Mandar-Business-Ecosystem-RN",
+                 "version":  "1.0.0",
+                 "orientation":  "portrait",
+                 "icon":  "./assets/icon.png",
+                 "userInterfaceStyle":  "light",
+                 "scheme":  "mandar",
+                 "ios":  {
+                             "supportsTablet":  true,
+                             "bundleIdentifier":  "com.mandar.community",
+                             "associatedDomains":  [
+                                                       "applinks:mandarcommunity.in"
+                                                   ]
+                         },
+                 "android":  {
+                                 "softwareKeyboardLayoutMode":  "resize",
+                                 "adaptiveIcon":  {
+                                                      "foregroundImage":  "./assets/adaptive-icon.png",
+                                                      "backgroundColor":  "#ffffff"
+                                                  },
+                                 "predictiveBackGestureEnabled":  false,
+                                 "package":  "com.mandar.community",
+                                 "intentFilters":  [
+                                                       {
+                                                           "action":  "VIEW",
+                                                           "autoVerify":  true,
+                                                           "data":  [
+                                                                        {
+                                                                            "scheme":  "https",
+                                                                            "host":  "mandarcommunity.in",
+                                                                            "pathPrefix":  "/biz"
+                                                                        },
+                                                                        {
+                                                                            "scheme":  "https",
+                                                                            "host":  "mandarcommunity.in",
+                                                                            "pathPrefix":  "/p"
+                                                                        },
+                                                                        {
+                                                                            "scheme":  "https",
+                                                                            "host":  "mandarcommunity.in",
+                                                                            "pathPrefix":  "/ad"
+                                                                        },
+                                                                        {
+                                                                            "scheme":  "https",
+                                                                            "host":  "mandarcommunity.in",
+                                                                            "pathPrefix":  "/req"
+                                                                        }
+                                                                    ],
+                                                           "category":  [
+                                                                            "BROWSABLE",
+                                                                            "DEFAULT"
+                                                                        ]
+                                                       }
+                                                   ]
+                             },
+                 "web":  {
+                             "favicon":  "./assets/favicon.png"
+                         },
+                 "extra":  {
+                               "eas":  {
+                                           "projectId":  "8162055b-9beb-42c5-9cae-9a73f6c283e1"
+                                       }
+                           },
+                 "plugins":  [
+                                 "expo-font",
+                                 "expo-status-bar"
+                             ]
+             }
 }
-
