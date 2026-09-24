@@ -421,7 +421,7 @@ export default function ConversationScreen({ route }: any) {
                       const { deleteMessages } = require("../services/chat.service");
                       const { getAccessToken } = require("../utils/storage");
                       const t = await getAccessToken();
-                      await deleteMessages(t, activeChatId, selectedMessages);
+                      await deleteMessages(t, currentChatId, selectedMessages);
                       setMessages(prev => prev.filter((m: any) => !selectedMessages.includes(m.id)));
                       setSelectedMessages([]);
                     }
@@ -678,7 +678,7 @@ export default function ConversationScreen({ route }: any) {
                       const { clearChat } = require("../services/chat.service");
                       const { getAccessToken } = require("../utils/storage");
                       const t = await getAccessToken();
-                      await clearChat(t, activeChatId);
+                      await clearChat(t, currentChatId);
                       setMessages([]);
                     }
                   }
@@ -696,7 +696,7 @@ export default function ConversationScreen({ route }: any) {
                       const { updateChatState } = require("../services/chat.service");
                       const { getAccessToken } = require("../utils/storage");
                       const t = await getAccessToken();
-                      await updateChatState(t, activeChatId, 'block');
+                      await updateChatState(t, currentChatId, 'block');
                       Alert.alert("Blocked", "Chat has been blocked.");
                     }
                   }
@@ -737,7 +737,7 @@ export default function ConversationScreen({ route }: any) {
                       const { reportChat } = require("../services/chat.service");
                       const { getAccessToken } = require("../utils/storage");
                       const t = await getAccessToken();
-                      await reportChat(t, activeChatId, reportReason);
+                      await reportChat(t, currentChatId, reportReason);
                       setReportModalVisible(false);
                       setReportReason("");
                       const { Alert } = require("react-native");
