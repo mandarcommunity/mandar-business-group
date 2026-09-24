@@ -138,7 +138,7 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View>
-            {user && user.full_name ? <Text style={styles.headerTitle} numberOfLines={1}>Hello, {user.full_name.split(' ')[0]} ??</Text> : <Text style={styles.headerTitle}>Mandar Community</Text>}
+            {user && user.full_name ? <Text style={styles.headerTitle} numberOfLines={1}>Hello, {user.full_name.split(' ')[0]} {"\uD83D\uDC4B"}</Text> : <Text style={styles.headerTitle}>Mandar Community</Text>}
 
             <Text style={styles.headerSubtitle}>Let's grow your business today!</Text>
           </View>
