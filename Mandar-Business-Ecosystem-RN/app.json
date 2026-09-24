@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Mandar Community",
-    "slug": "mandar-community",
+    "slug": "Mandar-Business-Ecosystem-RN",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -55,3 +55,4 @@
     ]
   }
 }
+
