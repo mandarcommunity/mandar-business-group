@@ -1,27 +1,43 @@
 import { useState, useEffect, useRef } from 'react';
-import { Platform } from 'react-native';
+import { Platform, DeviceEventEmitter } from 'react-native';
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import API from '../services/api';
 import { getAccessToken } from '../utils/storage';
-import { DeviceEventEmitter } from 'react-native';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
+const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+let Notifications: any = null;
+
+if (!isExpoGo) {
+  try {
+    Notifications = require('expo-notifications');
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+  } catch (e) {
+    console.log("Could not load expo-notifications", e);
+  }
+}
 
 export function usePushNotifications() {
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>('');
-  const [notification, setNotification] = useState<Notifications.Notification | false>(false);
-  const notificationListener = useRef<Notifications.Subscription>();
-  const responseListener = useRef<Notifications.Subscription>();
+  const [notification, setNotification] = useState<any>(false);
+  const notificationListener = useRef<any>();
+  const responseListener = useRef<any>();
 
   async function registerForPushNotificationsAsync() {
+    if (isExpoGo) {
+      console.log('Push notifications are not supported in Expo Go. Skipping...');
+      return undefined;
+    }
+    
+    if (!Notifications) return undefined;
+
     let token;
 
     if (Platform.OS === 'android') {
@@ -54,7 +70,6 @@ export function usePushNotifications() {
             projectId,
           })
         ).data;
-        console.log("Expo Push Token:", token);
       } catch (e) {
         console.log("Error getting push token:", e);
       }
@@ -79,21 +94,22 @@ export function usePushNotifications() {
   };
 
   useEffect(() => {
+    if (isExpoGo || !Notifications) return;
+
     registerForPushNotificationsAsync().then(token => {
       setExpoPushToken(token);
       if (token) uploadTokenToBackend(token);
     });
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification: any) => {
       setNotification(notification);
       if (notification.request.content.data?.chatId) {
         DeviceEventEmitter.emit('refresh_chats');
       }
     });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response: any) => {
       console.log("Notification Response:", response);
-      // Can add navigation logic here if needed
     });
 
     return () => {
