@@ -45,7 +45,7 @@ import {
 import { getMyChats } from "../services/chat.service";
 import { getAccessToken } from "../utils/storage";
 
-const filters = ["All", "Unread", "Businesses", "Personal", "Archived"];
+const filters = ["All", "Unread", "Archived"];
 
 export default function ChatsScreen() {
   const navigation = useNavigation<any>();
@@ -157,12 +157,7 @@ export default function ChatsScreen() {
           );
       }
 
-      if (selectedFilter === "Businesses") {
-        filtered = filtered.filter(chat => chat.businessName && chat.businessName !== "Unknown Business");
-      }
-      if (selectedFilter === "Personal") {
-        filtered = filtered.filter(chat => !chat.businessName || chat.businessName === "Unknown Business");
-      }
+      
       if (selectedFilter === "Archived") {
 
         filtered =
