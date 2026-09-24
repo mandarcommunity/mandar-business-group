@@ -231,7 +231,6 @@ export default function ConversationScreen({ route }: any) {
       let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: 'images' as any,
           allowsEditing: true,
-          aspect: [1, 1] as [number, number],
           
           quality: 0.2,
           base64: true,
@@ -257,10 +256,7 @@ export default function ConversationScreen({ route }: any) {
         const { sendMessage } = require("../services/chat.service");
         const { getAccessToken } = require("../utils/storage");
         const token = await getAccessToken();
-          // Mark as read
-          if (activeChatId && otherUserId) {
-            await supabase.from('chat_messages').update({ is_read: true }).eq('chat_id', activeChatId).eq('sender_id', otherUserId).eq('is_read', false);
-          }
+          
         
         const base64Str = selectedAttachment.base64;
         if (!base64Str) throw new Error("No base64 data");
@@ -321,6 +317,9 @@ export default function ConversationScreen({ route }: any) {
         }
 
         if (activeChatId) {
+          // Mark as read
+          const { markChatAsRead } = require('../services/chat.service');
+            await markChatAsRead(token, activeChatId).catch(console.error);
           const msgsRes = await getChatMessages(token, activeChatId);
           const rawMessages = Array.isArray(msgsRes.data) ? msgsRes.data : (msgsRes.data?.data || []);
           setMessages(rawMessages.map((m: any) => ({

@@ -3,7 +3,7 @@ import { supabase } from '../utils/supabase';
 import { getUser } from '../utils/storage';
 
 export const useUnreadBadge = () => {
-  const [hasUnread, setHasUnread] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     let channel: any;
@@ -28,7 +28,7 @@ export const useUnreadBadge = () => {
           .eq('is_read', false)
           .neq('sender_id', user.id);
           
-        setHasUnread(count && count > 0 ? true : false);
+        setUnreadCount(count || 0);
       } catch (err) {}
     };
     
@@ -54,5 +54,5 @@ export const useUnreadBadge = () => {
     };
   }, []);
 
-  return hasUnread;
+  return unreadCount;
 };

@@ -41,7 +41,7 @@ const Tab =
 
 export default function MainTabsNavigator() {
 
-  const hasUnread = useUnreadBadge();
+  const unreadCount = useUnreadBadge();
   const insets =
     useSafeAreaInsets();
 
