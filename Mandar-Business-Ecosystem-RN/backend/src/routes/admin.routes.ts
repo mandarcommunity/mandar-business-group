@@ -24,6 +24,19 @@ router.get("/sponsored-ads", admin.getSponsoredAds);
 router.post("/sponsored-ads", admin.createSponsoredAd);
 router.delete("/sponsored-ads/:id", admin.deleteSponsoredAd);
 
+router.get("/advertisements", admin.getAdvertisements);
+router.delete("/advertisements/:id", admin.deleteAdvertisement);
+
+router.get("/requirements", admin.getRequirements);
+router.delete("/requirements/:id", admin.deleteRequirement);
+
+router.get("/products", admin.getProducts);
+router.delete("/products/:id", admin.deleteProduct);
+
+router.get("/banned-keywords", admin.getBannedKeywords);
+router.post("/banned-keywords", admin.addBannedKeyword);
+router.delete("/banned-keywords/:id", admin.deleteBannedKeyword);
+
 router.get("/verifications", admin.getVerifications);
 router.put("/verifications/:id/approve", admin.approveVerification);
 router.put("/verifications/:id/reject", admin.rejectVerification);
