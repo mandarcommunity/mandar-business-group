@@ -63,7 +63,7 @@ export default function BusinessDirectoryScreen() {
   const fetchDirectory = async () => {
     try {
       const token = await getAccessToken();
-      const res = await getAllBusinesses(token as string);
+      const res = await getAllBusinesses(token as string, 50, 1);
       
       const mappedBusinesses = res.data.map((b: any) => ({
         id: b.id,

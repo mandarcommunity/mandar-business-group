@@ -40,7 +40,7 @@ import LoadingState from "../components/states/LoadingState";
 import ErrorState from "../components/states/ErrorState";
 
 import { COLORS, SPACING } from "../theme";
-import { getAllBusinesses } from "../services/business.service";
+import { getSavedBusinesses } from "../services/business.service";
 import { getAccessToken, getBookmarkedBusinesses, saveBookmarkedBusinesses } from "../utils/storage";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -56,9 +56,18 @@ export default function SavedBusinessesScreen() {
   const fetchSavedDirectory = async () => {
     try {
       const token = await getAccessToken();
-      const res = await getAllBusinesses(token as string);
       
-      const mappedBusinesses = res.data.map((b: any) => ({
+      
+      const idsToFetch = Object.keys(bookmarks).filter(id => bookmarks[id]);
+      if (idsToFetch.length === 0) {
+        setBusinesses([]);
+        setIsLoading(false);
+        setIsRefreshing(false);
+        return;
+      }
+      
+      const res = await getSavedBusinesses(idsToFetch, token as string);
+      const mappedBusinesses = (res.data || []).map((b: any) => ({
         id: b.id,
         image: b.profile_image,
         personName: b.contact_person || b.user?.full_name || "Unknown",

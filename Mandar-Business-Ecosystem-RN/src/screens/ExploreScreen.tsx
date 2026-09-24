@@ -81,12 +81,8 @@ export default function ExploreScreen() {
     try {
       setIsLoading(true);
       const token = await getAccessToken();
-      const res = await getAllBusinesses(token as string);
-      
-      // Get the top 5 most recently joined businesses
+      const res = await getAllBusinesses(token as string, 5, 1);
       let businesses = res.data || [];
-      // Sort by created_at desc (if exists) or just take first 5
-      businesses = businesses.slice(0, 5);
       
       setFeaturedAds(businesses);
       setHasError(false);

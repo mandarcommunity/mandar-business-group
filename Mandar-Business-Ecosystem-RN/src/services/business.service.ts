@@ -21,8 +21,8 @@ export const getBusinessById = async (id: string, token: string) => {
   return response.data;
 };
 
-export const getAllBusinesses = async (token: string) => {
-  const response = await API.get("/business/all", {
+export const getAllBusinesses = async (token: string, limit = 20, page = 1) => {
+  const response = await API.get(`/business/all?limit=${limit}&page=${page}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -41,5 +41,19 @@ export const submitVerificationRequest = async (token: string, documentUrl: stri
     { documentUrl, base64Image, documentType },
     { headers: { Authorization: `Bearer ${token}` } }
   );
+  return response.data;
+};
+
+export const getSavedBusinesses = async (ids: string[], token: string) => {
+  const response = await API.post("/business/saved", { ids }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+export const getBusinessesByIndustry = async (industry: string, token: string) => {
+  const response = await API.get(`/business/industry?industry=${encodeURIComponent(industry)}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };

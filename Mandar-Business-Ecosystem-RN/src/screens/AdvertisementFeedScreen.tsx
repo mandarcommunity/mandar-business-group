@@ -81,7 +81,7 @@ export default function AdvertisementFeedScreen() {
       
       const [adsRes, bizRes] = await Promise.all([
         getAllAdvertisements(token as string),
-        getAllBusinesses(token as string)
+        getAllBusinesses(token as string, 50, 1)
       ]);
       
       const formattedAds = (adsRes.data?.data || []).map((ad: any) => ({
