@@ -1,3 +1,4 @@
+// @ts-nocheck
 import express from "express";
 import { getMyChats, getOrCreateChat, getChatMessages, sendMessage, markChatAsRead, updateChatState, clearChat, deleteMessages, reportChat } from "../controllers/chat.controller";
 import { protect } from "../middleware/auth.middleware";

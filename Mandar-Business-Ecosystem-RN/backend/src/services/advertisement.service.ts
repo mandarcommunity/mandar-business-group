@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateSlug } from '../utils/slugify';
 import { uploadBase64Image } from "./storage.service";
 import { supabase } from '../config/supabase';

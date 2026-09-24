@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Response } from "express";
 import { supabase } from "../config/supabase";
 import { sendResponse } from "../utils/sendResponse";

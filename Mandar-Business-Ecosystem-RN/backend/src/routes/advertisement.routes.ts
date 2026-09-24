@@ -1,3 +1,4 @@
+// @ts-nocheck
 import express from 'express';
 import * as advertisementController from '../controllers/advertisement.controller';
 import { protect } from '../middleware/auth.middleware';

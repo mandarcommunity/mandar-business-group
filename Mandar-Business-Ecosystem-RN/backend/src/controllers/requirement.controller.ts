@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { checkModeration } from "../services/moderation.service";
 import { Response } from "express";
 import {

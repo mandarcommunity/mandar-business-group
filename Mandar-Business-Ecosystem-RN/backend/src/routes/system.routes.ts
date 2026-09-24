@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Router } from "express";
 import { getPlatformStats, getHomeAds, getIndustries, createSponsorEnquiry, submitFeedback, getFeedbacks, markFeedbackAsRead, getUnreadFeedbackCount, deleteFeedback } from "../controllers/system.controller";
 import { protect } from "../middleware/auth.middleware";

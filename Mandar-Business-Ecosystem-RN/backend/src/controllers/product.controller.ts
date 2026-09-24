@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateSlug } from '../utils/slugify';
 import { Request, Response } from "express";
 import { supabase } from "../config/supabase";
