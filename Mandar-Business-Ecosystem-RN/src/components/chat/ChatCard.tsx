@@ -156,14 +156,7 @@ export default function ChatCard({
 
               </View>
 
-            ) : (
-
-              <CheckCheck
-                size={15}
-                color="#bdbdbd"
-              />
-
-            )}
+            ) : null}
 
           </View>
 
