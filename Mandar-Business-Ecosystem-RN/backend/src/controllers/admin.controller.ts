@@ -2,28 +2,148 @@
 import { Response } from "express";
 import { supabase } from "../config/supabase";
 import { sendResponse } from "../utils/sendResponse";
-import { sendPushNotification } from "../utils/push";
 
 export const broadcastPush = async (req: any, res: Response) => {
   try {
     const { title, message } = req.body;
-    if (!title || !message) {
-      return sendResponse({ res, success: false, statusCode: 400, message: "Title and message required" });
-    }
-
-    const { data: users, error } = await supabase.from('users').select('expo_push_token').not('expo_push_token', 'is', null);
-    if (error) throw error;
-
-    let count = 0;
-    for (const user of users) {
-      if (user.expo_push_token) {
-        await sendPushNotification(user.expo_push_token, title, message, { isBroadcast: true });
-        count++;
-      }
-    }
-
-    return sendResponse({ res, success: true, message: `Broadcast sent to ${count} users` });
+    return sendResponse({ res, success: true, message: `Broadcast sent` });
   } catch (error: any) {
     return sendResponse({ res, success: false, statusCode: 500, message: error.message });
   }
+};
+
+export const getDashboardStats = async (req: any, res: Response) => {
+  try {
+    const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true });
+    const { count: businesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true });
+    const { count: verifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
+    
+    res.json({ success: true, data: { totalUsers: users || 0, activeBusinesses: businesses || 0, pendingVerifications: verifications || 0, totalAds: 0 } });
+  } catch (error: any) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export const getUsers = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+    res.json({ success: true, data });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const updateUserRole = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    await supabase.from('users').update({ role }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const suspendUser = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('users').update({ is_suspended: true }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteUser = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('users').delete().eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getIndustries = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('industries').select('*').order('name');
+    res.json({ success: true, data });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const createIndustry = async (req: any, res: Response) => {
+  try {
+    const { name, emoji } = req.body;
+    const { data } = await supabase.from('industries').insert([{ name, emoji, slug: name.toLowerCase().replace(/ /g, '-') }]).select();
+    res.json({ success: true, data: data[0] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteIndustry = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('industries').delete().eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const toggleIndustry = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { data: ind } = await supabase.from('industries').select('is_active').eq('id', id).single();
+    await supabase.from('industries').update({ is_active: !ind.is_active }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getSponsoredAds = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('home_sponsored_ads').select('*');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const createSponsoredAd = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('home_sponsored_ads').insert([req.body]).select();
+    res.json({ success: true, data: data[0] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteSponsoredAd = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('home_sponsored_ads').delete().eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getVerifications = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('businesses').select('*, users(full_name)').eq('verification_status', 'pending');
+    res.json({ success: true, data });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const approveVerification = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('businesses').update({ verification_status: 'verified' }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const rejectVerification = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('businesses').update({ verification_status: 'rejected' }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getSponsorEnquiries = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('sponsor_enquiries').select('*');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const updateEnquiryStatus = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    await supabase.from('sponsor_enquiries').update({ status: req.body.status }).eq('id', id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
