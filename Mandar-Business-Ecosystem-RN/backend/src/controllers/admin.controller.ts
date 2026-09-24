@@ -16,7 +16,7 @@ export const getDashboardStats = async (req: any, res: Response) => {
   try {
     const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true });
     const { count: verifiedBusinesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'verified');
-    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
+    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true });
     const { count: activeAds } = await supabase.from('advertisements').select('*', { count: 'exact', head: true });
     const { count: activeLeads } = await supabase.from('requirements').select('*', { count: 'exact', head: true });
     
@@ -88,7 +88,7 @@ export const deleteBannedKeyword = async (req: any, res: Response) => {
 
 export const getVerifications = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('businesses').select('*, users(*)').eq('verification_status', 'pending');
+    const { data } = await supabase.from('businesses').select('*, users(*)');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -209,3 +209,4 @@ export const updateEnquiryStatus = async (req: any, res: Response) => {
     res.json({ success: true });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
+
