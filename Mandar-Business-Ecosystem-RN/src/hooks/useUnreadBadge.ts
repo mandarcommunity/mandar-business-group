@@ -26,7 +26,8 @@ export const useUnreadBadge = () => {
           .select('*', { count: 'exact', head: true })
           .in('chat_id', chatIds)
           .eq('is_read', false)
-          .neq('sender_id', user.id);
+          .neq('sender_id', user.id)
+          .not('deleted_by', 'cs', `{${user.id}}`);
           
         setUnreadCount(count || 0);
       } catch (err) {}
