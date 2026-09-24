@@ -699,9 +699,9 @@ export default function ConversationScreen({ route }: any) {
               <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={async () => {
                 setMenuVisible(false);
                 const { Alert } = require("react-native");
-                Alert.alert("Block User", "Are you sure you want to block this chat?", [
+                Alert.alert(isBlocked ? "Unblock User" : "Block User", isBlocked ? "Are you sure you want to unblock this chat?" : "Are you sure you want to block this chat?", [
                   { text: "Cancel", style: "cancel" },
-                  { text: "Block", style: "destructive", onPress: async () => {
+                  { text: isBlocked ? "Unblock" : "Block", style: "destructive", onPress: async () => {
                       const { updateChatState } = require("../services/chat.service");
                         const { getAccessToken } = require("../utils/storage");
                         const t = await getAccessToken();
@@ -713,7 +713,7 @@ export default function ConversationScreen({ route }: any) {
                   }
                 ]);
               }}>
-                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>Block</Text>
+                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>{isBlocked ? "Unblock" : "Block"}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={{ padding: 16 }} onPress={() => { setMenuVisible(false); setReportModalVisible(true); }}>
@@ -753,6 +753,7 @@ export default function ConversationScreen({ route }: any) {
                       setReportReason("");
                       const { Alert } = require("react-native");
                       Alert.alert("Reported", "Chat has been reported and blocked.");
+                      setIsBlocked(true);
                     } catch(e){}
                   }}
                   style={{ padding: 10, backgroundColor: COLORS.error, borderRadius: 8 }}>
