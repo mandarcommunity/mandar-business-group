@@ -37,6 +37,7 @@ export const createBusinessService =
         email: data.email || userData?.email || "",
         mobile: data.mobile || userData?.mobile || "",
         verified: false,
+        verification_status: 'unverified',
         profile_image: data.profileImage || "",
       })
 
