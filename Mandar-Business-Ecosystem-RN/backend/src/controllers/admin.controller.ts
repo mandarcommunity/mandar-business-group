@@ -32,7 +32,7 @@ export const getDashboardStats = async (req: any, res: Response) => {
 
 export const getAdvertisements = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('advertisements').select('*, businesses(name, email, phone)');
+    const { data } = await supabase.from('advertisements').select('*, businesses(*), users(*)');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -46,7 +46,7 @@ export const deleteAdvertisement = async (req: any, res: Response) => {
 
 export const getRequirements = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('requirements').select('*, users(full_name, email)');
+    const { data } = await supabase.from('requirements').select('*, users(*)');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -60,7 +60,7 @@ export const deleteRequirement = async (req: any, res: Response) => {
 
 export const getProducts = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('products').select('*, businesses(name)');
+    const { data } = await supabase.from('products').select('*, businesses(*), users(*)');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -74,7 +74,6 @@ export const deleteProduct = async (req: any, res: Response) => {
 
 export const getBannedKeywords = async (req: any, res: Response) => {
   try {
-    // Just return empty array since we don't have this table
     res.json({ success: true, data: [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
@@ -89,7 +88,7 @@ export const deleteBannedKeyword = async (req: any, res: Response) => {
 
 export const getVerifications = async (req: any, res: Response) => {
   try {
-    const { data } = await supabase.from('businesses').select('*, users(full_name, email)').eq('verification_status', 'pending');
+    const { data } = await supabase.from('businesses').select('*, users(*)').eq('verification_status', 'pending');
     res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
