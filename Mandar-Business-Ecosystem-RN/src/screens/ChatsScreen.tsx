@@ -514,7 +514,60 @@ export default function ChatsScreen() {
 
           ) : (
 
-            /* CHAT LIST */
+            <>
+            /* ACTION MODAL */
+<Modal visible={!!longPressedChat} transparent animationType="fade" onRequestClose={() => setLongPressedChat(null)}>
+          <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }} activeOpacity={1} onPress={() => setLongPressedChat(null)}>
+            <View style={{ backgroundColor: COLORS.surface, borderRadius: 12, width: '80%', overflow: 'hidden' }}>
+              <Text style={{ padding: 16, fontSize: 16, fontWeight: 'bold', borderBottomWidth: 1, borderBottomColor: COLORS.border }}>Options</Text>
+              
+              <TouchableOpacity style={{ padding: 16 }} onPress={async () => {
+                try {
+                  const { updateChatState } = require("../services/chat.service");
+                  const token = await getAccessToken();
+                  await updateChatState(token, longPressedChat.id, longPressedChat.pinned ? 'unpin' : 'pin');
+                  setLongPressedChat(null);
+                  fetchChats();
+                } catch(e){}
+              }}>
+                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>{longPressedChat?.pinned ? "Unpin Chat" : "Pin Chat"}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ padding: 16 }} onPress={async () => {
+                try {
+                  const { updateChatState } = require("../services/chat.service");
+                  const token = await getAccessToken();
+                  await updateChatState(token, longPressedChat.id, longPressedChat.archived ? 'unarchive' : 'archive');
+                  setLongPressedChat(null);
+                  fetchChats();
+                } catch(e){}
+              }}>
+                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>{longPressedChat?.archived ? "Unarchive Chat" : "Archive Chat"}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ padding: 16 }} onPress={async () => {
+                try {
+                  const { Alert } = require("react-native");
+                  Alert.alert("Delete Chat", "Are you sure you want to delete this chat?", [
+                    { text: "Cancel", style: "cancel" },
+                    { text: "Delete", style: "destructive", onPress: async () => {
+                        const { updateChatState } = require("../services/chat.service");
+                        const token = await getAccessToken();
+                        await updateChatState(token, longPressedChat.id, 'delete');
+                        setLongPressedChat(null);
+                        fetchChats();
+                      }
+                    }
+                  ]);
+                } catch(e){}
+              }}>
+                <Text style={{ fontSize: 15, color: COLORS.error }}>Delete Chat</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+        {/* CHAT LIST */}
             <View
               style={
                 styles.chatList
@@ -525,7 +578,10 @@ export default function ChatsScreen() {
                 (chat) => (
 
                   <ChatCard
-                    key={chat.id}
+                      key={chat.id}
+                      onLongPress={() => setLongPressedChat(chat)}
+                      pinned={chat.pinned}
+                      archived={chat.archived}
 
                     personName={
                       chat.personName
@@ -591,6 +647,7 @@ export default function ChatsScreen() {
               )}
 
             </View>
+            </>
 
           )}
 

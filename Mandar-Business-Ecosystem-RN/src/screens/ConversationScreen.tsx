@@ -508,7 +508,22 @@ export default function ConversationScreen({ route }: any) {
             style={styles.messagesList}
             contentContainerStyle={styles.messagesContainer}
             renderItem={({ item }) => (
-              <MessageBubble message={item.message} time={item.time} isSender={item.isSender} onImagePress={setPreviewImage} />
+              <MessageBubble
+                message={item.message}
+                time={item.time}
+                isSender={item.isSender}
+                onImagePress={setPreviewImage}
+                selected={selectedMessages.includes(item.id)}
+                onLongPress={() => {
+                  if (selectedMessages.length === 0) setSelectedMessages([item.id]);
+                }}
+                onPress={() => {
+                  if (selectedMessages.length > 0) {
+                    if (selectedMessages.includes(item.id)) setSelectedMessages(prev => prev.filter(id => id !== item.id));
+                    else setSelectedMessages(prev => [...prev, item.id]);
+                  }
+                }}
+              />
             )}
           />
         )}
@@ -654,9 +669,45 @@ export default function ConversationScreen({ route }: any) {
               <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>View Products</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={{ padding: 16 }} onPress={() => setMenuVisible(false)}>
-              <Text style={{ fontSize: 15, color: COLORS.error }}>Report / Block</Text>
-            </TouchableOpacity>
+            <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={async () => {
+                setMenuVisible(false);
+                const { Alert } = require("react-native");
+                Alert.alert("Clear Chat", "Are you sure you want to clear all messages?", [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "Clear", style: "destructive", onPress: async () => {
+                      const { clearChat } = require("../services/chat.service");
+                      const { getAccessToken } = require("../utils/storage");
+                      const t = await getAccessToken();
+                      await clearChat(t, activeChatId);
+                      setMessages([]);
+                    }
+                  }
+                ]);
+              }}>
+                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>Clear Chat</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: COLORS.border }} onPress={async () => {
+                setMenuVisible(false);
+                const { Alert } = require("react-native");
+                Alert.alert("Block User", "Are you sure you want to block this chat?", [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "Block", style: "destructive", onPress: async () => {
+                      const { updateChatState } = require("../services/chat.service");
+                      const { getAccessToken } = require("../utils/storage");
+                      const t = await getAccessToken();
+                      await updateChatState(t, activeChatId, 'block');
+                      Alert.alert("Blocked", "Chat has been blocked.");
+                    }
+                  }
+                ]);
+              }}>
+                <Text style={{ fontSize: 15, color: COLORS.textPrimary }}>Block</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ padding: 16 }} onPress={() => { setMenuVisible(false); setReportModalVisible(true); }}>
+                <Text style={{ fontSize: 15, color: COLORS.error }}>Report</Text>
+              </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Modal>
