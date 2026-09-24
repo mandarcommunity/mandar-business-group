@@ -43,7 +43,7 @@ import {
 } from "../theme";
 
 export default function AllIndustriesScreen() {
-  const { industryObjects: industries } = useIndustries();
+  const { industryObjects: industries, isLoading: isHookLoading } = useIndustries();
 
   const navigation =
     useNavigation<any>();
@@ -55,9 +55,7 @@ export default function AllIndustriesScreen() {
 
   ] = useState("");
 
-  const [
-    isLoading,
-  ] = useState(false);
+  const isLoading = isHookLoading;
 
   const [
     hasError,
@@ -85,7 +83,7 @@ export default function AllIndustriesScreen() {
             )
       );
 
-    }, [search]);
+    }, [search, industries]);
 
   /* LOADING */
   if (isLoading) {

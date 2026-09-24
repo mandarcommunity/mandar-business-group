@@ -111,6 +111,7 @@ let cachedIndustryObjects: any[] = [];
 export function useIndustries() {
   const [industries, setIndustries] = useState<string[]>(cachedIndustries);
   const [industryObjects, setIndustryObjects] = useState<any[]>(cachedIndustryObjects);
+  const [isLoading, setIsLoading] = useState<boolean>(cachedIndustries.length === 0);
 
   useEffect(() => {
     if (cachedIndustries.length === 0) {
@@ -134,11 +135,12 @@ export function useIndustries() {
             
             setIndustries(names);
             setIndustryObjects(objs);
+            setIsLoading(false);
           }
         })
-        .catch(console.error);
+        .catch(console.error).finally(() => setIsLoading(false));
     }
   }, []);
 
-  return { industries, industryObjects };
+  return { industries, industryObjects, isLoading };
 }
