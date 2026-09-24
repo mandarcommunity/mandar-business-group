@@ -56,7 +56,6 @@ const messagesData = [
     time: "10:12 AM",
 
     isSender: false,
-                isRead: newMsg.is_read,
   },
 
   {
@@ -358,8 +357,9 @@ export default function ConversationScreen({ route }: any) {
                 id: newMsg.id,
                 message: newMsg.content,
                 time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                isSender: false
-              }, ...prev]);
+                  isSender: false,
+                  isRead: newMsg.is_read
+                }, ...prev]);
             })
             .subscribe();
 
