@@ -1,3 +1,4 @@
+import { useUnreadBadge } from "../hooks/useUnreadBadge";
 import {
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
@@ -40,6 +41,7 @@ const Tab =
 
 export default function MainTabsNavigator() {
 
+  const hasUnread = useUnreadBadge();
   const insets =
     useSafeAreaInsets();
 

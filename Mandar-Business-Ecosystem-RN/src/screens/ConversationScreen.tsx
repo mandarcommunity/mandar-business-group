@@ -223,13 +223,15 @@ export default function ConversationScreen({ route }: any) {
   const { chatId, otherUserId, name, otherUserName, businessName, businessId } = route?.params || {};
   
   const displayTitle = businessName || name || otherUserName || "User";
-  const displaySubtitle = businessName ? (name || "Contact Person") : "Active now";
+  const displaySubtitle = businessName ? (name || otherUserName || "Contact Person") : "Active now";
   const navigation = useNavigation<any>();
 
   const pickAttachment = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: 'images' as any,
+          allowsEditing: true,
+          aspect: [1, 1] as [number, number],
           
           quality: 0.2,
           base64: true,
@@ -255,6 +257,10 @@ export default function ConversationScreen({ route }: any) {
         const { sendMessage } = require("../services/chat.service");
         const { getAccessToken } = require("../utils/storage");
         const token = await getAccessToken();
+          // Mark as read
+          if (activeChatId && otherUserId) {
+            await supabase.from('chat_messages').update({ is_read: true }).eq('chat_id', activeChatId).eq('sender_id', otherUserId).eq('is_read', false);
+          }
         
         const base64Str = selectedAttachment.base64;
         if (!base64Str) throw new Error("No base64 data");
@@ -466,7 +472,7 @@ export default function ConversationScreen({ route }: any) {
             style={styles.messagesList}
             contentContainerStyle={styles.messagesContainer}
             renderItem={({ item }) => (
-              <MessageBubble message={item.message} time={item.time} isSender={item.isSender} />
+              <MessageBubble message={item.message} time={item.time} isSender={item.isSender} onImagePress={setPreviewImage} />
             )}
           />
         )}
@@ -492,9 +498,33 @@ export default function ConversationScreen({ route }: any) {
         {/* Fullscreen Image Preview Modal */}
         <Modal visible={!!previewImage} transparent animationType="fade" onRequestClose={() => setPreviewImage(null)}>
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.95)', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => setPreviewImage(null)} style={{ position: 'absolute', top: 40, right: 20, padding: 10, zIndex: 10 }}>
-              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Close</Text>
-            </TouchableOpacity>
+            <View style={{ position: 'absolute', top: 40, right: 20, flexDirection: 'row', zIndex: 10 }}>
+                <TouchableOpacity onPress={async () => {
+                  try {
+                    const FileSystem = require('expo-file-system');
+                    const MediaLibrary = require('expo-media-library');
+                    const { status } = await MediaLibrary.requestPermissionsAsync();
+                    if (status === 'granted') {
+                      const { ToastAndroid } = require("react-native");
+                      ToastAndroid.show("Downloading image...", ToastAndroid.SHORT);
+                      const fileUri = FileSystem.documentDirectory + `image_${Date.now()}.jpg`;
+                      await FileSystem.downloadAsync(previewImage, fileUri);
+                      await MediaLibrary.saveToLibraryAsync(fileUri);
+                      ToastAndroid.show("Saved to gallery!", ToastAndroid.SHORT);
+                    } else {
+                      const { Alert } = require("react-native");
+                      Alert.alert("Permission required", "Need permission to save images.");
+                    }
+                  } catch (e) {
+                    console.log(e);
+                  }
+                }} style={{ padding: 10, marginRight: 15, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 8 }}>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPreviewImage(null)} style={{ padding: 10, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 8 }}>
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Close</Text>
+                </TouchableOpacity>
+              </View>
             {previewImage && (
               <Image source={{ uri: previewImage }} style={{ width: '100%', height: '80%', resizeMode: 'contain' }} />
             )}

@@ -88,7 +88,7 @@ export default function ChatsScreen() {
         lastMessage: chat.lastMessage || "Tap to view messages",
           profileImage: chat.profileImage || null,
         time: new Date(chat.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        unreadCount: 0,
+        unreadCount: chat.unreadCount || 0,
         archived: false,
         pinned: false,
         otherUserId: chat.otherUserId || chat.user2_id
