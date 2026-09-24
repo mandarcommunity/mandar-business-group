@@ -229,7 +229,7 @@ export default function SignupScreen() {
         <AuthHeader
           title="Start Your Journey Now"
 
-          subtitle="Build your trusted business identity and connect with verified businesses."
+          subtitle="The exclusive B2B network for the Mandar Jain Sangh."
         />
 
         {/* FORM */}

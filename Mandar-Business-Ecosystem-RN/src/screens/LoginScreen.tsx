@@ -167,7 +167,7 @@ export default function LoginScreen() {
         <AuthHeader
           title="Welcome to Mandar Community"
 
-          subtitle="Trusted community service ecosystem for Mandar Jain Sangh."
+          subtitle="The exclusive B2B network for the Mandar Jain Sangh."
         />
 
         {/* FORM */}
