@@ -274,10 +274,10 @@ export default function ConversationScreen({ route }: any) {
         isSender: true
       }, ...prev]);
       
-    } catch(err) {
+    } catch (err: any) {
       console.error(err);
-      const { ToastAndroid } = require("react-native");
-      ToastAndroid.show("Failed to upload image", ToastAndroid.SHORT);
+      const { Alert } = require("react-native");
+      Alert.alert("Failed", err?.response?.data?.message || "Failed to upload image.");
     } finally {
       setUploadingAttachment(false);
     }
@@ -627,10 +627,12 @@ export default function ConversationScreen({ route }: any) {
                   time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                   isSender: true
                 }, ...prev]);
-              } catch (err) {
-                console.error("Send message error", err);
-                setMessage(textToSend);
-              } finally {
+              } catch (err: any) {
+                  console.error("Send message error", err);
+                  setMessage(textToSend);
+                  const { Alert } = require("react-native");
+                  Alert.alert("Message failed", err?.response?.data?.message || "Failed to send message.");
+                } finally {
                 setSending(false);
               }
             }}
