@@ -264,18 +264,21 @@ export default function ConversationScreen({ route }: any) {
         
         setSelectedAttachment(null); // Hide modal immediately
         
+        const tempId = 'temp-img-' + Date.now();
+        setMessages((prev: any) => [{
+          id: tempId,
+          message: "[IMAGE_BASE64]" + base64Str,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          isSender: true,
+          isRead: false
+        }, ...prev]);
+
         const resMsg = await sendMessage(token, currentChatId, "[IMAGE_BASE64]" + base64Str);
-        const finalMsg = resMsg.data?.data?.content || "[IMAGE_SENT]";
-      
-      setMessages((prev: any) => [{
-        id: Math.random().toString(),
-        message: finalMsg,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        isSender: true,
-        isRead: false
-      }, ...prev]);
-      
-    } catch (err: any) {
+        const newMsg = resMsg.data?.data || resMsg.data;
+        
+        setMessages((prev: any[]) => prev.map(m => m.id === tempId ? { ...m, id: newMsg.id, message: newMsg.content, time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) } : m));
+      } catch (err: any) {
+        setMessages((prev: any[]) => prev.filter(m => !m.id.toString().startsWith('temp-img-')));
       console.error(err);
       const { Alert } = require("react-native");
       Alert.alert("Failed", err?.response?.data?.message || "Failed to upload image.");
@@ -626,21 +629,25 @@ export default function ConversationScreen({ route }: any) {
               setMessage("");
               
               try {
-                const { getAccessToken } = require("../utils/storage");
-                const { sendMessage } = require("../services/chat.service");
-                const token = await getAccessToken();
-                
-                const sentRes = await sendMessage(token, currentChatId, textToSend);
-                  const newMsg = sentRes.data?.data || sentRes.data;
-                
-                setMessages(prev => [{
-                  id: newMsg.id,
-                  message: newMsg.content,
-                  time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                  isSender: true,
+                  const { getAccessToken } = require("../utils/storage");
+                  const { sendMessage } = require("../services/chat.service");
+                  const token = await getAccessToken();
+                  
+                  const tempId = 'temp-' + Date.now();
+                  setMessages(prev => [{
+                    id: tempId,
+                    message: textToSend,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    isSender: true,
                     isRead: false
                   }, ...prev]);
+
+                  const sentRes = await sendMessage(token, currentChatId, textToSend);
+                  const newMsg = sentRes.data?.data || sentRes.data;
+                  
+                  setMessages(prev => prev.map(m => m.id === tempId ? { ...m, id: newMsg.id, time: new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) } : m));
                 } catch (err: any) {
+                  setMessages(prev => prev.filter(m => !m.id.toString().startsWith('temp-')));
                   console.error("Send message error", err);
                   setMessage(textToSend);
                   const { Alert } = require("react-native");
