@@ -85,7 +85,16 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/chats', require('./routes/chat.routes').default);
 
 /* SERVER */
-app.get('/api/health', (req, res) => res.status(200).send('OK'));
+app.get('/api/health', async (req, res) => {
+  try {
+    // Ping Supabase to keep it awake (prevents 7-day auto-pause)
+    const { data, error } = await supabase.from('users').select('id').limit(1);
+    if(error) console.log("Supabase ping error:", error.message);
+    res.status(200).send('OK - Backend & Supabase are awake!');
+  } catch (err) {
+    res.status(200).send('OK - Backend is awake (Supabase ping failed)');
+  }
+});
 
 app.listen(PORT as number, '0.0.0.0', () => {
 
