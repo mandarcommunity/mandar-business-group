@@ -7,11 +7,11 @@ import {
 import RootNavigator
 from "./src/navigation/RootNavigator";
 
-import {
-  AuthProvider,
-} from "./src/context/AuthContext";
+import { AuthProvider } from "./src/context/AuthContext";
+import { usePushNotifications } from "./src/hooks/usePushNotifications";
 
 export default function App() {
+  usePushNotifications();
 
   return (
 

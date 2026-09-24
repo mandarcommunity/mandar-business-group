@@ -44,6 +44,7 @@ import {
 } from "../theme";
 import { getMyChats } from "../services/chat.service";
 import { getAccessToken } from "../utils/storage";
+import { DeviceEventEmitter } from "react-native";
 
 const filters = ["All", "Unread", "Archived"];
 
@@ -105,10 +106,17 @@ export default function ChatsScreen() {
   };
 
   useFocusEffect(
-    useCallback(() => {
-      fetchChats();
-    }, [])
-  );
+      useCallback(() => {
+        fetchChats();
+      }, [])
+    );
+
+    useEffect(() => {
+      const sub = DeviceEventEmitter.addListener('refresh_chats', () => {
+        fetchChats();
+      });
+      return () => sub.remove();
+    }, []);
 
   /* FILTERED CHATS */
   const filteredChats =
