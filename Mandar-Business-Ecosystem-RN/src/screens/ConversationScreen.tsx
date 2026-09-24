@@ -698,6 +698,7 @@ export default function ConversationScreen({ route }: any) {
                       const t = await getAccessToken();
                       await updateChatState(t, currentChatId, 'block');
                       Alert.alert("Blocked", "Chat has been blocked.");
+                      setMessages([]); // Optionally clear or redirect
                     }
                   }
                 ]);

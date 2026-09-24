@@ -91,8 +91,9 @@ export default function ChatsScreen() {
           profileImage: chat.profileImage || null,
         time: new Date(chat.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         unreadCount: chat.unreadCount || 0,
-        archived: false,
-        pinned: false,
+        archived: !!chat.archived,
+          pinned: !!chat.pinned,
+          blocked: !!chat.blocked,
         otherUserId: chat.otherUserId || chat.user2_id
       }));
       setChats(formattedChats);
@@ -527,6 +528,8 @@ export default function ChatsScreen() {
                   const token = await getAccessToken();
                   await updateChatState(token, longPressedChat.id, longPressedChat.pinned ? 'unpin' : 'pin');
                   setLongPressedChat(null);
+                  const { ToastAndroid } = require("react-native");
+                  ToastAndroid.show(longPressedChat.pinned ? "Chat unpinned" : "Chat pinned", ToastAndroid.SHORT);
                   fetchChats();
                 } catch(e){}
               }}>
@@ -539,6 +542,8 @@ export default function ChatsScreen() {
                   const token = await getAccessToken();
                   await updateChatState(token, longPressedChat.id, longPressedChat.archived ? 'unarchive' : 'archive');
                   setLongPressedChat(null);
+                  const { ToastAndroid } = require("react-native");
+                  ToastAndroid.show(longPressedChat.archived ? "Chat unarchived" : "Chat archived", ToastAndroid.SHORT);
                   fetchChats();
                 } catch(e){}
               }}>
@@ -590,9 +595,7 @@ export default function ChatsScreen() {
                     businessName={chat.businessName}
                       profileImage={chat.profileImage}
 
-                    lastMessage={
-                      chat.lastMessage
-                    }
+                    lastMessage={chat.blocked ? "?? Blocked" : chat.lastMessage}
 
                     time={chat.time}
 
