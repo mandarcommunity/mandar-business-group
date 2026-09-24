@@ -45,11 +45,7 @@ import {
 import { getMyChats } from "../services/chat.service";
 import { getAccessToken } from "../utils/storage";
 
-const filters = [
-  "All",
-  "Unread",
-  "Archived",
-];
+const filters = ["All", "Unread", "Businesses", "Personal", "Archived"];
 
 export default function ChatsScreen() {
   const navigation = useNavigation<any>();
@@ -65,8 +61,7 @@ export default function ChatsScreen() {
   const [selectedFilter, setSelectedFilter] = useState("All");
 
   /* STATES */
-  const [filterOpened, setFilterOpened] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
+    const [searchFocused, setSearchFocused] = useState(false);
   const [openingChatId, setOpeningChatId] = useState<string | null>(null);
     const [longPressedChat, setLongPressedChat] = useState<any>(null);
 
@@ -162,10 +157,13 @@ export default function ChatsScreen() {
           );
       }
 
-      if (
-        selectedFilter ===
-        "Archived"
-      ) {
+      if (selectedFilter === "Businesses") {
+        filtered = filtered.filter(chat => chat.businessName && chat.businessName !== "Unknown Business");
+      }
+      if (selectedFilter === "Personal") {
+        filtered = filtered.filter(chat => !chat.businessName || chat.businessName === "Unknown Business");
+      }
+      if (selectedFilter === "Archived") {
 
         filtered =
           filtered.filter(
@@ -377,36 +375,7 @@ export default function ChatsScreen() {
 
             </View>
 
-            {/* FILTER */}
-            <TouchableOpacity
-              activeOpacity={0.85}
-
-              onPress={() =>
-                setFilterOpened(
-                  !filterOpened
-                )
-              }
-
-              style={[
-
-                styles.filterButton,
-
-                filterOpened &&
-                  styles.activeFilterButton,
-
-              ]}
-            >
-
-              <SlidersHorizontal
-                size={18}
-                color={
-                  filterOpened
-                    ? COLORS.white
-                    : COLORS.textPrimary
-                }
-              />
-
-            </TouchableOpacity>
+            
 
           </View>
 
@@ -804,33 +773,9 @@ const styles = StyleSheet.create({
       COLORS.textPrimary,
   },
 
-  filterButton: {
-    width: 56,
+  
 
-    height: 56,
-
-    borderRadius: 20,
-
-    backgroundColor:
-      COLORS.surface,
-
-    borderWidth: 1,
-
-    borderColor:
-      COLORS.border,
-
-    alignItems: "center",
-
-    justifyContent: "center",
-  },
-
-  activeFilterButton: {
-    backgroundColor:
-      COLORS.primary,
-
-    borderColor:
-      COLORS.primary,
-  },
+  
 
   filterTabs: {
     gap: SPACING.sm,
