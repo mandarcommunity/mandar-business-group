@@ -406,13 +406,13 @@ export default function ConversationScreen({ route }: any) {
       {selectedMessages.length > 0 ? (
         <View style={[styles.header, { backgroundColor: COLORS.primary }]}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={() => setSelectedMessages([])} style={styles.iconButton}>
+            <TouchableOpacity onPress={() => setSelectedMessages([])} style={{ padding: 8 }}>
               <ArrowLeft size={24} color={COLORS.white} />
             </TouchableOpacity>
             <Text style={{ color: COLORS.white, fontSize: 18, fontWeight: 'bold', marginLeft: 16 }}>{selectedMessages.length}</Text>
           </View>
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.iconButton} onPress={async () => {
+            <TouchableOpacity style={{ padding: 8 }} onPress={async () => {
               try {
                 const { Alert } = require("react-native");
                 Alert.alert("Delete Messages", "Delete selected messages?", [
