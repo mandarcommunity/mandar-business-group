@@ -15,13 +15,83 @@ export const broadcastPush = async (req: any, res: Response) => {
 export const getDashboardStats = async (req: any, res: Response) => {
   try {
     const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true });
-    const { count: businesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true });
-    const { count: verifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
+    const { count: verifiedBusinesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'verified');
+    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
+    const { count: activeAds } = await supabase.from('advertisements').select('*', { count: 'exact', head: true });
+    const { count: activeLeads } = await supabase.from('requirements').select('*', { count: 'exact', head: true });
     
-    res.json({ success: true, data: { totalUsers: users || 0, activeBusinesses: businesses || 0, pendingVerifications: verifications || 0, totalAds: 0 } });
-  } catch (error: any) {
-    res.json({ success: false, message: error.message });
-  }
+    res.json({ success: true, data: { 
+      users: users || 0, 
+      verifiedBusinesses: verifiedBusinesses || 0, 
+      pendingVerifications: pendingVerifications || 0, 
+      activeAds: activeAds || 0,
+      activeLeads: activeLeads || 0
+    } });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getAdvertisements = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('advertisements').select('*, businesses(name, email, phone)');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteAdvertisement = async (req: any, res: Response) => {
+  try {
+    await supabase.from('advertisements').delete().eq('id', req.params.id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getRequirements = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('requirements').select('*, users(full_name, email)');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteRequirement = async (req: any, res: Response) => {
+  try {
+    await supabase.from('requirements').delete().eq('id', req.params.id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getProducts = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('products').select('*, businesses(name)');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const deleteProduct = async (req: any, res: Response) => {
+  try {
+    await supabase.from('products').delete().eq('id', req.params.id);
+    res.json({ success: true });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const getBannedKeywords = async (req: any, res: Response) => {
+  try {
+    // Just return empty array since we don't have this table
+    res.json({ success: true, data: [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
+};
+
+export const addBannedKeyword = async (req: any, res: Response) => {
+  res.json({ success: true, data: { id: Date.now(), keyword: req.body.keyword } });
+};
+
+export const deleteBannedKeyword = async (req: any, res: Response) => {
+  res.json({ success: true });
+};
+
+export const getVerifications = async (req: any, res: Response) => {
+  try {
+    const { data } = await supabase.from('businesses').select('*, users(full_name, email)').eq('verification_status', 'pending');
+    res.json({ success: true, data: data || [] });
+  } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
 
 export const getUsers = async (req: any, res: Response) => {
@@ -110,13 +180,6 @@ export const deleteSponsoredAd = async (req: any, res: Response) => {
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
 
-export const getVerifications = async (req: any, res: Response) => {
-  try {
-    const { data } = await supabase.from('businesses').select('*, users(full_name)').eq('verification_status', 'pending');
-    res.json({ success: true, data });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
 export const approveVerification = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
@@ -145,90 +208,5 @@ export const updateEnquiryStatus = async (req: any, res: Response) => {
     const { id } = req.params;
     await supabase.from('sponsor_enquiries').update({ status: req.body.status }).eq('id', id);
     res.json({ success: true });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-// @ts-nocheck
-import { Response } from "express";
-import { supabase } from "../config/supabase";
-
-export const getDashboardStats = async (req: any, res: Response) => {
-  try {
-    const { count: users } = await supabase.from('users').select('*', { count: 'exact', head: true });
-    const { count: verifiedBusinesses } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'verified');
-    const { count: pendingVerifications } = await supabase.from('businesses').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
-    const { count: activeAds } = await supabase.from('advertisements').select('*', { count: 'exact', head: true });
-    const { count: activeLeads } = await supabase.from('requirements').select('*', { count: 'exact', head: true });
-    
-    res.json({ success: true, data: { 
-      users: users || 0, 
-      verifiedBusinesses: verifiedBusinesses || 0, 
-      pendingVerifications: pendingVerifications || 0, 
-      activeAds: activeAds || 0,
-      activeLeads: activeLeads || 0
-    } });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const getAdvertisements = async (req: any, res: Response) => {
-  try {
-    const { data } = await supabase.from('advertisements').select('*, businesses(name, email, phone)');
-    res.json({ success: true, data: data || [] });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const deleteAdvertisement = async (req: any, res: Response) => {
-  try {
-    await supabase.from('advertisements').delete().eq('id', req.params.id);
-    res.json({ success: true });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const getRequirements = async (req: any, res: Response) => {
-  try {
-    const { data } = await supabase.from('requirements').select('*, users(full_name, email)');
-    res.json({ success: true, data: data || [] });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const deleteRequirement = async (req: any, res: Response) => {
-  try {
-    await supabase.from('requirements').delete().eq('id', req.params.id);
-    res.json({ success: true });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const getProducts = async (req: any, res: Response) => {
-  try {
-    const { data } = await supabase.from('products').select('*, businesses(name)');
-    res.json({ success: true, data: data || [] });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const deleteProduct = async (req: any, res: Response) => {
-  try {
-    await supabase.from('products').delete().eq('id', req.params.id);
-    res.json({ success: true });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const getBannedKeywords = async (req: any, res: Response) => {
-  try {
-    // Just return empty array since we don't have this table
-    res.json({ success: true, data: [] });
-  } catch (error: any) { res.json({ success: false, message: error.message }); }
-};
-
-export const addBannedKeyword = async (req: any, res: Response) => {
-  res.json({ success: true, data: { id: Date.now(), keyword: req.body.keyword } });
-};
-
-export const deleteBannedKeyword = async (req: any, res: Response) => {
-  res.json({ success: true });
-};
-
-export const getVerifications = async (req: any, res: Response) => {
-  try {
-    const { data } = await supabase.from('businesses').select('*, users(full_name, email)');
-    res.json({ success: true, data: data || [] });
   } catch (error: any) { res.json({ success: false, message: error.message }); }
 };
