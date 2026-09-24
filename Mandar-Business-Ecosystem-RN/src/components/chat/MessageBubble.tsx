@@ -14,11 +14,12 @@ import {
 
 interface MessageBubbleProps {
   message: string;
-
   time: string;
-
   isSender?: boolean;
   onImagePress?: (uri: string) => void;
+  selected?: boolean;
+  onLongPress?: () => void;
+  onPress?: () => void;
 }
 
 export default function MessageBubble({
@@ -26,12 +27,20 @@ export default function MessageBubble({
   time,
   isSender,
   onImagePress,
+  selected,
+  onLongPress,
+  onPress,
 }: MessageBubbleProps) {
 
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onLongPress={onLongPress}
+      onPress={onPress}
+      delayLongPress={300}
       style={[
         styles.wrapper,
+        selected && { backgroundColor: 'rgba(0,0,0,0.1)', paddingVertical: 5 },
 
         isSender
           ? styles.senderWrapper

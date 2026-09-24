@@ -1,4 +1,5 @@
 import {
+  Modal,
   useMemo,
   useState,
   useEffect,
@@ -67,6 +68,7 @@ export default function ChatsScreen() {
   const [filterOpened, setFilterOpened] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [openingChatId, setOpeningChatId] = useState<string | null>(null);
+    const [longPressedChat, setLongPressedChat] = useState<any>(null);
 
   const fetchChats = async () => {
     try {
@@ -140,6 +142,9 @@ export default function ChatsScreen() {
       }
 
       /* FILTERS */
+      if (selectedFilter === "All") {
+        filtered = filtered.filter((chat) => !chat.archived);
+      }
       if (
         selectedFilter ===
         "Unread"

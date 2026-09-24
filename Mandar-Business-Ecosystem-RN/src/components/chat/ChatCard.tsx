@@ -35,33 +35,31 @@ interface ChatCardProps {
   loading?: boolean;
 
   onPress?: () => void;
+  onLongPress?: () => void;
+  pinned?: boolean;
+  archived?: boolean;
 }
 
 export default function ChatCard({
-
   personName,
-  profileImage,
-
   businessName,
-
   lastMessage,
-
   time,
-
-  unreadCount = 0,
-
-  pinned = false,
-
-  loading = false,
-
+  unreadCount,
+  pinned,
+  loading,
   onPress,
-
+  onLongPress,
+  archived,
+  profileImage,
 }: ChatCardProps) {
 
   return (
 
     <Pressable
       onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={300}
 
       style={({ pressed }) => [
 
