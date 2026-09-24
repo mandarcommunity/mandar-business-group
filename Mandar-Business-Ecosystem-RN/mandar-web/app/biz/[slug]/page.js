@@ -12,16 +12,12 @@ const WhatsAppIcon = ({ className }) => (
   </svg>
 );
 
-const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const isId = isUUID(slug);
-  
   const { data: business } = await supabase
     .from('businesses')
     .select('business_name, description, profile_image')
-    .eq(isId ? 'id' : 'slug', slug)
+    .eq(slug.includes('-') ? 'slug' : 'id', slug)
     .single();
 
   if (!business) return { title: 'Business Not Found' };
@@ -39,7 +35,7 @@ export async function generateMetadata({ params }) {
 
 export default async function BusinessProfilePage({ params }) {
   const { slug } = await params;
-  const isId = isUUID(slug);
+  const isId = !slug.includes('-');
 
   const { data: business } = await supabase
     .from('businesses')
@@ -52,171 +48,258 @@ export default async function BusinessProfilePage({ params }) {
   const { data: products } = await supabase
     .from('products')
     .select('*')
-    .eq('business_id', business.id);
+    .eq('business_id', business.id)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  const phone = business.mobile || business.user?.mobile;
+  const whatsapp = phone; 
+  const email = business.email || business.user?.email;
+  const validImage = business.profile_image && business.profile_image.startsWith("http");
+
+  const productCount = products?.length || 0;
+  const createdYear = new Date(business.created_at).getFullYear();
+  const currentYear = new Date().getFullYear();
+  const yearsActive = currentYear - createdYear;
+  
+  // Calculate industry layout
+  const maxIndustriesToShow = 3;
+  const displayedIndustries = business.industries?.slice(0, maxIndustriesToShow) || [];
+  const extraIndustries = (business.industries?.length || 0) - maxIndustriesToShow;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Cover Area */}
-      <div className="bg-blue-600 pt-6 pb-24 px-4 relative">
-        <div className="max-w-3xl mx-auto flex justify-between items-center text-white">
-          <BackButton />
-          <ShareButton 
-            title={business.business_name} 
-            text={`Check out ${business.business_name} on Mandar Community`} 
-            url={`https://mandarcommunity.in/biz/${business.slug || business.id}`} 
-          />
-        </div>
-      </div>
-
-      {/* Profile Card */}
-      <div className="max-w-3xl mx-auto px-4 -mt-16">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <div className="flex items-start gap-4">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-2xl font-bold text-gray-400 overflow-hidden shrink-0 border-4 border-white shadow-sm">
-              {business.profile_image ? (
-                <img src={business.profile_image} alt={business.business_name} className="w-full h-full object-cover" />
-              ) : (
-                business.business_name.charAt(0)
-              )}
-            </div>
-            <div className="flex-1 pt-2">
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-gray-900">{business.business_name}</h1>
-                {business.verification_status === 'verified' && (
-                  <CheckCircle2 className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                )}
-              </div>
-              <p className="text-gray-500 mt-1">{business.city}, {business.state}</p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mt-4">
-            {business.industries?.map((ind, i) => (
-              <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">
-                {ind}
-              </span>
-            ))}
-          </div>
-
-          {business.description && (
-            <div className="mt-6 text-gray-600 leading-relaxed whitespace-pre-wrap">
-              {business.description}
+    <div className="bg-white min-h-screen font-sans selection:bg-blue-200 pb-20">
+      
+      {/* MINI WEBSITE NAVBAR */}
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div className="flex items-center gap-3">
+          <BackButton className="mr-2" />
+          {validImage ? (
+            <img src={business.profile_image} className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-sm" alt="logo" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+              {business.business_name.charAt(0).toUpperCase()}
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Contact Information */}
-      <div className="max-w-3xl mx-auto px-4 mt-4">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h2>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3 text-gray-600">
-              <Briefcase className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium text-gray-900">Owner / Contact Person</p>
-                <p>{business.contact_person || business.user?.full_name}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start gap-3 text-gray-600">
-              <Phone className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">Phone</p>
-                <p>{business.mobile || business.user?.mobile}</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 text-gray-600">
-              <MapPin className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium text-gray-900">Address</p>
-                <p>{business.address ? `${business.address}, ` : ''}{business.city}, {business.state}</p>
-              </div>
-            </div>
-
-            {business.website && (
-              <div className="flex items-start gap-3 text-gray-600">
-                <Globe className="w-5 h-5 text-gray-400 mt-0.5 shrink-0" />
-                <div>
-                  <p className="font-medium text-gray-900">Website</p>
-                  <a href={business.website.startsWith('http') ? business.website : `https://${business.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    {business.website}
-                  </a>
-                </div>
-              </div>
+          <div>
+            <h2 className="font-bold text-slate-900 text-lg leading-tight line-clamp-1 max-w-[200px] sm:max-w-xs">{business.business_name}</h2>
+            {business.verified ? (
+              <span className="text-xs text-blue-600 font-bold flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> Verified Seller</span>
+            ) : (
+              <span className="text-xs text-slate-500 font-bold border border-slate-200 bg-slate-50 px-1.5 py-0.5 rounded inline-block mt-1">Unverified Seller</span>
             )}
           </div>
         </div>
-      </div>
+        <div className="flex gap-2">
+           <ShareButton title={business.business_name} text={business.description} />
+           {phone && (
+             <a href={`tel:${phone}`} className="bg-slate-900 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-colors shadow-md flex items-center gap-2">
+               <Phone className="w-4 h-4" /> <span className="hidden sm:inline">Call Us</span>
+             </a>
+           )}
+        </div>
+      </nav>
 
-      {/* Products/Services (If Any) */}
-      {products && products.length > 0 && (
-        <div className="max-w-3xl mx-auto px-4 mt-4">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Package className="w-5 h-5 text-gray-900" />
-              <h2 className="text-lg font-semibold text-gray-900">Products & Services</h2>
-            </div>
+      {/* HERO SECTION (Website Feel) */}
+      <section className="relative pt-20 pb-24 px-6 overflow-hidden bg-slate-50 border-b border-slate-200">
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center text-center">
+          
+          <div className="w-32 h-32 sm:w-40 sm:h-40 bg-white rounded-[2rem] shadow-2xl border-4 border-white overflow-hidden mb-8 transform rotate-[-3deg] hover:rotate-0 transition-transform duration-500">
+            {validImage ? (
+              <img src={business.profile_image} className="w-full h-full object-cover" alt="Business Logo" />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-5xl font-black text-white">
+                {business.business_name.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
+            {business.business_name}
+          </h1>
+          
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-10 text-slate-600 font-medium max-w-2xl">
+            {(business.city || business.state) && (
+              <span className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-sm">
+                <MapPin className="w-4 h-4 text-red-500" /> {business.city}{business.state ? `, ${business.state}` : ''}
+              </span>
+            )}
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {products.map((product) => (
-                <div key={product.id} className="border border-gray-100 rounded-lg p-3 flex gap-3">
-                  <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-                    {product.images && product.images[0] ? (
-                      <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <Package className="w-6 h-6 text-gray-300" />
-                    )}
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900 line-clamp-1">{product.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1">{product.category}</p>
-                  </div>
-                </div>
-              ))}
+            {/* Show multiple industries nicely */}
+            {displayedIndustries.map((ind, i) => (
+              <span key={i} className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-sm">
+                <Factory className="w-4 h-4 text-blue-500" /> {ind}
+              </span>
+            ))}
+            {extraIndustries > 0 && (
+              <span className="flex items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-sm">
+                +{extraIndustries} More
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4 w-full sm:w-auto">
+            {whatsapp && (
+              <a href={`https://wa.me/91${whatsapp.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-3.5 rounded-2xl font-bold transition-all shadow-lg shadow-green-500/30 hover:-translate-y-1">
+                <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
+              </a>
+            )}
+            {email && (
+              <a href={`mailto:${email}`} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 px-8 py-3.5 rounded-2xl font-bold transition-all shadow-md border border-slate-200 hover:-translate-y-1">
+                <Mail className="w-5 h-5 text-slate-400" /> Send Email
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* STATS SECTION */}
+      <section className="py-12 bg-white border-b border-slate-100">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x divide-slate-100">
+            <div className="text-center">
+               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3"><Package className="w-6 h-6"/></div>
+               <h4 className="text-2xl font-black text-slate-900">{productCount}+</h4>
+               <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Products</p>
+            </div>
+            <div className="text-center">
+               <div className="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3"><Zap className="w-6 h-6"/></div>
+               <h4 className="text-2xl font-black text-slate-900">100%</h4>
+               <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Response Rate</p>
+            </div>
+            <div className="text-center hidden md:block">
+               <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-3"><Calendar className="w-6 h-6"/></div>
+               <h4 className="text-2xl font-black text-slate-900">{yearsActive > 0 ? `${yearsActive} Years` : 'New'}</h4>
+               <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Active Since</p>
+            </div>
+            <div className="text-center hidden md:block">
+               <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-3"><TrendingUp className="w-6 h-6"/></div>
+               <h4 className="text-2xl font-black text-slate-900">Verified</h4>
+               <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Status</p>
             </div>
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Fixed Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 md:hidden z-10">
-        <div className="flex gap-3 max-w-3xl mx-auto">
-          <a 
-            href={`tel:${business.mobile || business.user?.mobile}`}
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border border-gray-200 text-gray-700 font-medium"
-          >
-            <Phone className="w-4 h-4" /> Call
-          </a>
-          <a 
-            href={`https://wa.me/91${(business.mobile || business.user?.mobile || '').replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(business.business_name)}%2C%20I%20found%20your%20business%20on%20Mandar%20Community.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg bg-[#25D366] text-white font-medium"
-          >
-            <WhatsAppIcon className="w-4 h-4" /> WhatsApp
-          </a>
+      {/* ABOUT SECTION */}
+      <section className="py-20 px-6 max-w-5xl mx-auto border-b border-slate-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          <div>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-6">About Company</h2>
+            <div className="prose prose-slate prose-lg">
+              {business.description ? (
+                <p className="text-slate-600 leading-relaxed whitespace-pre-wrap">{business.description}</p>
+              ) : (
+                <p className="text-slate-400 italic">Welcome to our official business page. We specialize in providing high-quality products and services to our esteemed clients.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+            <h3 className="text-xl font-bold text-slate-900 mb-6">Business Details</h3>
+            <ul className="space-y-5">
+              {business.contact_person && (
+                <li className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><Briefcase className="w-5 h-5" /></div>
+                  <div>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Contact Person</p>
+                    <p className="font-semibold text-slate-900">{business.contact_person}</p>
+                  </div>
+                </li>
+              )}
+              {business.business_types && business.business_types.length > 0 && (
+                <li className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><Factory className="w-5 h-5" /></div>
+                  <div>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Business Type</p>
+                    <p className="font-semibold text-slate-900">{business.business_types.join(', ')}</p>
+                  </div>
+                </li>
+              )}
+              {business.website && (
+                <li className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center"><Globe className="w-5 h-5" /></div>
+                  <div>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Website</p>
+                    <a href={`https://${business.website.replace(/^https?:\/\//, '')}`} target="_blank" rel="noreferrer" className="font-semibold text-blue-600 hover:underline break-all">
+                      {business.website}
+                    </a>
+                  </div>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
-      </div>
-      
-      {/* Desktop Action Buttons */}
-      <div className="hidden md:flex justify-center gap-4 max-w-3xl mx-auto mt-6">
-        <a 
-          href={`tel:${business.mobile || business.user?.mobile}`}
-          className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors"
-        >
-          <Phone className="w-4 h-4" /> Call Business
-        </a>
-        <a 
-          href={`https://wa.me/91${(business.mobile || business.user?.mobile || '').replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(business.business_name)}%2C%20I%20found%20your%20business%20on%20Mandar%20Community.`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-6 py-3 rounded-lg bg-[#25D366] text-white font-medium hover:bg-[#20bd5a] transition-colors"
-        >
-          <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
-        </a>
-      </div>
+      </section>
+
+      {/* PRODUCTS / SERVICES SHOWCASE */}
+      <section className="py-20 px-6 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Products & Services</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Browse through our premium catalog of offerings.</p>
+          </div>
+          
+          {productCount > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((product) => (
+                <Link href={`/p/${product.slug || product.id}`} key={product.id} className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                  <div className="h-60 bg-slate-100 relative overflow-hidden">
+                    {product.images && product.images.length > 0 && product.images[0].startsWith("http") ? (
+                      <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
+                        <Package className="w-16 h-16 text-slate-300" />
+                      </div>
+                    )}
+                    {product.category && (
+                      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur shadow-sm px-3 py-1 rounded-full text-xs font-bold text-slate-800">
+                        {product.category}
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">{product.name}</h3>
+                    <p className="text-sm text-slate-500 line-clamp-2 flex-grow leading-relaxed">{product.description}</p>
+                    <div className="mt-6 flex items-center gap-2 text-blue-600 font-bold text-sm">
+                      Enquire Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white p-12 rounded-3xl shadow-sm border border-slate-200 text-center max-w-2xl mx-auto">
+              <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Catalog Update in Progress</h3>
+              <p className="text-slate-500 mb-6">We are currently updating our digital catalog. Please contact us directly for product inquiries.</p>
+              {whatsapp && (
+                <a href={`https://wa.me/91${whatsapp.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-xl font-bold transition-colors">
+                  Contact Us
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* FOOTER CTA FOR VISITORS */}
+      <section className="py-20 px-6 text-center">
+         <div className="max-w-2xl mx-auto bg-slate-900 rounded-[3rem] p-12 relative overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div className="relative z-10">
+               <h2 className="text-3xl font-extrabold text-white mb-4">Ready to do business?</h2>
+               <p className="text-slate-400 mb-8 max-w-lg mx-auto">Get in touch directly using the contact details above to deal with zero commission and full transparency.</p>
+               {phone && (
+                 <a href={`tel:${phone}`} className="inline-flex items-center gap-2 bg-blue-600 text-white px-10 py-4 rounded-full font-bold shadow-xl hover:bg-blue-500 transition-colors">
+                   <Phone className="w-5 h-5" /> Call Now
+                 </a>
+               )}
+            </div>
+         </div>
+      </section>
+
     </div>
   );
 }
