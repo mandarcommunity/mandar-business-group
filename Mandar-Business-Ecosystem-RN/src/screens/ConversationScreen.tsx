@@ -296,6 +296,7 @@ export default function ConversationScreen({ route }: any) {
   const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [reportReason, setReportReason] = useState("");
+  const [isBlocked, setIsBlocked] = useState(route?.params?.blocked || false);
 
   useEffect(() => {
       let myChannel: any = null;
@@ -583,7 +584,13 @@ export default function ConversationScreen({ route }: any) {
         </Modal>
 
           {/* INPUT */}
-        <View style={styles.inputSection}>
+        {isBlocked ? (
+            <View style={[styles.inputSection, { justifyContent: 'center', paddingVertical: 16 }]}>
+              <Text style={{ textAlign: 'center', color: '#888' }}>You blocked this chat. Unblock to send a message.</Text>
+            </View>
+          ) : (
+          <View style={styles.inputSection}>
+            
           <TouchableOpacity style={styles.attachButton} onPress={pickAttachment} disabled={uploadingAttachment}>
               <Plus size={20} color={uploadingAttachment ? COLORS.textMuted : COLORS.textPrimary} />
             </TouchableOpacity>
@@ -631,8 +638,10 @@ export default function ConversationScreen({ route }: any) {
           >
             <SendHorizontal size={18} color={COLORS.white} />
           </TouchableOpacity>
-        </View>
-            </KeyboardAvoidingView>
+        
+          </View>
+          )}
+      </KeyboardAvoidingView>
 
       <Modal visible={menuVisible} transparent animationType="fade" onRequestClose={() => setMenuVisible(false)}>
         <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-start', alignItems: 'flex-end', paddingTop: 60, paddingRight: 20 }} activeOpacity={1} onPress={() => setMenuVisible(false)}>
@@ -694,11 +703,12 @@ export default function ConversationScreen({ route }: any) {
                   { text: "Cancel", style: "cancel" },
                   { text: "Block", style: "destructive", onPress: async () => {
                       const { updateChatState } = require("../services/chat.service");
-                      const { getAccessToken } = require("../utils/storage");
-                      const t = await getAccessToken();
-                      await updateChatState(t, currentChatId, 'block');
-                      Alert.alert("Blocked", "Chat has been blocked.");
-                      setMessages([]); // Optionally clear or redirect
+                        const { getAccessToken } = require("../utils/storage");
+                        const t = await getAccessToken();
+                        const action = isBlocked ? 'unblock' : 'block';
+                        await updateChatState(t, currentChatId, action);
+                        Alert.alert(isBlocked ? "Unblocked" : "Blocked", isBlocked ? "Chat has been unblocked." : "Chat has been blocked.");
+                        setIsBlocked(!isBlocked); // Optionally clear or redirect
                     }
                   }
                 ]);
