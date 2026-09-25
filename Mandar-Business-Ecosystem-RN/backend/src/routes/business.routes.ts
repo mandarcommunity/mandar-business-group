@@ -56,6 +56,9 @@ router.get(
   getBusinessByUserId
 );
 
+/* GET BUSINESSES BY INDUSTRY */
+router.get("/industry", protect, getBusinessesByIndustry);
+
 /* GET BUSINESS BY ID */
 router.get(
   "/:id",
@@ -75,8 +78,7 @@ router.put(
 
 /* GET BUSINESSES BY IDS */
 router.post("/saved", protect, getBusinessesByIds);
-/* GET BUSINESSES BY INDUSTRY */
-router.get("/industry", protect, getBusinessesByIndustry);
+
 
 export default router;/* SUBMIT VERIFICATION */
 router.post(
