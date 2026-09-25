@@ -4,6 +4,7 @@ import { DeviceEventEmitter, Alert } from "react-native";
 
 export const API = axios.create({
   baseURL: "https://mandar-community.onrender.com/api",
+  timeout: 10000,
 });
 
 let isRefreshing = false;
