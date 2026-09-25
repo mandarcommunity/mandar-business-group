@@ -79,7 +79,7 @@ export default function ExploreScreen() {
   }, [featuredAds, search]);
   const fetchExploreData = async () => {
     try {
-      setIsLoading(true);
+      if (featuredAds.length === 0) setIsLoading(true);
       const token = await getAccessToken();
       const res = await getAllBusinesses(token as string, 5, 1);
       let businesses = res.data || [];

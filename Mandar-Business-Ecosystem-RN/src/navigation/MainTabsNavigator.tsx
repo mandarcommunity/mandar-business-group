@@ -209,7 +209,7 @@ export default function MainTabsNavigator() {
             "Conversation";
 
           return {
-              unmountOnBlur: true,
+              
               tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
               tabBarStyle:
   hideTabBar

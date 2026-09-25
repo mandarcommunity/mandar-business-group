@@ -384,16 +384,6 @@ export default function ConversationScreen({ route }: any) {
     };
   }, [currentChatId, otherUserId]);
 
-  /* LOADING */
-  if (isLoading) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <LoadingState title="Loading conversation..." />
-      
-        </SafeAreaView>
-    );
-  }
-
   /* ERROR */
   if (hasError) {
     return (

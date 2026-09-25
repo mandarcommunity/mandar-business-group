@@ -68,7 +68,7 @@ export default function ChatsScreen() {
 
   const fetchChats = async () => {
     try {
-      setLoading(true);
+      if (chats.length === 0) setLoading(true);
       setError(null);
       const token = await getAccessToken();
       if (!token) throw new Error("Authentication required");
