@@ -14,6 +14,7 @@ import rateLimit from "express-rate-limit";
 import { supabase } from "./config/supabase";
 
 import authRoutes from "./routes/auth.routes";
+import https from "https";
 
 import testRoutes from "./routes/test.routes";
 
@@ -95,6 +96,26 @@ app.get('/api/health', async (req, res) => {
     res.status(200).send('OK - Backend is awake (Supabase ping failed)');
   }
 });
+
+
+/* SELF-PING CRON JOB TO PREVENT RENDER SLEEP */
+
+
+const pingRender = () => {
+  const url = "https://mandar-community.onrender.com/api/health";
+  https.get(url, (res) => {
+    if (res.statusCode === 200) {
+      console.log("Self-ping successful: Server kept awake.");
+    } else {
+      console.log("Self-ping failed with status code:", res.statusCode);
+    }
+  }).on("error", (err) => {
+    console.error("Self-ping error:", err.message);
+  });
+};
+
+// Ping every 14 minutes (840,000 milliseconds)
+setInterval(pingRender, 840000);
 
 app.listen(PORT as number, '0.0.0.0', () => {
 
