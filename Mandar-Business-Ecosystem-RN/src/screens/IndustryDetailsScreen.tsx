@@ -163,11 +163,11 @@ export default function IndustryDetailsScreen() {
       try {
         setIsLoading(true);
         const { getAccessToken } = require("../utils/storage");
-        const { getAllBusinesses } = require("../services/business.service");
+        const { getBusinessesByIndustry } = require("../services/business.service");
         
         const token = await getAccessToken();
         if (token) {
-          const res = await getAllBusinesses(token);
+          const res = await getBusinessesByIndustry(industry, token);
           if (res.success) {
             setAllBusinesses(res.data);
           }
