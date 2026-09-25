@@ -58,7 +58,9 @@ export default function SavedBusinessesScreen() {
       const token = await getAccessToken();
       
       
-      const idsToFetch = Object.keys(bookmarks).filter(id => bookmarks[id]);
+      const bookmarks = await getBookmarkedBusinesses();
+        setSavedBusinesses(bookmarks);
+        const idsToFetch = Object.keys(bookmarks).filter(id => bookmarks[id]);
       if (idsToFetch.length === 0) {
         setBusinesses([]);
         setIsLoading(false);
@@ -83,9 +85,6 @@ export default function SavedBusinessesScreen() {
         slug: b.slug,
       }));
       setBusinesses(mappedBusinesses);
-      
-      const bookmarks = await getBookmarkedBusinesses();
-      setSavedBusinesses(bookmarks);
       
       setHasError(false);
     } catch (error: any) {
