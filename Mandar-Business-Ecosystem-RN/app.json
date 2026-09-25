@@ -65,7 +65,16 @@
                            },
                  "plugins":  [
                                  "expo-font",
-                                 "expo-status-bar"
+                                 "expo-status-bar",
+                                 [
+                                     "expo-splash-screen",
+                                     {
+                                         "imageWidth":  200,
+                                         "backgroundColor":  "#ffffff",
+                                         "resizeMode":  "contain",
+                                         "image":  "./assets/splash-icon.png"
+                                     }
+                                 ]
                              ]
              }
 }
