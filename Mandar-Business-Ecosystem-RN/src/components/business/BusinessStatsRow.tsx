@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
 
-    minHeight: 108,
+    
 
     borderRadius: 22,
 

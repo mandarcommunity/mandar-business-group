@@ -960,7 +960,7 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
 
-    flexWrap: "wrap",
+    
 
     marginTop:
       SPACING.md,
@@ -1034,7 +1034,7 @@ const styles = StyleSheet.create({
   statsRow: {
     flexDirection: "row",
 
-    flexWrap: "wrap",
+    
 
     gap:
       SPACING.md,

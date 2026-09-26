@@ -935,7 +935,7 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
 
-    flexWrap: "wrap",
+    
   },
 
   profileImage: {
