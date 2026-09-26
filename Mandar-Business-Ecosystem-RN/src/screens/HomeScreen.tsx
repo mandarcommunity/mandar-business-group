@@ -396,8 +396,6 @@ const styles = StyleSheet.create({
   statsRow: {
     flexDirection: "row",
 
-    flexWrap: "wrap",
-
     gap: SPACING.md,
 
     marginBottom: SPACING.xl,

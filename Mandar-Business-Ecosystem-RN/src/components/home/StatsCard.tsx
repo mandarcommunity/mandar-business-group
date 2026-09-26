@@ -41,8 +41,6 @@ const styles = StyleSheet.create({
 
     flex: 1,
 
-    minWidth: 90,
-
     backgroundColor:
       COLORS.surface,
 
